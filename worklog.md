@@ -471,3 +471,53 @@ Stage Summary:
 - Búsqueda por SKU funciona en la tienda pública
 - Manejo de errores más robusto en apply-marco-bulk
 - Próxima vez que apliques marco a una categoría, las imágenes SÍ cambiarán
+
+---
+Task ID: 10
+Agent: Main Agent (Super Z)
+Task: Arreglar que los cambios del admin no se reflejen en la tienda pública.
+
+Work Log:
+DIAGNÓSTICO:
+- Verificado con debug-write endpoint que los overrides SÍ se guardan en D1
+- Encontrados 5 overrides activos en ivmn_product_overrides:
+  - IVMN-AUDI-0010 → "AUDIFONO PARA mk3"
+  - IVMN-MOUS-0001 → "MOUSE TEST EDITADO" $99.99
+  - IVMN-MOUS-0002 → "MOUSE INALAMBRICO sadfsdfwerwefdsdf"
+  - IVMN-REDE-0001 → "ROUTER AC1200 ADAPTADOR UB400234234234243"
+  - TEST-SKU-001 → "Test Product" $99.99
+
+PROBLEMA RAÍZ:
+- La tienda pública (catalog.tsx) usaba PRODUCTS estático del archivo catalog.ts
+- NO leía los overrides de D1
+- Por eso los cambios del admin no se veían en la tienda
+
+SOLUCIÓN:
+- Creado hook useProducts() en src/lib/use-products.ts:
+  - Estado inicial: PRODUCTS (muestra inmediatamente sin delay)
+  - useEffect: fetch /api/admin/products?limit=1000
+  - Actualiza estado cuando la API responde con overrides aplicados
+  - cache: no-store para siempre tener datos frescos
+- Catalog.tsx actualizado:
+  - Usa useProducts() en vez de PRODUCTS directo
+  - totalProducts = allProducts.length (dinámico)
+  - Conteos por categoría usan allProducts
+  - useMemo incluye allProducts en dependencias
+  - Búsqueda filtra sobre allProducts
+
+VERIFICACIÓN EN PRODUCCIÓN:
+- ✓ /api/admin/products?search=IVMN-MOUS-0001 → retorna "MOUSE TEST EDITADO" $99.99
+- ✓ /api/admin/products?search=IVMN-MOUS-0001 → retorna el override aplicado
+- ✓ Agent Browser: "MOUSE TEST EDITADO" visible en la tienda
+- ✓ Agent Browser: "REDE-0001 editado" visible en la tienda
+- ✓ D1 tiene 5 overrides guardados correctamente
+
+ENDPOINTS DE DEBUG AGREGADOS:
+- /api/debug-env: verifica qué bindings están disponibles (process.env vs getRequestContext)
+- /api/debug-write: test directo de INSERT + SELECT en D1
+
+Stage Summary:
+- Los cambios del admin AHORA SÍ se reflejan en la tienda pública
+- La tienda carga productos desde la API que aplica overrides de D1
+- 5 overrides ya guardados y visibles en producción
+- Flujo completo: admin edita → guarda en D1 → tienda muestra el cambio
