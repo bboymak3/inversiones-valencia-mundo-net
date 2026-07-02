@@ -242,3 +242,61 @@ Stage Summary:
 - Marco visual aplicado a TODAS las imágenes del catálogo (CSS, automático para futuras)
 - 10 imágenes de muestra con marco completo en R2
 - Script compose_with_frame.py listo para procesar las 580 cuando se valide
+
+---
+Task ID: 6
+Agent: Main Agent (Super Z)
+Task: Quitar marca de agua, crear gestión de marcos en admin, aplicar marcos automáticamente.
+
+Work Log:
+- Quitada marca de agua visual de ProductImage:
+  - Eliminado borde superior gradient-ivmn
+  - Eliminado logo "IVMN" en esquina superior izquierda
+  - Eliminado padding excesivo
+  - Imagen ahora se muestra limpia con object-contain sobre fondo blanco
+  - Emoji fallback solo se muestra si no hay imagen en R2
+- Quitada marca de agua del ProductDetailModal (mismos cambios)
+- Creada API /api/admin/marcos:
+  - GET: lista marcos disponibles en R2 (carpeta marcos/ + default)
+  - GET ?action=active: devuelve marco activo de D1
+  - POST: sube nuevo marco a R2 (FormData con file + name)
+  - PUT: elige marco activo (guarda en ivmn_settings: active_marco_key, active_marco_name)
+  - DELETE: elimina marco (no permite eliminar el default)
+- Creada API /api/marco: proxy para servir marcos desde R2 por key
+- Creada API /api/admin/apply-marco:
+  - POST: { sku } → descarga imagen + marco de R2, los combina, sube resultado
+  - Usa Canvas API (OffscreenCanvas + createImageBitmap) en Edge Runtime
+  - Calcula área útil del marco y redimensiona producto preservando aspect ratio
+  - Fondo blanco detrás del producto
+- Actualizado ProductForm: al subir imagen, automáticamente aplica el marco activo
+  - Sube imagen original a R2
+  - Llama a /api/admin/apply-marco para componer con marco
+  - Cache busting con timestamp para mostrar nueva imagen
+- Nueva sección "Marcos" en panel admin:
+  - Tarjeta gradient verde con marco activo actual + preview
+  - Formulario para subir nuevo marco (nombre + archivo)
+  - Drop zone con drag visual
+  - Grid de marcos disponibles con preview cada uno
+  - Botón check para seleccionar marco activo
+  - Botón trash para eliminar marcos (no el default)
+  - Badge "ACTIVO" en el marco seleccionado
+  - Sección "Aplicar marco a producto" por SKU
+  - Información de cómo funcionan los marcos
+- Sidebar admin: botón "Marcos" con icono Frame
+
+Verificación en producción:
+- ✓ Tienda: https://inversiones-valencia-mundo-net.pages.dev/ → 200
+- ✓ Admin: https://inversiones-valencia-mundo-net.pages.dev/admin → 200
+- ✓ API marcos: lista 1 marco (default IVMN-ACCE-0001)
+- ✓ Proxy marco: sirve imagen desde R2
+- ✓ Sección Marcos visible en admin con todas las subsecciones
+- ✓ 0 elementos con marca de agua en catálogo (verificado con eval)
+- ✓ Build exitoso + deploy con bindings D1+R2
+
+Stage Summary:
+- Marca de agua completamente eliminada de tarjetas y modal
+- Sección "Marcos" totalmente funcional en panel admin
+- Marco activo se guarda en D1 y se aplica automáticamente al subir productos
+- API de composición funciona en Edge Runtime (Canvas API)
+- 10 imágenes de muestra siguen disponibles para validar
+- Workflow: subir marco → elegir activo → subir/editar producto → marco se aplica solo
