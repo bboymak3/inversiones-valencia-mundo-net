@@ -300,3 +300,59 @@ Stage Summary:
 - API de composición funciona en Edge Runtime (Canvas API)
 - 10 imágenes de muestra siguen disponibles para validar
 - Workflow: subir marco → elegir activo → subir/editar producto → marco se aplica solo
+
+---
+Task ID: 7
+Agent: Main Agent (Super Z)
+Task: Galería de imágenes R2 + aplicar marco masivo + quitar SKU individual.
+
+Work Log:
+- Eliminada la sección "Aplicar marco a producto por SKU" del panel admin
+- Creada API /api/admin/list-images:
+  - GET: lista todas las imágenes en R2 (carpeta inversiones-valencia/products/)
+  - Filtro opcional por prefijo: ?prefix=IVMN-REDE
+  - Retorna: { key, sku, filename, size, url } por cada imagen
+  - Verificado: 580 imágenes disponibles
+- Creada API /api/admin/apply-marco-bulk:
+  - POST: { categoryPrefix?: string }
+  - Aplica el marco activo a TODAS las imágenes de una categoría o a todas
+  - Descarga el marco una sola vez, luego procesa cada imagen
+  - Retorna: { total, success, failed, errors }
+- Creado componente ImagePickerModal (src/components/admin/image-picker-modal.tsx):
+  - Galería visual con TODAS las imágenes de R2
+  - Buscador por SKU o filename
+  - Filtro por categoría (dropdown)
+  - Botón "Subir nueva imagen" con checkbox "Aplicar marco del sistema automáticamente"
+  - Grid de imágenes con preview, SKU, tamaño
+  - Badge "ACTUAL" en la imagen actualmente seleccionada
+  - Click en imagen → la selecciona como foto del producto
+- ProductForm actualizado:
+  - Botón "Cambiar imagen" que abre el ImagePickerModal
+  - Click en el preview también abre el picker
+  - Al seleccionar imagen existente: asigna imageR2Key y muestra preview
+  - Al subir nueva: guarda en R2 y opcionalmente aplica marco
+- MarcosView actualizado:
+  - Eliminada sección "Aplicar marco a producto por SKU"
+  - Nueva sección "Aplicar marco a TODAS las imágenes" con:
+    - Selector de categoría (Todas o específica)
+    - Botón "Aplicar marco ahora" con confirmación
+    - Resultado: N procesadas, M fallidas
+  - Información actualizada con el nuevo flujo
+
+Verificación en producción:
+- ✓ /api/admin/list-images → 200 (580 imágenes)
+- ✓ /api/admin/apply-marco-bulk → 405 (POST requerido)
+- ✓ Admin → Marcos → "Aplicar marco a TODAS las imágenes" visible
+- ✓ Admin → Productos → Editar → "Cambiar imagen" abre galería
+- ✓ Galería muestra 581 imágenes (580 productos + 1 actual)
+- ✓ Checkbox "Aplicar marco del sistema automáticamente" visible y marcado
+- ✓ Selector de categoría funciona
+- ✓ Push a GitHub exitoso
+
+Stage Summary:
+- Galería de imágenes R2 totalmente funcional (visual picker)
+- Aplicación masiva de marcos por categoría o a todas
+- Eliminado el flujo de SKU individual (era engorroso)
+- Marco activo se puede aplicar a TODAS las imágenes con 1 clic
+- Al editar/subir producto, se puede elegir de la galería o subir nueva
+- Workflow simplificado: editar producto → cambiar imagen → elegir de R2 o subir nueva
