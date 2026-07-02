@@ -22,6 +22,7 @@ import {
 import { useCart } from "@/lib/cart-store";
 import { useCurrency } from "@/lib/currency-store";
 import { ProductDetailModal } from "@/components/shop/product-detail-modal";
+import { useProducts } from "@/lib/use-products";
 
 // ============================================================
 // COMPONENTE: PriceDisplay
@@ -245,13 +246,17 @@ export function Catalog() {
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
+  // Cargar productos desde API (catálogo base + overrides de D1)
+  // Se actualiza automáticamente cuando el admin hace cambios
+  const { products: allProducts } = useProducts();
+
   const openDetail = (p: Product) => {
     setDetailProduct(p);
     setDetailOpen(true);
   };
 
   const filtered = useMemo(() => {
-    let list = [...PRODUCTS];
+    let list = [...allProducts];
 
     if (selectedCategory !== "all") {
       list = list.filter((p) => p.categoryId === selectedCategory);
@@ -283,9 +288,9 @@ export function Catalog() {
     }
 
     return list;
-  }, [selectedCategory, searchTerm, sortBy]);
+  }, [selectedCategory, searchTerm, sortBy, allProducts]);
 
-  const totalProducts = PRODUCTS.length;
+  const totalProducts = allProducts.length;
 
   return (
     <section id="catalogo" className="py-16 lg:py-24 bg-gradient-to-b from-white to-emerald-50/30">
@@ -337,7 +342,7 @@ export function Catalog() {
               Todos ({totalProducts})
             </Button>
             {CATEGORIES.map((cat) => {
-              const count = PRODUCTS.filter((p) => p.categoryId === cat.id).length;
+              const count = allProducts.filter((p) => p.categoryId === cat.id).length;
               return (
                 <Button
                   key={cat.id}
