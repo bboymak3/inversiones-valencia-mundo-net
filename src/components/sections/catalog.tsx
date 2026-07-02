@@ -1,0 +1,336 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import { Search, ShoppingCart, MessageCircle, Star, Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  CATEGORIES,
+  PRODUCTS,
+  type Product,
+  buildProductWhatsAppLink,
+  getCategoryById,
+} from "@/data/catalog";
+import { useCart } from "@/lib/cart-store";
+
+function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" | "md" }) {
+  const h = size === "sm" ? "h-24" : "h-44";
+  const emoji = size === "sm" ? "text-2xl" : "text-5xl";
+  return (
+    <div
+      className={`relative ${h} w-full flex items-center justify-center overflow-hidden`}
+      style={{
+        background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)`,
+      }}
+    >
+      {/* Pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, ${product.imageColor} 2px, transparent 2px), radial-gradient(circle at 75% 75%, ${product.imageColor} 2px, transparent 2px)`,
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <span className={`${emoji} relative z-10 drop-shadow-md`}>
+        {product.imageEmoji}
+      </span>
+      {product.compareAtPrice && (
+        <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold">
+          OFERTA
+        </Badge>
+      )}
+      {product.isFeatured && (
+        <Badge className="absolute top-2 right-2 gradient-ivmn text-white text-[10px] font-bold">
+          DESTACADO
+        </Badge>
+      )}
+    </div>
+  );
+}
+
+function ProductCard({ product }: { product: Product }) {
+  const addItem = useCart((s) => s.addItem);
+  const category = getCategoryById(product.categoryId);
+  const waLink = buildProductWhatsAppLink(product);
+
+  const discount = product.compareAtPrice
+    ? Math.round((1 - product.price / product.compareAtPrice) * 100)
+    : 0;
+
+  return (
+    <Card className="group overflow-hidden flex flex-col border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white">
+      <CardHeader className="p-0">
+        <ProductImage product={product} />
+      </CardHeader>
+
+      <CardContent className="p-4 flex-1 flex flex-col">
+        <div className="flex items-center gap-2 mb-1.5">
+          <Badge
+            variant="secondary"
+            className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+          >
+            {category?.name || "Producto"}
+          </Badge>
+        </div>
+
+        <CardTitle className="text-sm font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2 min-h-[2.5rem]">
+          {product.name}
+        </CardTitle>
+
+        <p className="text-xs text-gray-500 line-clamp-2 mb-3 min-h-[2rem]">
+          {product.shortDescription}
+        </p>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-3">
+          <div className="flex items-center">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`h-3 w-3 ${
+                  i < Math.round(product.rating)
+                    ? "text-amber-400 fill-amber-400"
+                    : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-[11px] text-gray-500">
+            {product.rating.toFixed(1)} ({product.reviewCount})
+          </span>
+        </div>
+
+        {/* Price */}
+        <div className="mt-auto">
+          <div className="flex items-baseline gap-2 mb-1">
+            <span className="text-xl font-extrabold text-emerald-700">
+              ${product.price.toFixed(2)}
+            </span>
+            <span className="text-xs font-medium text-gray-400">
+              {product.currency}
+            </span>
+            {product.compareAtPrice && (
+              <span className="text-xs text-gray-400 line-through ml-auto">
+                ${product.compareAtPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
+          {discount > 0 && (
+            <span className="text-[11px] font-bold text-amber-600">
+              Ahorra {discount}%
+            </span>
+          )}
+        </div>
+      </CardContent>
+
+      <CardFooter className="p-4 pt-0 gap-2 flex-col">
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <Button
+            onClick={() => addItem(product)}
+            className="gradient-ivmn text-white hover:opacity-95 shadow-ivmn text-xs h-9"
+            size="sm"
+          >
+            <ShoppingCart className="h-3.5 w-3.5 mr-1" />
+            Agregar
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 text-xs h-9"
+          >
+            <a href={waLink} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="h-3.5 w-3.5 mr-1" />
+              Cotizar
+            </a>
+          </Button>
+        </div>
+        <div className="text-[10px] text-gray-400 text-center w-full">
+          SKU: {product.sku} · Stock: {product.stock} unid.
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+
+export function Catalog() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">(
+    "featured"
+  );
+
+  const filtered = useMemo(() => {
+    let list = [...PRODUCTS];
+
+    if (selectedCategory !== "all") {
+      list = list.filter((p) => p.categoryId === selectedCategory);
+    }
+
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase().trim();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(term) ||
+          p.shortDescription.toLowerCase().includes(term) ||
+          p.brand.toLowerCase().includes(term) ||
+          p.tags.some((t) => t.toLowerCase().includes(term))
+      );
+    }
+
+    switch (sortBy) {
+      case "price-asc":
+        list.sort((a, b) => a.price - b.price);
+        break;
+      case "price-desc":
+        list.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        list.sort((a, b) => Number(b.isFeatured) - Number(a.isFeatured));
+    }
+
+    return list;
+  }, [selectedCategory, searchTerm, sortBy]);
+
+  const totalProducts = PRODUCTS.length;
+
+  return (
+    <section id="catalogo" className="py-16 lg:py-24 bg-gradient-to-b from-white to-emerald-50/30">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="text-center mb-10">
+          <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider mb-3">
+            Catálogo de Productos
+          </div>
+          <h2 className="font-display text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
+            Todo para tu seguridad y tecnología
+          </h2>
+          <p className="text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
+            Explora nuestro catálogo con más de <strong>{totalProducts} productos</strong>{" "}
+            en stock: cámaras de seguridad, kits CCTV, DVR/NVR, accesorios para
+            PC, celulares y redes. Todos disponibles para cotizar por WhatsApp
+            con respuesta inmediata.
+          </p>
+        </div>
+
+        {/* Filters bar */}
+        <div className="sticky top-16 lg:top-20 z-30 bg-white/95 backdrop-blur border border-emerald-100 rounded-2xl p-3 lg:p-4 shadow-sm mb-8 space-y-3">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            <Input
+              type="search"
+              placeholder="Buscar productos: cámara, mouse, cargador, DVR..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 border-emerald-200 focus-visible:ring-emerald-500"
+              aria-label="Buscar productos"
+            />
+          </div>
+
+          {/* Category chips */}
+          <div className="flex items-start gap-2 overflow-x-auto no-scrollbar pb-1">
+            <Button
+              size="sm"
+              variant={selectedCategory === "all" ? "default" : "outline"}
+              onClick={() => setSelectedCategory("all")}
+              className={`shrink-0 ${
+                selectedCategory === "all"
+                  ? "gradient-ivmn text-white"
+                  : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+              }`}
+            >
+              <Filter className="h-3.5 w-3.5 mr-1" />
+              Todos ({totalProducts})
+            </Button>
+            {CATEGORIES.map((cat) => {
+              const count = PRODUCTS.filter((p) => p.categoryId === cat.id).length;
+              return (
+                <Button
+                  key={cat.id}
+                  size="sm"
+                  variant={selectedCategory === cat.id ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`shrink-0 ${
+                    selectedCategory === cat.id
+                      ? "gradient-ivmn text-white"
+                      : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                  }`}
+                >
+                  {cat.name} ({count})
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Sort */}
+          <div className="flex items-center justify-between gap-3 text-sm">
+            <span className="text-gray-500 text-xs">
+              {filtered.length} producto{filtered.length !== 1 ? "s" : ""}{" "}
+              encontrado{filtered.length !== 1 ? "s" : ""}
+            </span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="text-xs border border-emerald-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              aria-label="Ordenar productos"
+            >
+              <option value="featured">Destacados primero</option>
+              <option value="price-asc">Precio: menor a mayor</option>
+              <option value="price-desc">Precio: mayor a menor</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Products grid */}
+        {filtered.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              No encontramos productos
+            </h3>
+            <p className="text-gray-500 mb-4">
+              Intenta con otra búsqueda o categoría. Si no encuentras lo que
+              necesitas, escríbenos por WhatsApp.
+            </p>
+            <Button
+              asChild
+              className="gradient-ivmn text-white"
+            >
+              <a
+                href={`https://wa.me/584169726126?text=${encodeURIComponent(
+                  "Hola *Inversiones Valencia Mundo Net*, no encuentro un producto en su catálogo y quisiera que me ayuden a conseguirlo. ¡Gracias!"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Pedir ayuda por WhatsApp
+              </a>
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6">
+            {filtered.map((product, idx) => (
+              <div
+                key={product.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${Math.min(idx * 0.04, 0.4)}s` }}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

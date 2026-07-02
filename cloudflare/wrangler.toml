@@ -1,0 +1,62 @@
+# ============================================================
+# Wrangler configuration — Inversiones Valencia Mundo Net
+# Cloudflare Pages + D1 + R2
+# ============================================================
+
+name = "inversiones-valencia-mundo-net"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ------------------------------------------------------------
+# Páginas / Workers
+# ------------------------------------------------------------
+[site]
+bucket = ".next/static"
+entry-point = "."
+
+# ------------------------------------------------------------
+# D1 Database (existente)
+# ID: 38dd85ba-03dc-4937-af19-4d1c41a18f27
+# IMPORTANTE: Las tablas usan prefijo `ivmn_` para no chocar
+# con tablas existentes en este D1.
+# ------------------------------------------------------------
+[[d1_databases]]
+binding = "DB"
+database_name = "inversiones-valencia-mundo-net"
+database_id = "38dd85ba-03dc-4937-af19-4d1c41a18f27"
+
+# ------------------------------------------------------------
+# R2 Bucket (crearlo nuevo con: wrangler r2 bucket create ivmn-products)
+# Las imágenes de productos se almacenarán bajo el prefijo
+# `inversiones-valencia/products/` para no chocar con otros
+# proyectos que compartan el bucket.
+# ------------------------------------------------------------
+[[r2_buckets]]
+binding = "PRODUCTS_BUCKET"
+bucket_name = "ivmn-products"
+
+# ------------------------------------------------------------
+# Variables de entorno
+# (Estas se deben configurar también en el dashboard de Pages)
+# ------------------------------------------------------------
+[vars]
+WHATSAPP_NUMBER = "584169726126"
+WHATSAPP_DISPLAY = "+58 416-9726126"
+SITE_NAME = "Inversiones Valencia Mundo Net"
+SITE_URL = "https://inversionesvalencia.pages.dev"
+NEXT_PUBLIC_SITE_URL = "https://inversionesvalencia.pages.dev"
+
+# ------------------------------------------------------------
+# Builds de Cloudflare Pages
+# ------------------------------------------------------------
+[build]
+command = "bun run build"
+upload_format = "autom"
+
+# ------------------------------------------------------------
+# Rutas para SPA (opcional, solo si se usa Pages Functions)
+# ------------------------------------------------------------
+# [[redirects]]
+# from = "/*"
+# to = "/index.html"
+# status = 200

@@ -1,0 +1,49 @@
+<svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inversiones Valencia Mundo Net">
+  <defs>
+    <linearGradient id="ivmnGreenGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5CB85C"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="ivmnLensGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B5E20"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Camera security icon (left) -->
+  <g transform="translate(8, 10)">
+    <!-- Camera body -->
+    <rect x="0" y="6" width="38" height="24" rx="3" fill="url(#ivmnGreenGrad)"/>
+    <rect x="0" y="6" width="38" height="24" rx="3" fill="none" stroke="#1B5E20" stroke-width="0.6"/>
+    <!-- Top mount bracket -->
+    <rect x="14" y="2" width="10" height="5" rx="1" fill="#6B7280"/>
+    <rect x="18" y="0" width="2" height="3" fill="#6B7280"/>
+    <!-- Lens outer ring -->
+    <circle cx="19" cy="18" r="8" fill="#1B1F23"/>
+    <circle cx="19" cy="18" r="7" fill="url(#ivmnLensGrad)"/>
+    <!-- Lens inner -->
+    <circle cx="19" cy="18" r="4.5" fill="#0A0E12"/>
+    <circle cx="19" cy="18" r="3" fill="#1B5E20" opacity="0.8"/>
+    <!-- Lens reflection -->
+    <circle cx="17" cy="16" r="1.2" fill="#A5D6A7" opacity="0.9"/>
+    <circle cx="21" cy="20" r="0.6" fill="#E8F5E9" opacity="0.7"/>
+    <!-- LED indicator -->
+    <circle cx="32" cy="11" r="1" fill="#7CFF8B"/>
+    <circle cx="32" cy="11" r="0.5" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Text: Valencia Mundo Net (right) -->
+  <g transform="translate(58, 0)" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <!-- Top line: Inversiones Valencia -->
+    <text x="0" y="22" font-size="14" font-weight="700" fill="#1B5E20" letter-spacing="0.3">
+      <tspan x="0" dy="0">Inversiones</tspan>
+      <tspan x="0" dy="14" font-size="15" fill="#2E7D32">Valencia</tspan>
+    </text>
+    <!-- Bottom line: Mundo Net -->
+    <text x="0" y="48" font-size="11" font-weight="600" fill="#6B7280" letter-spacing="2">
+      MUNDO NET
+    </text>
+    <!-- Accent underline -->
+    <rect x="0" y="52" width="80" height="2" rx="1" fill="url(#ivmnGreenGrad)"/>
+  </g>
+</svg>
