@@ -118,16 +118,12 @@ export function ProductDetailModal({
 
         <div className="grid md:grid-cols-2 gap-0">
           {/* Imagen izquierda */}
-          <div className="relative aspect-square md:aspect-auto md:min-h-[500px] bg-gradient-to-br from-emerald-50 to-white overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 gradient-ivmn z-20" />
-            <div className="absolute top-0 left-0 w-12 h-12 rounded-br-xl gradient-ivmn z-20 flex items-center justify-center">
-              <span className="text-white text-xs font-bold">IVMN</span>
-            </div>
+          <div className="relative aspect-square md:aspect-auto md:min-h-[500px] bg-white overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl}
               alt={product.name}
-              className="absolute inset-0 w-full h-full object-contain p-6"
+              className="absolute inset-0 w-full h-full object-contain"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).style.display = "none";
               }}
@@ -136,7 +132,7 @@ export function ProductDetailModal({
               {product.imageEmoji}
             </div>
             {product.compareAtPrice && (
-              <Badge className="absolute top-3 left-16 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold z-20">
+              <Badge className="absolute top-3 left-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold z-20">
                 OFERTA
               </Badge>
             )}

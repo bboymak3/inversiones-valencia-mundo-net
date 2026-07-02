@@ -97,31 +97,18 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
   const h = size === "sm" ? "h-24" : "h-44";
   const emoji = size === "sm" ? "text-2xl" : "text-5xl";
   // Imagen servida desde R2 vía proxy /api/img/[sku]
+  // Sin marca de agua, sin bordes verdes, sin logo - solo la imagen del producto
   const imageUrl = `/api/img/${product.sku}`;
-  // Marco de fondo: la imagen IVMN-ACCE-0001.jpg sirve como plantilla con logo
-  // El producto se muestra con object-contain sobre el marco
   return (
     <div
       className={`relative ${h} w-full overflow-hidden bg-white`}
-      style={{
-        // Fondo: marco de la empresa + degradado sutil del color del producto
-        backgroundImage: `linear-gradient(135deg, ${product.imageColor}15 0%, ${product.imageColor}30 100%)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
-      {/* Marco/border superior con color de marca (simula el marco del catálogo) */}
-      <div className="absolute top-0 left-0 right-0 h-1 gradient-ivmn z-20" />
-      <div className="absolute top-0 left-0 w-8 h-8 rounded-br-lg gradient-ivmn z-20 flex items-center justify-center">
-        <span className="text-white text-[10px] font-bold">IVMN</span>
-      </div>
-
       {/* Imagen real desde R2 con object-contain (no deforma, muestra producto completo) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
         alt={product.name}
-        className="absolute inset-0 w-full h-full object-contain p-2"
+        className="absolute inset-0 w-full h-full object-contain"
         loading="lazy"
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -132,12 +119,12 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
           if (emojiEl) emojiEl.style.display = "none";
         }}
       />
-      {/* Emoji fallback */}
-      <span className={`${emoji} relative z-10 drop-shadow-md emoji-fallback`}>
+      {/* Emoji fallback (solo si no hay imagen en R2) */}
+      <span className={`${emoji} absolute inset-0 flex items-center justify-center emoji-fallback`} style={{ background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)` }}>
         {product.imageEmoji}
       </span>
       {product.compareAtPrice && (
-        <Badge className="absolute top-2 left-12 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold z-20">
+        <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold z-20">
           OFERTA
         </Badge>
       )}

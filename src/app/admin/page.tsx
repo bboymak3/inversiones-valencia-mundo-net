@@ -17,6 +17,11 @@ import {
   RefreshCw,
   Save,
   Settings2,
+  Frame,
+  Upload as UploadIcon,
+  Trash,
+  Check,
+  Image as ImageIcon2,
   Star,
   DollarSign,
   Tag,
@@ -204,7 +209,7 @@ function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
 // ============================================================
 // DASHBOARD
 // ============================================================
-type View = "dashboard" | "products" | "bcv";
+type View = "dashboard" | "products" | "bcv" | "marcos";
 
 function Dashboard({
   products,
@@ -279,6 +284,14 @@ function Dashboard({
               <Coins className="h-4 w-4 lg:mr-2" />
               <span className="hidden lg:inline">Tasa BCV</span>
             </Button>
+            <Button
+              variant={view === "marcos" ? "default" : "ghost"}
+              onClick={() => setView("marcos")}
+              className={`w-full justify-start ${view === "marcos" ? "gradient-ivmn text-white" : "text-gray-700"}`}
+            >
+              <Frame className="h-4 w-4 lg:mr-2" />
+              <span className="hidden lg:inline">Marcos</span>
+            </Button>
           </nav>
         </aside>
 
@@ -309,6 +322,7 @@ function Dashboard({
             />
           )}
           {view === "bcv" && <BcvView />}
+          {view === "marcos" && <MarcosView />}
         </main>
       </div>
 
@@ -607,6 +621,325 @@ function BcvView() {
               <li>Si activas &quot;Forzar manual&quot;, siempre se usa la tasa manual (ignora BCV).</li>
               <li>La tasa se actualiza automáticamente cada 30 minutos en la web del cliente.</li>
               <li>Fórmula: <code className="bg-blue-100 px-1 rounded">Bs = USD × tasa</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// MARCOS VIEW - gestionar marcos de productos
+// ============================================================
+type Marco = {
+  key: string;
+  name: string;
+  isDefault: boolean;
+};
+
+function MarcosView() {
+  const [marcos, setMarcos] = useState<Marco[]>([]);
+  const [activeKey, setActiveKey] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [applyingAll, setApplyingAll] = useState(false);
+  const [newMarcoName, setNewMarcoName] = useState("");
+  const [applySku, setApplySku] = useState("");
+
+  const loadMarcos = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/marcos");
+      const data = await res.json();
+      if (data.success) {
+        setMarcos(data.marcos);
+        setActiveKey(data.activeKey);
+      }
+    } catch (err) {
+      toast.error("Error al cargar marcos");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMarcos();
+  }, [loadMarcos]);
+
+  const handleUpload = async (file: File) => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("name", newMarcoName || file.name.replace(/\.[^.]+$/, ""));
+      const res = await fetch("/api/admin/marcos", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Marco "${data.data.name}" subido correctamente`);
+        setNewMarcoName("");
+        loadMarcos();
+      } else {
+        toast.error(data.message || "Error al subir marco");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSetActive = async (key: string, name: string) => {
+    try {
+      const res = await fetch("/api/admin/marcos", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key, name }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+        setActiveKey(key);
+      } else {
+        toast.error(data.message || "Error");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    }
+  };
+
+  const handleDelete = async (key: string) => {
+    if (!confirm("¿Eliminar este marco?")) return;
+    try {
+      const res = await fetch(`/api/admin/marcos?key=${encodeURIComponent(key)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Marco eliminado");
+        loadMarcos();
+      } else {
+        toast.error(data.message || "Error");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    }
+  };
+
+  const handleApplyToProduct = async () => {
+    if (!applySku) {
+      toast.error("Ingresa un SKU");
+      return;
+    }
+    try {
+      const res = await fetch("/api/admin/apply-marco", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku: applySku }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Marco aplicado a ${applySku}`);
+      } else {
+        toast.error(data.message || "Error al aplicar marco");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Marcos de Productos</h1>
+        <p className="text-sm text-gray-500">
+          Gestiona los marcos que se aplican a las fotos de los productos
+        </p>
+      </div>
+
+      {/* Marco activo */}
+      <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-center gap-2 text-emerald-100 text-sm mb-2">
+          <Frame className="h-4 w-4" />
+          MARCO ACTIVO ACTUALMENTE
+        </div>
+        <div className="text-2xl font-extrabold mb-3">
+          {marcos.find((m) => m.key === activeKey)?.name || "Marco por defecto"}
+        </div>
+        <div className="bg-white/10 backdrop-blur rounded-lg p-2 inline-block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/marco?key=${encodeURIComponent(activeKey)}`}
+            alt="Marco activo"
+            className="h-32 w-auto rounded"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Subir nuevo marco */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <UploadIcon className="h-4 w-4 text-emerald-600" />
+          Subir nuevo marco
+        </h3>
+        <div className="space-y-3">
+          <div>
+            <Label className="text-sm font-semibold text-gray-700">
+              Nombre del marco (opcional)
+            </Label>
+            <Input
+              value={newMarcoName}
+              onChange={(e) => setNewMarcoName(e.target.value)}
+              placeholder="Ej: Marco navideño, Marco promoción, etc."
+              className="mt-1 border-emerald-200"
+            />
+          </div>
+          <div className="border-2 border-dashed border-emerald-200 hover:border-emerald-400 rounded-xl p-6 text-center transition-colors">
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id="marco-upload"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) handleUpload(f);
+              }}
+              disabled={uploading}
+            />
+            <Label
+              htmlFor="marco-upload"
+              className="cursor-pointer flex flex-col items-center gap-2"
+            >
+              {uploading ? (
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+              ) : (
+                <UploadIcon className="h-8 w-8 text-emerald-600" />
+              )}
+              <span className="text-sm font-semibold text-emerald-700">
+                {uploading ? "Subiendo..." : "Haz clic para subir un marco"}
+              </span>
+              <span className="text-xs text-gray-500">
+                PNG o JPG, máximo 10MB. Recomendado: 1331×1691 px
+              </span>
+            </Label>
+          </div>
+        </div>
+      </div>
+
+      {/* Lista de marcos disponibles */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <ImageIcon2 className="h-4 w-4 text-emerald-600" />
+          Marcos disponibles
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {marcos.map((marco) => (
+            <div
+              key={marco.key}
+              className={`relative border-2 rounded-xl overflow-hidden transition-all ${
+                activeKey === marco.key
+                  ? "border-emerald-500 shadow-ivmn"
+                  : "border-gray-200 hover:border-emerald-300"
+              }`}
+            >
+              {/* Preview del marco */}
+              <div className="aspect-[3/4] bg-gray-50">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/marco?key=${encodeURIComponent(marco.key)}`}
+                  alt={marco.name}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              </div>
+              {/* Info */}
+              <div className="p-2">
+                <div className="text-xs font-bold text-gray-900 line-clamp-1" title={marco.name}>
+                  {marco.name}
+                </div>
+                {activeKey === marco.key && (
+                  <Badge className="mt-1 bg-emerald-100 text-emerald-700 text-[10px]">
+                    <Check className="h-2.5 w-2.5 mr-0.5" />
+                    ACTIVO
+                  </Badge>
+                )}
+              </div>
+              {/* Acciones */}
+              <div className="absolute top-1 right-1 flex gap-1">
+                {activeKey !== marco.key && (
+                  <button
+                    onClick={() => handleSetActive(marco.key, marco.name)}
+                    className="bg-white/95 hover:bg-emerald-50 text-emerald-700 rounded-full p-1.5 shadow-md transition-colors"
+                    title="Seleccionar como activo"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                  </button>
+                )}
+                {!marco.isDefault && (
+                  <button
+                    onClick={() => handleDelete(marco.key)}
+                    className="bg-white/95 hover:bg-red-50 text-red-600 rounded-full p-1.5 shadow-md transition-colors"
+                    title="Eliminar"
+                  >
+                    <Trash className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Aplicar marco a un producto */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Frame className="h-4 w-4 text-emerald-600" />
+          Aplicar marco a un producto
+        </h3>
+        <p className="text-xs text-gray-500 mb-4">
+          Cuando subas una foto de producto desde el formulario, se aplicará automáticamente el marco activo.
+          También puedes aplicar el marco activo a un producto existente ingresando su SKU:
+        </p>
+        <div className="flex gap-2">
+          <Input
+            value={applySku}
+            onChange={(e) => setApplySku(e.target.value)}
+            placeholder="Ej: IVMN-REDE-0001"
+            className="border-emerald-200 font-mono text-sm"
+          />
+          <Button onClick={handleApplyToProduct} className="gradient-ivmn text-white shrink-0">
+            <Frame className="h-4 w-4 mr-1.5" />
+            Aplicar marco
+          </Button>
+        </div>
+      </div>
+
+      {/* Información */}
+      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+        <div className="flex gap-3">
+          <Frame className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <div className="font-bold text-blue-900">¿Cómo funcionan los marcos?</div>
+            <ul className="text-blue-700 mt-2 space-y-1 text-xs list-disc pl-4">
+              <li>El marco activo se aplica automáticamente cuando subes una foto de producto desde el formulario.</li>
+              <li>Puedes subir todos los marcos que quieras y elegir cuál usar en cualquier momento.</li>
+              <li>El marco por defecto (<code className="bg-blue-100 px-1 rounded">IVMN-ACCE-0001.jpg</code>) no se puede eliminar.</li>
+              <li>Para aplicar el marco a productos ya existentes, usa el campo de arriba con el SKU.</li>
+              <li>El producto se redimensiona automáticamente para encajar en el área central del marco.</li>
             </ul>
           </div>
         </div>
@@ -963,6 +1296,7 @@ function ProductForm({
     }
     setUploading(true);
     try {
+      // 1. Subir imagen original a R2
       const fd = new FormData();
       fd.append("file", file);
       fd.append("sku", form.sku);
@@ -970,7 +1304,27 @@ function ProductForm({
       const data = await res.json();
       if (data.success) {
         toast.success("Imagen subida a R2");
-        setImagePreview(data.data.url);
+        // 2. Aplicar marco activo automáticamente
+        toast.info("Aplicando marco...");
+        try {
+          const applyRes = await fetch("/api/admin/apply-marco", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sku: form.sku }),
+          });
+          const applyData = await applyRes.json();
+          if (applyData.success) {
+            toast.success("Marco aplicado correctamente");
+            // Cache busting para mostrar la nueva imagen
+            setImagePreview(`/api/img/${form.sku}?t=${Date.now()}`);
+          } else {
+            toast.warning("Imagen subida pero no se pudo aplicar el marco: " + (applyData.message || ""));
+            setImagePreview(data.data.url);
+          }
+        } catch (applyErr) {
+          toast.warning("Imagen subida pero falló la aplicación del marco");
+          setImagePreview(data.data.url);
+        }
         setForm((f) => ({ ...f, imageR2Key: data.data.r2Key }));
       } else {
         toast.error(data.message || "Error al subir imagen");
