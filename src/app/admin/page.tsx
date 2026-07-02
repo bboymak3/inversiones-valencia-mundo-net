@@ -908,13 +908,18 @@ function MarcosView() {
           });
           const uploadData = await uploadRes.json();
 
-          if (uploadData.success) {
+          if (uploadRes.ok && uploadData.success) {
             success++;
           } else {
+            console.error(`Error subiendo ${img.sku}:`, uploadData.message);
             failed++;
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error(`Error procesando ${img.sku}:`, err);
+          // Si es error de tainted canvas (CORS), reportar específicamente
+          if (err?.message?.includes("tainted") || err?.name === "SecurityError") {
+            console.error("Error de CORS - el canvas no puede leer la imagen");
+          }
           failed++;
         }
 

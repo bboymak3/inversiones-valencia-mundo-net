@@ -3,6 +3,22 @@ import { NextRequest, NextResponse } from "next/server";
 // Necesario para Cloudflare Pages
 export const runtime = "edge";
 
+// Headers CORS para que el browser pueda usar las imágenes en Canvas
+// (sin esto, canvas.toBlob falla con "tainted canvas")
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Max-Age": "86400",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: CORS_HEADERS,
+  });
+}
+
 // Proxy de imágenes desde R2 (ivmn-products bucket)
 // URL: /api/img/[sku]
 // En desarrollo sin R2 binding, retorna el placeholder SVG
@@ -13,7 +29,7 @@ export async function GET(
   const { sku } = await params;
 
   if (!sku) {
-    return new NextResponse("Missing SKU", { status: 400 });
+    return new NextResponse("Missing SKU", { status: 400, headers: CORS_HEADERS });
   }
 
   // Construir la key en R2
@@ -33,6 +49,8 @@ export async function GET(
       object.writeHttpMetadata(headers);
       headers.set("Cache-Control", "public, max-age=31536000, immutable");
       headers.set("ETag", object.httpEtag);
+      // CORS headers (crítico para Canvas del browser)
+      Object.entries(CORS_HEADERS).forEach(([k, v]) => headers.set(k, v));
       return new NextResponse(object.body as ReadableStream, { headers });
     } catch (err) {
       console.error("R2 error:", err);
@@ -75,6 +93,8 @@ function servePlaceholder(sku: string) {
     headers: {
       "Content-Type": "image/svg+xml",
       "Cache-Control": "public, max-age=300",
+      ...CORS_HEADERS,
     },
   });
 }
+

@@ -262,8 +262,11 @@ export function Catalog() {
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(term) ||
+          p.sku.toLowerCase().includes(term) ||
           p.shortDescription.toLowerCase().includes(term) ||
+          p.longDescription.toLowerCase().includes(term) ||
           p.brand.toLowerCase().includes(term) ||
+          p.categoryId.toLowerCase().includes(term) ||
           p.tags.some((t) => t.toLowerCase().includes(term))
       );
     }
@@ -310,7 +313,7 @@ export function Catalog() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             <Input
               type="search"
-              placeholder="Buscar productos: cámara, mouse, cargador, DVR..."
+              placeholder="Buscar por nombre, SKU (ej: IVMN-MOUS), marca o categoría..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 border-emerald-200 focus-visible:ring-emerald-500"
