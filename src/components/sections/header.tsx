@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingCart, Phone, Camera } from "lucide-react";
+import { Menu, X, ShoppingCart, Phone, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-store";
 import { WHATSAPP_DISPLAY } from "@/data/catalog";
+import { CurrencyToggle } from "@/components/sections/currency-toggle";
+import { useCurrency } from "@/lib/currency-store";
 
 const NAV_LINKS = [
   { href: "#inicio", label: "Inicio" },
@@ -20,6 +22,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const totalItems = useCart((s) => s.totalItems());
   const toggleCart = useCart((s) => s.toggle);
+  const rate = useCurrency((s) => s.rate);
+  const rateSource = useCurrency((s) => s.rateSource);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -28,11 +32,18 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollToCatalog = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById("catalogo");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setMobileOpen(false);
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-md border-b border-emerald-100"
+          ? "bg-white/95 backdrop-blur-md shadow-md border-b border-emerald-100"
           : "bg-white border-b border-emerald-50"
       }`}
     >
@@ -64,6 +75,32 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            {/* Botón Tienda destacado */}
+            <Button
+              onClick={scrollToCatalog}
+              className="hidden sm:inline-flex gradient-ivmn text-white hover:opacity-95 shadow-ivmn"
+              size="sm"
+            >
+              <Store className="h-4 w-4 mr-1.5" />
+              Tienda
+            </Button>
+
+            {/* Currency toggle */}
+            <div className="hidden sm:flex items-center gap-2">
+              <CurrencyToggle compact />
+            </div>
+
+            {/* Tasa BCV indicator */}
+            <div className="hidden xl:flex flex-col items-end leading-tight text-right pl-2 border-l border-emerald-100">
+              <span className="text-[10px] text-gray-400 uppercase">Tasa BCV</span>
+              <span className="text-xs font-bold text-emerald-700">
+                Bs {rate.toFixed(2)}
+                {rateSource === "manual" && (
+                  <span className="text-amber-500 ml-1" title="Tasa manual">⚙</span>
+                )}
+              </span>
+            </div>
+
             <a
               href={`tel:${WHATSAPP_DISPLAY.replace(/\s/g, "")}`}
               className="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 rounded-md transition-colors"
@@ -116,6 +153,20 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+
+            {/* Tienda + Currency toggle para mobile */}
+            <div className="flex items-center justify-between gap-3 pt-2 mt-2 border-t border-emerald-50">
+              <Button
+                onClick={scrollToCatalog}
+                className="gradient-ivmn text-white flex-1"
+                size="sm"
+              >
+                <Store className="h-4 w-4 mr-1.5" />
+                Ver Tienda
+              </Button>
+              <CurrencyToggle />
+            </div>
+
             <a
               href={`tel:${WHATSAPP_DISPLAY.replace(/\s/g, "")}`}
               className="flex items-center gap-2 px-3 py-2.5 text-base font-semibold text-emerald-700"

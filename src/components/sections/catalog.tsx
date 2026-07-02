@@ -20,6 +20,78 @@ import {
   getCategoryById,
 } from "@/data/catalog";
 import { useCart } from "@/lib/cart-store";
+import { useCurrency } from "@/lib/currency-store";
+
+// ============================================================
+// COMPONENTE: PriceDisplay
+// Muestra el precio en USD o Bs según la moneda seleccionada
+// Siempre muestra la conversión secundaria en gris más pequeño
+// ============================================================
+function PriceDisplay({
+  price,
+  compareAtPrice,
+  size = "md",
+}: {
+  price: number;
+  compareAtPrice?: number;
+  size?: "sm" | "md" | "lg";
+}) {
+  const currency = useCurrency((s) => s.currency);
+  const rate = useCurrency((s) => s.rate);
+
+  const formatVes = (v: number) => {
+    return v
+      .toFixed(2)
+      .replace(/\D/g, "")
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+      .replace(/(\d+)(\d{2})$/, "$1,$2");
+  };
+
+  const mainSize = size === "lg" ? "text-3xl" : size === "sm" ? "text-base" : "text-xl";
+  const subSize = size === "lg" ? "text-sm" : "text-[10px]";
+
+  if (currency === "USD") {
+    return (
+      <div>
+        <div className="flex items-baseline gap-2 mb-1">
+          <span className={`${mainSize} font-extrabold text-emerald-700`}>
+            ${price.toFixed(2)}
+          </span>
+          <span className="text-xs font-medium text-gray-400">USD</span>
+          {compareAtPrice && (
+            <span className="text-xs text-gray-400 line-through ml-auto">
+              ${compareAtPrice.toFixed(2)}
+            </span>
+          )}
+        </div>
+        <div className={`text-gray-400 ${subSize}`}>
+          ≈ Bs {formatVes(price * rate)}
+        </div>
+      </div>
+    );
+  }
+
+  // Bs como moneda principal
+  const ves = price * rate;
+  const vesCompare = compareAtPrice ? compareAtPrice * rate : undefined;
+  return (
+    <div>
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className={`${mainSize} font-extrabold text-emerald-700`}>
+          Bs {formatVes(ves)}
+        </span>
+        {vesCompare && (
+          <span className="text-xs text-gray-400 line-through ml-auto">
+            Bs {formatVes(vesCompare)}
+          </span>
+        )}
+      </div>
+      <div className={`text-gray-400 ${subSize}`}>
+        ≈ ${price.toFixed(2)} USD
+      </div>
+    </div>
+  );
+}
 
 function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" | "md" }) {
   const h = size === "sm" ? "h-24" : "h-44";
@@ -123,19 +195,7 @@ function ProductCard({ product }: { product: Product }) {
 
         {/* Price */}
         <div className="mt-auto">
-          <div className="flex items-baseline gap-2 mb-1">
-            <span className="text-xl font-extrabold text-emerald-700">
-              ${product.price.toFixed(2)}
-            </span>
-            <span className="text-xs font-medium text-gray-400">
-              {product.currency}
-            </span>
-            {product.compareAtPrice && (
-              <span className="text-xs text-gray-400 line-through ml-auto">
-                ${product.compareAtPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
+          <PriceDisplay price={product.price} compareAtPrice={product.compareAtPrice} />
           {discount > 0 && (
             <span className="text-[11px] font-bold text-amber-600">
               Ahorra {discount}%

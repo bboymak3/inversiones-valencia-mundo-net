@@ -13,6 +13,10 @@ import {
   Image as ImageIcon,
   X,
   Eye,
+  Coins,
+  RefreshCw,
+  Save,
+  Settings2,
   Star,
   DollarSign,
   Tag,
@@ -200,7 +204,7 @@ function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
 // ============================================================
 // DASHBOARD
 // ============================================================
-type View = "dashboard" | "products";
+type View = "dashboard" | "products" | "bcv";
 
 function Dashboard({
   products,
@@ -267,6 +271,14 @@ function Dashboard({
               <span className="hidden lg:inline">Productos</span>
               <Badge variant="secondary" className="ml-auto hidden lg:inline">{totalProducts}</Badge>
             </Button>
+            <Button
+              variant={view === "bcv" ? "default" : "ghost"}
+              onClick={() => setView("bcv")}
+              className={`w-full justify-start ${view === "bcv" ? "gradient-ivmn text-white" : "text-gray-700"}`}
+            >
+              <Coins className="h-4 w-4 lg:mr-2" />
+              <span className="hidden lg:inline">Tasa BCV</span>
+            </Button>
           </nav>
         </aside>
 
@@ -296,6 +308,7 @@ function Dashboard({
               }}
             />
           )}
+          {view === "bcv" && <BcvView />}
         </main>
       </div>
 
@@ -320,6 +333,284 @@ function Dashboard({
           }}
         />
       )}
+    </div>
+  );
+}
+
+// ============================================================
+// BCV VIEW - gestionar tasa de cambio
+// ============================================================
+function BcvView() {
+  const [config, setConfig] = useState<{
+    manualRate: number | null;
+    manualDate: string | null;
+    forceManual: boolean;
+    updatedAt: string | null;
+  } | null>(null);
+  const [bcvRate, setBcvRate] = useState<number | null>(null);
+  const [bcvDate, setBcvDate] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [savingManual, setSavingManual] = useState(false);
+  const [manualRateInput, setManualRateInput] = useState("");
+  const [manualDateInput, setManualDateInput] = useState("");
+
+  const loadConfig = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/bcv");
+      const data = await res.json();
+      if (data.success) {
+        setConfig(data.config);
+        if (data.config?.manualRate) {
+          setManualRateInput(String(data.config.manualRate));
+        }
+        if (data.config?.manualDate) {
+          setManualDateInput(data.config.manualDate);
+        }
+      }
+    } catch (err) {
+      toast.error("Error al cargar configuración BCV");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const refreshBcv = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      const res = await fetch("/api/bcv?source=bcv", { cache: "no-store" });
+      const data = await res.json();
+      if (data.success) {
+        setBcvRate(data.rate);
+        setBcvDate(data.date);
+        toast.success(`Tasa BCV: Bs ${data.rate.toFixed(2)}`);
+      } else {
+        toast.error("No se pudo obtener la tasa del BCV");
+      }
+    } catch (err) {
+      toast.error("Error de conexión al BCV");
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadConfig();
+    refreshBcv();
+  }, [loadConfig, refreshBcv]);
+
+  const handleSaveManual = async () => {
+    const rate = parseFloat(manualRateInput);
+    if (!rate || rate <= 0) {
+      toast.error("Tasa inválida");
+      return;
+    }
+    setSavingManual(true);
+    try {
+      const res = await fetch("/api/admin/bcv", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rate, date: manualDateInput }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Tasa manual guardada");
+        loadConfig();
+      } else {
+        toast.error(data.message || "Error al guardar");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    } finally {
+      setSavingManual(false);
+    }
+  };
+
+  const handleToggleForceManual = async (force: boolean) => {
+    try {
+      const res = await fetch("/api/admin/bcv", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ forceManual: force }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+        loadConfig();
+      } else {
+        toast.error(data.message || "Error");
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Tasa BCV</h1>
+        <p className="text-sm text-gray-500">
+          Gestiona la tasa de cambio USD → Bs para mostrar precios en bolívares
+        </p>
+      </div>
+
+      {/* Tarjeta tasa BCV automática */}
+      <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-emerald-100 text-sm flex items-center gap-2">
+              <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
+              Tasa actual del BCV (automática)
+            </div>
+            <div className="text-4xl font-extrabold mt-1">
+              {bcvRate ? `Bs ${bcvRate.toFixed(2)}` : "—"}
+            </div>
+            {bcvDate && (
+              <div className="text-emerald-200 text-xs mt-1">Fecha: {bcvDate}</div>
+            )}
+          </div>
+          <Button
+            onClick={refreshBcv}
+            disabled={refreshing}
+            variant="secondary"
+            className="bg-white text-emerald-700 hover:bg-emerald-50"
+          >
+            <RefreshCw className={`h-4 w-4 mr-1.5 ${refreshing ? "animate-spin" : ""}`} />
+            Actualizar
+          </Button>
+        </div>
+      </div>
+
+      {/* Estado actual */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Settings2 className="h-4 w-4 text-emerald-600" />
+          Configuración actual
+        </h3>
+        <div className="grid sm:grid-cols-3 gap-4">
+          <div className="bg-emerald-50 rounded-xl p-4">
+            <div className="text-xs text-gray-500 uppercase">Modo activo</div>
+            <div className="text-lg font-bold text-gray-900 mt-1">
+              {config?.forceManual ? "Manual" : "Automático (BCV)"}
+            </div>
+          </div>
+          <div className="bg-emerald-50 rounded-xl p-4">
+            <div className="text-xs text-gray-500 uppercase">Tasa manual guardada</div>
+            <div className="text-lg font-bold text-gray-900 mt-1">
+              {config?.manualRate ? `Bs ${config.manualRate.toFixed(2)}` : "—"}
+            </div>
+          </div>
+          <div className="bg-emerald-50 rounded-xl p-4">
+            <div className="text-xs text-gray-500 uppercase">Última actualización</div>
+            <div className="text-lg font-bold text-gray-900 mt-1 text-sm">
+              {config?.updatedAt || "—"}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 p-4 bg-gray-50 rounded-xl flex items-center justify-between">
+          <div>
+            <div className="font-semibold text-gray-900">Forzar uso de tasa manual</div>
+            <div className="text-xs text-gray-500">
+              Si activas esto, la web usará SIEMPRE la tasa manual en vez de la automática del BCV
+            </div>
+          </div>
+          <Switch
+            checked={config?.forceManual || false}
+            onCheckedChange={handleToggleForceManual}
+          />
+        </div>
+      </div>
+
+      {/* Formulario tasa manual */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Coins className="h-4 w-4 text-emerald-600" />
+          Configurar tasa manual
+        </h3>
+        <p className="text-xs text-gray-500 mb-4">
+          Útil cuando el scraping del BCV falla o quieres fijar una tasa específica.
+          La fórmula usada es: <code className="bg-gray-100 px-1 rounded">precio_bs = precio_usd × tasa</code>
+        </p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="manual-rate" className="text-sm font-semibold text-gray-700">
+              Tasa manual (Bs por USD)
+            </Label>
+            <Input
+              id="manual-rate"
+              type="number"
+              step="0.01"
+              min="0"
+              value={manualRateInput}
+              onChange={(e) => setManualRateInput(e.target.value)}
+              placeholder="Ej: 245.50"
+              className="mt-1 border-emerald-200"
+            />
+          </div>
+          <div>
+            <Label htmlFor="manual-date" className="text-sm font-semibold text-gray-700">
+              Fecha de la tasa
+            </Label>
+            <Input
+              id="manual-date"
+              type="date"
+              value={manualDateInput}
+              onChange={(e) => setManualDateInput(e.target.value)}
+              className="mt-1 border-emerald-200"
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex gap-2">
+          <Button
+            onClick={handleSaveManual}
+            disabled={savingManual}
+            className="gradient-ivmn text-white"
+          >
+            {savingManual ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <Save className="h-4 w-4 mr-1.5" />}
+            Guardar tasa manual
+          </Button>
+          {config?.manualRate && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setManualRateInput(String(config.manualRate));
+                setManualDateInput(config.manualDate || "");
+              }}
+              className="border-emerald-200 text-emerald-700"
+            >
+              Cargar actual
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Información */}
+      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+        <div className="flex gap-3">
+          <Coins className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <div className="font-bold text-blue-900">¿Cómo funciona la dualidad de moneda?</div>
+            <ul className="text-blue-700 mt-2 space-y-1 text-xs list-disc pl-4">
+              <li>Los visitantes pueden alternar entre USD y Bs con el toggle en el header.</li>
+              <li>Por defecto se intenta obtener la tasa del BCV automáticamente (scraping).</li>
+              <li>Si el scraping falla, se usa la tasa manual guardada aquí.</li>
+              <li>Si activas &quot;Forzar manual&quot;, siempre se usa la tasa manual (ignora BCV).</li>
+              <li>La tasa se actualiza automáticamente cada 30 minutos en la web del cliente.</li>
+              <li>Fórmula: <code className="bg-blue-100 px-1 rounded">Bs = USD × tasa</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

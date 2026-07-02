@@ -12,7 +12,48 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart-store";
+import { useCurrency } from "@/lib/currency-store";
 import { buildCartWhatsAppLink } from "@/data/catalog";
+
+// Componente que muestra el total del carrito en ambas monedas
+function CartTotal({ total }: { total: number }) {
+  const currency = useCurrency((s) => s.currency);
+  const rate = useCurrency((s) => s.rate);
+
+  const formatVes = (v: number) =>
+    v
+      .toFixed(2)
+      .replace(/\D/g, "")
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+      .replace(/(\d+)(\d{2})$/, "$1,$2");
+
+  if (currency === "USD") {
+    return (
+      <div className="flex items-center justify-between">
+        <span className="text-base font-bold text-gray-900">Total estimado:</span>
+        <div className="text-right">
+          <div className="text-2xl font-extrabold text-emerald-700">
+            ${total.toFixed(2)}{" "}
+            <span className="text-sm font-medium text-gray-500">USD</span>
+          </div>
+          <div className="text-xs text-gray-400">≈ Bs {formatVes(total * rate)}</div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-base font-bold text-gray-900">Total estimado:</span>
+      <div className="text-right">
+        <div className="text-2xl font-extrabold text-emerald-700">
+          Bs {formatVes(total * rate)}
+        </div>
+        <div className="text-xs text-gray-400">≈ ${total.toFixed(2)} USD</div>
+      </div>
+    </div>
+  );
+}
 
 export function CartDrawer() {
   const { items, isOpen, setOpen, updateQuantity, removeItem, subtotal } = useCart();
@@ -169,15 +210,7 @@ export function CartDrawer() {
                     {items.reduce((acc, i) => acc + i.quantity, 0)} unid.
                   </span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-base font-bold text-gray-900">
-                    Total estimado:
-                  </span>
-                  <span className="text-2xl font-extrabold text-emerald-700">
-                    ${total.toFixed(2)}{" "}
-                    <span className="text-sm font-medium text-gray-500">USD</span>
-                  </span>
-                </div>
+                <CartTotal total={total} />
                 <p className="text-[11px] text-gray-500 leading-relaxed">
                   💡 El total es referencial. La cotización final se confirma
                   por WhatsApp incluyendo disponibilidad y costo de envío a

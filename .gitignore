@@ -61,3 +61,7 @@ catalogo_drive4.pdf
 catalogo_drive*.pdf
 catalogo.txt
 products_*.json
+
+# Imágenes extraídas del PDF (se suben directo a R2)
+images/
+catalogo_drive*.pdf
