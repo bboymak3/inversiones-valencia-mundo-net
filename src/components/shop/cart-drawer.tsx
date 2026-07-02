@@ -20,12 +20,11 @@ function CartTotal({ total }: { total: number }) {
   const currency = useCurrency((s) => s.currency);
   const rate = useCurrency((s) => s.rate);
 
-  const formatVes = (v: number) =>
-    v
-      .toFixed(2)
-      .replace(/\D/g, "")
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
-      .replace(/(\d+)(\d{2})$/, "$1,$2");
+  const formatVes = (v: number) => {
+    const parts = v.toFixed(2).split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return parts.join(",");
+  };
 
   if (currency === "USD") {
     return (

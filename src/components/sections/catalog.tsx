@@ -40,11 +40,10 @@ function PriceDisplay({
   const rate = useCurrency((s) => s.rate);
 
   const formatVes = (v: number) => {
-    return v
-      .toFixed(2)
-      .replace(/\D/g, "")
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
-      .replace(/(\d+)(\d{2})$/, "$1,$2");
+    // Formato venezolano: 1.234.567,89
+    const parts = v.toFixed(2).split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return parts.join(",");
   };
 
   const mainSize = size === "lg" ? "text-3xl" : size === "sm" ? "text-base" : "text-xl";

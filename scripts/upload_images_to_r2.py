@@ -58,6 +58,7 @@ for i, item in enumerate(to_upload, 1):
         f"{BUCKET}/{r2_key}",
         f"--file={local_path}",
         "--content-type=image/jpeg",
+        "--remote",
     ]
 
     try:
