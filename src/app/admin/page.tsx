@@ -60,6 +60,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { PRODUCTS, CATEGORIES, type Product, type Category } from "@/data/catalog";
+import { ImagePickerModal } from "@/components/admin/image-picker-modal";
 
 // ============================================================
 // STORE SIMPLE (Zustand-like con useState)
@@ -646,6 +647,9 @@ function MarcosView() {
   const [applyingAll, setApplyingAll] = useState(false);
   const [newMarcoName, setNewMarcoName] = useState("");
   const [applySku, setApplySku] = useState("");
+  const [bulkCategory, setBulkCategory] = useState("");
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [bulkResult, setBulkResult] = useState<{ success: number; failed: number } | null>(null);
 
   const loadMarcos = useCallback(async () => {
     setLoading(true);
@@ -746,6 +750,39 @@ function MarcosView() {
       }
     } catch (err) {
       toast.error("Error de conexión");
+    }
+  };
+
+  const handleApplyBulk = async () => {
+    const label = bulkCategory
+      ? `la categoría ${bulkCategory}`
+      : "TODAS las categorías";
+    if (!confirm(`¿Aplicar el marco activo a ${label}? Esta acción reemplazará las imágenes actuales.`)) {
+      return;
+    }
+    setBulkLoading(true);
+    setBulkResult(null);
+    try {
+      const res = await fetch("/api/admin/apply-marco-bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categoryPrefix: bulkCategory }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+        setBulkResult({
+          success: data.data.success,
+          failed: data.data.failed,
+        });
+      } else {
+        toast.error(data.message || "Error al aplicar marco masivamente");
+        setBulkResult({ success: 0, failed: data.data?.failed || 0 });
+      }
+    } catch (err) {
+      toast.error("Error de conexión");
+    } finally {
+      setBulkLoading(false);
     }
   };
 
@@ -904,27 +941,48 @@ function MarcosView() {
         </div>
       </div>
 
-      {/* Aplicar marco a un producto */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
-        <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+      {/* Aplicar marco a TODAS las imágenes */}
+      <div className="bg-white rounded-2xl border-2 border-emerald-200 p-6">
+        <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
           <Frame className="h-4 w-4 text-emerald-600" />
-          Aplicar marco a un producto
+          Aplicar marco a TODAS las imágenes
         </h3>
         <p className="text-xs text-gray-500 mb-4">
-          Cuando subas una foto de producto desde el formulario, se aplicará automáticamente el marco activo.
-          También puedes aplicar el marco activo a un producto existente ingresando su SKU:
+          Esta acción aplica el marco activo a todas las imágenes de productos en R2.
+          Puedes elegir aplicar a una categoría específica o a todas en general.
+          ⚠️ <strong>Esto reemplaza las imágenes actuales</strong> (el producto se redimensiona dentro del marco).
         </p>
-        <div className="flex gap-2">
-          <Input
-            value={applySku}
-            onChange={(e) => setApplySku(e.target.value)}
-            placeholder="Ej: IVMN-REDE-0001"
-            className="border-emerald-200 font-mono text-sm"
-          />
-          <Button onClick={handleApplyToProduct} className="gradient-ivmn text-white shrink-0">
-            <Frame className="h-4 w-4 mr-1.5" />
-            Aplicar marco
+        <div className="flex flex-wrap gap-3 items-center bg-emerald-50/50 p-4 rounded-lg">
+          <select
+            value={bulkCategory}
+            onChange={(e) => setBulkCategory(e.target.value)}
+            className="border border-emerald-200 rounded-md px-3 py-2 text-sm bg-white"
+          >
+            <option value="">📦 Todas las categorías</option>
+            {CATEGORIES.map((cat) => (
+              <option key={cat.id} value={cat.id.replace("cat-", "").toUpperCase().slice(0, 4)}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+          <Button
+            onClick={handleApplyBulk}
+            disabled={bulkLoading}
+            className="gradient-ivmn text-white"
+          >
+            {bulkLoading ? (
+              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+            ) : (
+              <Frame className="h-4 w-4 mr-1.5" />
+            )}
+            {bulkLoading ? "Procesando..." : "Aplicar marco ahora"}
           </Button>
+          {bulkResult && (
+            <div className={`text-sm font-semibold ${bulkResult.failed > 0 ? "text-amber-600" : "text-emerald-700"}`}>
+              ✓ {bulkResult.success} procesadas
+              {bulkResult.failed > 0 && ` · ✗ ${bulkResult.failed} fallidas`}
+            </div>
+          )}
         </div>
       </div>
 
@@ -935,10 +993,12 @@ function MarcosView() {
           <div className="text-sm">
             <div className="font-bold text-blue-900">¿Cómo funcionan los marcos?</div>
             <ul className="text-blue-700 mt-2 space-y-1 text-xs list-disc pl-4">
-              <li>El marco activo se aplica automáticamente cuando subes una foto de producto desde el formulario.</li>
+              <li>El marco activo se usa como <strong>fondo para TODAS las imágenes</strong> de productos.</li>
+              <li>Al <strong>editar un producto</strong> y hacer clic en "Cambiar imagen", puedes elegir una imagen existente en R2 o subir una nueva.</li>
+              <li>Al subir una nueva imagen, puedes decidir si aplicar el marco del sistema o no (checkbox).</li>
               <li>Puedes subir todos los marcos que quieras y elegir cuál usar en cualquier momento.</li>
               <li>El marco por defecto (<code className="bg-blue-100 px-1 rounded">IVMN-ACCE-0001.jpg</code>) no se puede eliminar.</li>
-              <li>Para aplicar el marco a productos ya existentes, usa el campo de arriba con el SKU.</li>
+              <li>Usa <strong>"Aplicar marco a TODAS las imágenes"</strong> para aplicar el marco activo a todas las fotos de una categoría o a todas en general.</li>
               <li>El producto se redimensiona automáticamente para encajar en el área central del marco.</li>
             </ul>
           </div>
@@ -1278,6 +1338,7 @@ function ProductForm({
 
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [showImagePicker, setShowImagePicker] = useState(false);
 
   // Generar SKU automático
   useEffect(() => {
@@ -1368,31 +1429,25 @@ function ProductForm({
           <div className="grid sm:grid-cols-[120px_1fr] gap-4">
             <div>
               <Label className="text-xs font-semibold text-gray-700">Imagen del producto</Label>
-              <div className="mt-1.5 aspect-square rounded-xl border-2 border-dashed border-emerald-200 hover:border-emerald-400 transition-colors flex flex-col items-center justify-center overflow-hidden bg-emerald-50/50">
+              <div className="mt-1.5 aspect-square rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-colors flex flex-col items-center justify-center overflow-hidden bg-emerald-50/50 cursor-pointer relative" onClick={() => setShowImagePicker(true)}>
                 {imagePreview ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
                 ) : (
                   <div className="text-center p-2">
                     <div className="text-3xl mb-1">{form.imageEmoji}</div>
-                    <Label htmlFor="img-upload" className="text-xs text-emerald-700 cursor-pointer font-semibold">
-                      {uploading ? "Subiendo..." : "Subir a R2"}
-                    </Label>
+                    <span className="text-xs text-emerald-700 font-semibold">
+                      {uploading ? "Subiendo..." : "Cambiar imagen"}
+                    </span>
                   </div>
                 )}
-                <input
-                  id="img-upload"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) handleUploadImage(f);
-                  }}
-                  disabled={uploading}
-                />
+                {uploading && (
+                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                    <Loader2 className="h-6 w-6 animate-spin text-emerald-600" />
+                  </div>
+                )}
               </div>
-              <p className="text-[10px] text-gray-500 mt-1 text-center">Bucket: ivmn-products</p>
+              <p className="text-[10px] text-gray-500 mt-1 text-center">Click para elegir de R2</p>
             </div>
             <div className="space-y-3">
               <div>
@@ -1415,25 +1470,27 @@ function ProductForm({
                   readOnly
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <Button
                   type="button"
-                  variant="outline"
                   size="sm"
-                  className="border-emerald-200 text-emerald-700"
-                  onClick={() => document.getElementById("img-upload")?.click()}
+                  className="gradient-ivmn text-white"
+                  onClick={() => setShowImagePicker(true)}
                   disabled={uploading}
                 >
-                  {uploading ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Upload className="h-3.5 w-3.5 mr-1" />}
-                  Subir imagen
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <ImageIcon className="h-3.5 w-3.5 mr-1" />}
+                  Cambiar imagen
                 </Button>
                 {imagePreview && (
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setImagePreview(null)}>
+                  <Button type="button" variant="ghost" size="sm" onClick={() => { setImagePreview(null); setForm({ ...form, imageR2Key: "" }); }}>
                     <X className="h-3.5 w-3.5 mr-1" />
                     Quitar
                   </Button>
                 )}
               </div>
+              <p className="text-[10px] text-gray-500">
+                💡 Podrás elegir una imagen existente en R2 o subir una nueva (con opción de aplicar marco del sistema)
+              </p>
             </div>
           </div>
 
@@ -1606,6 +1663,27 @@ function ProductForm({
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      {/* Image Picker Modal */}
+      <ImagePickerModal
+        open={showImagePicker}
+        onOpenChange={setShowImagePicker}
+        currentSku={form.sku}
+        categories={CATEGORIES.map((c) => ({
+          prefix: c.id.replace("cat-", "").toUpperCase().slice(0, 4),
+          name: c.name,
+        }))}
+        onSelect={(sku, key) => {
+          setForm((f) => ({
+            ...f,
+            imageR2Key: key,
+            // Si el SKU del producto estaba vacío, usar el de la imagen
+            sku: f.sku || sku,
+          }));
+          setImagePreview(`/api/img/${sku}?t=${Date.now()}`);
+          toast.success(`Imagen seleccionada: ${sku}`);
+        }}
+      />
     </Dialog>
   );
 }
