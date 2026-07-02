@@ -47,3 +47,44 @@ Stage Summary:
 - SEO técnico completo (metadata, JSON-LD, Open Graph, PWA manifest)
 - Script de deployment automatizado incluido
 - Listo para producción después de ejecutar `scripts/deploy.sh` con las credenciales del cliente
+
+---
+Task ID: 2
+Agent: Main Agent (Super Z)
+Task: Desplegar el portal a Cloudflare Pages, crear repositorio en GitHub, configurar D1 y R2.
+
+Work Log:
+- Verificado token GitHub (usuario: bboymak3) ✓
+- Token Cloudflare verificado vía API Pages (cfat_...) ✓
+- Creado repositorio GitHub: bboymak3/inversiones-valencia-mundo-net
+- Instalado @cloudflare/next-on-pages + wrangler
+- Configurado next.config.ts para Cloudflare Pages (output undefined, images unoptimized)
+- Agregado runtime="edge" a /api route
+- Creados archivos: _routes.json, _headers, .env.example
+- Actualizado package.json con scripts: build:pages, preview, deploy
+- Build exitoso con @cloudflare/next-on-pages (3.1MB output)
+- Commit + push a GitHub (rama main)
+- Creado proyecto Pages: inversiones-valencia-mundo-net
+- Primer deploy: error 503 por falta de nodejs_compat
+- Configurado flag nodejs_compat vía API Cloudflare
+- Redeploy exitoso → https://inversiones-valencia-mundo-net.pages.dev (HTTP 200)
+- Identificado D1: generico_db (UUID 38dd85ba-03dc-4937-af19-4d1c41a18f27)
+- Aplicado esquema SQL: 8 tablas ivmn_ creadas + seed inicial (29 cambios, 126 rows)
+- Creado bucket R2: ivmn-products
+- Conectados bindings D1 (DB) + R2 (PRODUCTS_BUCKET) al proyecto Pages
+- Deploy final con bindings configurados
+
+Verificación Producción:
+- ✓ https://inversiones-valencia-mundo-net.pages.dev/ → HTTP 200
+- ✓ Title: "Inversiones Valencia Mundo Net | Cámaras de Seguridad y Tecnología en Valencia, Venezuela"
+- ✓ /logo.svg, /favicon.svg, /og-image.svg, /site.webmanifest, /robots.txt → todos 200
+- ✓ D1: 8 tablas ivmn_ creadas y pobladas
+- ✓ R2: bucket ivmn-products creado
+- ✓ Bindings D1+R2 conectados al proyecto Pages
+
+Stage Summary:
+- Portal desplegado y funcionando en producción: https://inversiones-valencia-mundo-net.pages.dev
+- Repositorio GitHub: https://github.com/bboymak3/inversiones-valencia-mundo-net
+- D1 con tablas ivmn_ listas para uso (sin chocar con tablas existentes: users, states, etc.)
+- R2 bucket listo para subir fotos de productos
+- Pendiente: recibir PDF o catálogo real del cliente para reemplazar el catálogo temporal
