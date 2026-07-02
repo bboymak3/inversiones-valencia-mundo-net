@@ -187,3 +187,58 @@ Stage Summary:
 - Panel admin completo: dashboard + productos CRUD + gestión tasa BCV
 - Nav inferior fija en mobile con Tienda + WhatsApp
 - Todo desplegado y verificado en producción
+
+---
+Task ID: 5
+Agent: Main Agent (Super Z)
+Task: Aplicar marco de fondo a imágenes de productos, crear modal de ficha de producto.
+
+Work Log:
+- Descargada imagen marco IVMN-ACCE-0001.jpg desde R2 (1331x1691, plantilla con logo verde)
+- Análisis VLM del marco: plantilla minimalista con logo circular verde, borde turquesa, área central blanca
+- Creado script compose_with_frame.py con Pillow + numpy:
+  - Descarga imagen de R2 o usa imagen local mapeada
+  - Remueve fondo negro automáticamente si la imagen tiene >30% píxeles negros
+  - Redimensiona producto al área útil del marco preservando aspect ratio
+  - Pega producto centrado sobre el marco con fondo blanco
+  - Sube resultado a R2
+- Procesadas 10 imágenes de muestra (una por categoría):
+  IVMN-REDE-0001, IVMN-ACCE-0001, IVMN-CAMA-0001, IVMN-WEBC-0001, IVMN-CPU-0001,
+  IVMN-TABL-0001, IVMN-LAPT-0001, IVMN-MONI-0001, IVMN-AUDI-0001, IVMN-PARL-0001
+- Actualizado ProductImage component con marco visual CSS:
+  - Borde superior gradient-ivmn (verde marca)
+  - Logo "IVMN" en esquina superior izquierda
+  - object-contain (no deforma la imagen)
+  - Padding p-2 para que el producto respire
+  - Fondo blanco con degradado sutil del color del producto
+- Creado ProductDetailModal (modal de ficha de producto):
+  - Abre al hacer clic en cualquier tarjeta de producto
+  - Imagen grande con marco IVMN
+  - Precio en USD/Bs con conversión automática
+  - Descripción larga del producto
+  - Especificaciones técnicas (accordion expandible)
+  - Etiquetas
+  - Selector de cantidad (+/−)
+  - Botones: Agregar al carrito + Cotizar por WhatsApp
+  - Indicadores de garantía, envío nacional, calidad
+  - Badge de OFERTA y DESTACADO
+  - Información de stock disponible
+- Actualizado ProductCard: cursor-pointer + onClick abre modal
+- Actualizado Catalog: estado detailProduct + detailOpen + renderiza ProductDetailModal
+- Build exitoso + deploy a Cloudflare Pages con bindings D1+R2
+
+Verificación en producción:
+- ✓ Modal de ficha abre al hacer clic en producto
+- ✓ Muestra "ROUTER VP ER605" con descripción, specs, etiquetas
+- ✓ Botones Agregar (con cantidad) + Cotizar por WhatsApp
+- ✓ Marco visual IVMN en todas las imágenes del catálogo
+- ✓ object-contain evita deformación
+- ✓ 10 imágenes de muestra procesadas con marco completo
+
+Issue detectado: El mapeo original de imágenes a SKUs no fue preciso (las imágenes se extrajeron por orden de aparición en el PDF, no por producto). Las 10 imágenes procesadas muestran el marco correctamente pero el contenido puede no corresponder al producto exacto. Para una precisión total se requeriría mapeo manual producto por producto.
+
+Stage Summary:
+- Modal de ficha de producto 100% funcional (CLICK en producto → abre modal completo)
+- Marco visual aplicado a TODAS las imágenes del catálogo (CSS, automático para futuras)
+- 10 imágenes de muestra con marco completo en R2
+- Script compose_with_frame.py listo para procesar las 580 cuando se valide
