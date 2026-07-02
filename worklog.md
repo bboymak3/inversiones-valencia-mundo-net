@@ -415,3 +415,59 @@ Stage Summary:
 - Búsqueda por SKU funciona correctamente
 - 3 tablas nuevas en D1: ivmn_product_overrides, ivmn_custom_products
 - Workflow completo: editar producto → se guarda en D1 → se refleja al recargar
+
+---
+Task ID: 9
+Agent: Main Agent (Super Z)
+Task: Arreglar CORS en APIs de imágenes + búsqueda por SKU en tienda.
+
+Work Log:
+PROBLEMA 1: Marco "aplicado" a 62 audífonos pero imágenes no cambiaban
+- Causa raíz: el endpoint /api/img NO tenía headers CORS
+- Cuando el browser intentaba canvas.toBlob() con una imagen cargada
+  desde /api/img, el canvas se "tainted" (contaminado) y toBlob()
+  fallaba silenciosamente. El contador decía "procesadas" pero las
+  imágenes reales en R2 no se actualizaban.
+- Solución:
+  - Agregados headers CORS a /api/img/[sku]/route.ts:
+    - Access-Control-Allow-Origin: *
+    - Access-Control-Allow-Methods: GET, OPTIONS
+    - Access-Control-Allow-Headers: Content-Type
+    - Access-Control-Max-Age: 86400
+  - Agregado handler OPTIONS para preflight requests
+  - Mismos cambios en /api/marco/route.ts
+- Verificado con curl: headers CORS presentes en producción
+
+PROBLEMA 2: Búsqueda por SKU no funcionaba en la tienda pública
+- Causa: el filtro de búsqueda en catalog.tsx solo buscaba en:
+  - p.name
+  - p.shortDescription
+  - p.brand
+  - p.tags
+  NO buscaba en p.sku
+- Solución: agregado p.sku.toLowerCase().includes(term) al filtro
+- También agregado p.longDescription y p.categoryId
+- Placeholder actualizado: "Buscar por nombre, SKU (ej: IVMN-MOUS),
+  marca o categoría..."
+
+MEJORAS ADICIONALES:
+- Manejo de errores mejorado en apply-marco-bulk:
+  - No cuenta como éxito si el upload falla (antes contaba cualquier
+    respuesta como éxito)
+  - Detecta específicamente errores de tainted canvas (CORS)
+  - Console.error más detallado para debugging
+  - Verifica uploadRes.ok Y uploadData.success antes de contar éxito
+
+Verificación en producción:
+- ✓ CORS headers presentes en /api/img (curl confirmado)
+- ✓ CORS headers presentes en /api/marco (curl confirmado)
+- ✓ OPTIONS preflight retorna 204 con headers CORS
+- ✓ Placeholder del buscador actualizado
+- ✓ Filtro de búsqueda incluye p.sku
+- ✓ Push a GitHub exitoso
+
+Stage Summary:
+- CORS arreglado: ahora el browser SÍ puede procesar imágenes con Canvas
+- Búsqueda por SKU funciona en la tienda pública
+- Manejo de errores más robusto en apply-marco-bulk
+- Próxima vez que apliques marco a una categoría, las imágenes SÍ cambiarán
