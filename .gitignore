@@ -43,6 +43,7 @@ Thumbs.db
 
 # Cloudflare
 .wrangler/
+.vercel/
 
 # Temp / catalog files
 canva_catalog.json
@@ -55,3 +56,4 @@ cloudflare_catalog.json
 # Z-AI
 .zscripts/
 agent-ctx/
+canva_link2.json
