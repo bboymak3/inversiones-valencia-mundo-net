@@ -137,3 +137,53 @@ Stage Summary:
 - Placeholder SVG automático cuando no hay imagen en R2
 - Todo desplegado y verificado en producción
 - Repo GitHub actualizado: https://github.com/bboymak3/inversiones-valencia-mundo-net
+
+---
+Task ID: 4
+Agent: Main Agent (Super Z)
+Task: Dualidad de moneda USD/Bs con tasa BCV, extraer fotos del PDF y subirlas a R2, nav inferior con botones Tienda y WhatsApp.
+
+Work Log:
+- Investigado repo frankpradov/BCV-PHP-OBTENER (scraping a www.bcv.org.ve)
+- Creado API /api/bcv: scraping BCV en TypeScript con 3 métodos de fallback
+- Creado API /api/admin/bcv: GET/POST/PUT para gestionar tasa manual en D1 (ivmn_settings)
+- Creado currency-store.ts: Zustand persistente para moneda + tasa + refresh cada 30min
+- Creado CurrencyToggle: toggle USD/Bs en header (radiogroup accesible)
+- Creado CurrencyInitializer: actualiza tasa BCV al cargar y cada 30 minutos
+- Creado PriceDisplay: muestra precio en moneda seleccionada + conversión secundaria
+- Creado CartTotal: total del carrito en ambas monedas
+- Formato venezolano correcto: Bs 1.234,56 (separador miles ".", decimal ",")
+- Panel admin: sección "Tasa BCV" con:
+  - Tarjeta tasa automática del BCV (botón Actualizar)
+  - Configuración actual (modo activo, tasa manual, fecha)
+  - Switch "Forzar uso de tasa manual"
+  - Formulario para configurar tasa manual + fecha
+  - Información de cómo funciona la dualidad
+- Extraídas 3641 imágenes del PDF (118MB, 90 páginas) con pdfimages
+- Filtradas 1589 imágenes grandes (>15KB = fotos de productos reales)
+- Mapeadas 580 imágenes únicas a los 580 SKUs del catálogo (100% cobertura)
+- Creado script upload_r2_fast.sh: subida paralela con API REST de Cloudflare
+- Subidas 580 imágenes a R2 (bucket ivmn-products, ruta inversiones-valencia/products/{SKU}.jpg)
+- API /api/img/[sku]: proxy a R2 con placeholder SVG como fallback
+- Creado BottomNav: nav inferior fija (mobile) con botones Inicio + Tienda + WhatsApp
+- Header actualizado: botón "Tienda" destacado + CurrencyToggle + indicador tasa BCV
+- Script deploy_with_bindings.sh: deploy + aplicar bindings D1/R2 vía API
+- Issue resuelto: bindings no se aplican vía wrangler.toml en Pages, se requieren vía API después del deploy
+
+Verificación en producción:
+- ✓ https://inversiones-valencia-mundo-net.pages.dev/ → 200 con 580 productos
+- ✓ Tasa BCV automática: Bs 652.97 (scraping funcionando)
+- ✓ Toggle USD/Bs funciona en header
+- ✓ Precios en Bs con formato correcto: "Bs 52.237,81"
+- ✓ 580 imágenes servidas desde R2 (image/jpeg, ~50-200KB cada una)
+- ✓ /admin → sección "Tasa BCV" funcional con tasa automática y manual
+- ✓ BottomNav visible en mobile con botones Tienda + WhatsApp
+- ✓ Botón "Tienda" en header scroll al catálogo
+- ✓ Repo GitHub: https://github.com/bboymak3/inversiones-valencia-mundo-net
+
+Stage Summary:
+- Dualidad de moneda 100% funcional (USD/Bs) con tasa BCV automática + override manual
+- 580 productos con fotos reales extraídas del PDF y servidas desde R2
+- Panel admin completo: dashboard + productos CRUD + gestión tasa BCV
+- Nav inferior fija en mobile con Tienda + WhatsApp
+- Todo desplegado y verificado en producción
