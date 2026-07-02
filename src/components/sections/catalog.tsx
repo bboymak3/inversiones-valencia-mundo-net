@@ -24,6 +24,8 @@ import { useCart } from "@/lib/cart-store";
 function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" | "md" }) {
   const h = size === "sm" ? "h-24" : "h-44";
   const emoji = size === "sm" ? "text-2xl" : "text-5xl";
+  // Imagen servida desde R2 vía proxy /api/img/[sku]
+  const imageUrl = `/api/img/${product.sku}`;
   return (
     <div
       className={`relative ${h} w-full flex items-center justify-center overflow-hidden`}
@@ -31,15 +33,26 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
         background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)`,
       }}
     >
-      {/* Pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, ${product.imageColor} 2px, transparent 2px), radial-gradient(circle at 75% 75%, ${product.imageColor} 2px, transparent 2px)`,
-          backgroundSize: "24px 24px",
+      {/* Imagen real desde R2 (con fallback a emoji si no carga) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imageUrl}
+        alt={product.name}
+        className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+        onError={(e) => {
+          // Si la imagen no carga (sin R2 o sin foto), ocultar y mostrar emoji
+          (e.currentTarget as HTMLImageElement).style.display = "none";
+        }}
+        onLoad={(e) => {
+          // Si cargó, ocultar el emoji de fallback
+          const parent = (e.currentTarget as HTMLImageElement).parentElement;
+          const emojiEl = parent?.querySelector(".emoji-fallback") as HTMLElement | null;
+          if (emojiEl) emojiEl.style.display = "none";
         }}
       />
-      <span className={`${emoji} relative z-10 drop-shadow-md`}>
+      {/* Emoji fallback (se muestra si no hay imagen en R2) */}
+      <span className={`${emoji} relative z-10 drop-shadow-md emoji-fallback`}>
         {product.imageEmoji}
       </span>
       {product.compareAtPrice && (

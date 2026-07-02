@@ -57,3 +57,7 @@ cloudflare_catalog.json
 .zscripts/
 agent-ctx/
 canva_link2.json
+catalogo_drive4.pdf
+catalogo_drive*.pdf
+catalogo.txt
+products_*.json
