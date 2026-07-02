@@ -356,3 +356,62 @@ Stage Summary:
 - Marco activo se puede aplicar a TODAS las imágenes con 1 clic
 - Al editar/subir producto, se puede elegir de la galería o subir nueva
 - Workflow simplificado: editar producto → cambiar imagen → elegir de R2 o subir nueva
+
+---
+Task ID: 8
+Agent: Main Agent (Super Z)
+Task: Arreglar 3 problemas críticos: prefijo categoría, procesamiento en browser, persistencia D1.
+
+Work Log:
+PROBLEMA 1: Prefijo de categoría incorrecto
+- Antes: list-images?prefix=MOUS buscaba "inversiones-valencia/products/MOUS"
+  que no coincide con keys reales "inversiones-valencia/products/IVMN-MOUS-0001.jpg"
+- Arreglado: ahora busca "inversiones-valencia/products/IVMN-MOUS"
+- Verificado: list-images?prefix=MOUS ahora encuentra 25 imágenes
+
+PROBLEMA 2: apply-marco-bulk fallaba con "createImageBitmap is not defined"
+- Causa: Edge Runtime de Cloudflare no soporta createImageBitmap
+- Solución: mover el procesamiento al BROWSER (que sí lo soporta)
+- API /api/admin/apply-marco-bulk ahora es GET y devuelve:
+  - Lista de imágenes a procesar (key, sku, url)
+  - URL del marco activo
+- El browser:
+  1. Descarga el marco una sola vez
+  2. Por cada imagen: descarga, compone con Canvas nativo, sube resultado
+  3. Usa /api/admin/replace-image para sobreescribir la imagen original
+- Progreso en tiempo real: "Procesando imágenes..."
+
+PROBLEMA 3: Ediciones del admin no se guardaban
+- Antes: el admin solo cambiaba useState, no persistía en D1
+- Solución:
+  - Creada tabla ivmn_product_overrides en D1 (guarda cambios por SKU)
+  - Creada tabla ivmn_custom_products en D1 (productos nuevos)
+  - API /api/admin/products ahora combina:
+    1. Catálogo base (580 productos de catalog.ts)
+    2. Aplica overrides de D1 (campos modificados)
+    3. Filtra productos marcados como eliminados (is_deleted=1)
+    4. Agrega productos custom creados por el admin
+  - PUT /api/admin/products/[id]: guarda override en D1
+  - DELETE /api/admin/products/[id]: marca como eliminado en D1
+  - POST /api/admin/products: crea producto custom en D1
+  - Admin carga productos desde API en vez de PRODUCTS en memoria
+
+PROBLEMA 4: Búsqueda por SKU no funcionaba
+- Causa: el admin buscaba en PRODUCTS en memoria sin overrides
+- Arreglado: ahora carga desde API que aplica overrides de D1
+- La búsqueda filtra por name, sku, brand
+
+Verificación en producción:
+- ✓ list-images?prefix=MOUS → 25 imágenes encontradas
+- ✓ apply-marco-bulk?prefix=MOUS → 25 imágenes listas para procesar
+- ✓ admin/products → 580 productos cargados con overrides
+- ✓ Tabla de productos muestra 20 por página correctamente
+- ✓ Push a GitHub exitoso
+
+Stage Summary:
+- Prefijo de categoría arreglado (IVMN-{CODE})
+- Procesamiento de marcos ahora funciona en el browser (no en servidor)
+- Persistencia real en D1: ediciones, creaciones y eliminaciones se guardan
+- Búsqueda por SKU funciona correctamente
+- 3 tablas nuevas en D1: ivmn_product_overrides, ivmn_custom_products
+- Workflow completo: editar producto → se guarda en D1 → se refleja al recargar
