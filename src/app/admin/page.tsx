@@ -97,10 +97,23 @@ export default function AdminPage() {
     setState((s) => ({ ...s, loading: false }));
   }, []);
 
-  // Cargar productos cuando se autentica
+  // Cargar productos desde API (catálogo base + overrides de D1) cuando se autentica
   useEffect(() => {
     if (state.isAuthed && state.products.length === 0) {
-      setState((s) => ({ ...s, products: [...PRODUCTS] }));
+      // Cargar desde API que aplica overrides de D1
+      fetch("/api/admin/products?limit=1000")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.data?.items) {
+            setState((s) => ({ ...s, products: data.data.items }));
+          } else {
+            // Fallback al catálogo base si la API falla
+            setState((s) => ({ ...s, products: [...PRODUCTS] }));
+          }
+        })
+        .catch(() => {
+          setState((s) => ({ ...s, products: [...PRODUCTS] }));
+        });
     }
   }, [state.isAuthed, state.products.length]);
 
@@ -336,15 +349,38 @@ function Dashboard({
             setEditingProduct(null);
           }}
           onSave={(p) => {
-            if (editingProduct) {
-              setProducts(products.map((x) => (x.id === p.id ? p : x)));
-              toast.success("Producto actualizado (modo demo)");
-            } else {
-              setProducts([...products, p]);
-              toast.success("Producto creado (modo demo)");
-            }
-            setShowProductForm(false);
-            setEditingProduct(null);
+            // Persistir en D1 vía API
+            const isNew = !editingProduct;
+            const url = isNew
+              ? "/api/admin/products"
+              : `/api/admin/products/${p.id || p.sku}`;
+            const method = isNew ? "POST" : "PUT";
+
+            fetch(url, {
+              method,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(p),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  if (isNew) {
+                    setProducts([...products, p]);
+                    toast.success("Producto creado y guardado en D1");
+                  } else {
+                    setProducts(products.map((x) => (x.id === p.id ? p : x)));
+                    toast.success("Producto actualizado en D1");
+                  }
+                  setShowProductForm(false);
+                  setEditingProduct(null);
+                } else {
+                  toast.error(data.message || "Error al guardar");
+                }
+              })
+              .catch((err) => {
+                toast.error("Error de conexión al guardar");
+                console.error(err);
+              });
           }}
         />
       )}
@@ -639,6 +675,17 @@ type Marco = {
   isDefault: boolean;
 };
 
+// Helper para cargar imágenes (usa Image del browser)
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(new Error(`Error cargando imagen: ${src}`));
+    img.src = src;
+  });
+}
+
 function MarcosView() {
   const [marcos, setMarcos] = useState<Marco[]>([]);
   const [activeKey, setActiveKey] = useState<string>("");
@@ -757,30 +804,130 @@ function MarcosView() {
     const label = bulkCategory
       ? `la categoría ${bulkCategory}`
       : "TODAS las categorías";
-    if (!confirm(`¿Aplicar el marco activo a ${label}? Esta acción reemplazará las imágenes actuales.`)) {
+    if (!confirm(`¿Aplicar el marco activo a ${label}? Esta acción reemplazará las imágenes actuales. Puede tardar varios minutos.`)) {
       return;
     }
     setBulkLoading(true);
-    setBulkResult(null);
+    setBulkResult({ success: 0, failed: 0 });
+
     try {
-      const res = await fetch("/api/admin/apply-marco-bulk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ categoryPrefix: bulkCategory }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast.success(data.message);
-        setBulkResult({
-          success: data.data.success,
-          failed: data.data.failed,
-        });
-      } else {
-        toast.error(data.message || "Error al aplicar marco masivamente");
-        setBulkResult({ success: 0, failed: data.data?.failed || 0 });
+      // 1. Obtener lista de imágenes a procesar y URL del marco
+      const listRes = await fetch(
+        `/api/admin/apply-marco-bulk?prefix=${encodeURIComponent(bulkCategory)}`
+      );
+      const listData = await listRes.json();
+
+      if (!listData.success) {
+        toast.error(listData.message || "Error al listar imágenes");
+        setBulkLoading(false);
+        return;
       }
-    } catch (err) {
-      toast.error("Error de conexión");
+
+      const images = listData.images || [];
+      const marcoUrl = listData.marcoUrl;
+      const total = images.length;
+
+      if (total === 0) {
+        toast.error("No se encontraron imágenes para procesar en esta categoría");
+        setBulkLoading(false);
+        return;
+      }
+
+      toast.info(`Procesando ${total} imágenes...`);
+
+      // 2. Descargar el marco una sola vez
+      const marcoImg = await loadImage(marcoUrl);
+      const MARCO_W = marcoImg.naturalWidth;
+      const MARCO_H = marcoImg.naturalHeight;
+
+      // Área útil del marco (donde va el producto)
+      const AREA_X = Math.round(MARCO_W * 0.06);
+      const AREA_Y = Math.round(MARCO_H * 0.12);
+      const AREA_W = MARCO_W - AREA_X * 2;
+      const AREA_H = MARCO_H - AREA_Y - Math.round(MARCO_H * 0.04);
+
+      let success = 0;
+      let failed = 0;
+
+      // 3. Procesar cada imagen
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+        try {
+          // Descargar imagen del producto
+          const productImg = await loadImage(`${img.url}?t=${Date.now()}`);
+
+          // Componer con Canvas
+          const canvas = document.createElement("canvas");
+          canvas.width = MARCO_W;
+          canvas.height = MARCO_H;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("No se pudo obtener contexto 2D");
+
+          // Dibujar marco
+          ctx.drawImage(marcoImg, 0, 0, MARCO_W, MARCO_H);
+
+          // Calcular tamaño del producto preservando aspect ratio
+          const prodW = productImg.naturalWidth;
+          const prodH = productImg.naturalHeight;
+          const areaRatio = AREA_W / AREA_H;
+          const prodRatio = prodW / prodH;
+
+          let newW, newH;
+          if (prodRatio > areaRatio) {
+            newW = AREA_W;
+            newH = Math.round(AREA_W / prodRatio);
+          } else {
+            newH = AREA_H;
+            newW = Math.round(AREA_H * prodRatio);
+          }
+
+          const posX = AREA_X + Math.round((AREA_W - newW) / 2);
+          const posY = AREA_Y + Math.round((AREA_H - newH) / 2);
+
+          // Fondo blanco detrás del producto
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillRect(posX - 10, posY - 10, newW + 20, newH + 20);
+
+          // Dibujar producto
+          ctx.drawImage(productImg, posX, posY, newW, newH);
+
+          // Convertir a blob
+          const blob = await new Promise<Blob | null>((resolve) =>
+            canvas.toBlob(resolve, "image/jpeg", 0.85)
+          );
+          if (!blob) throw new Error("Error al convertir canvas");
+
+          // Subir resultado (reemplazar imagen original)
+          const fd = new FormData();
+          fd.append("file", blob, `${img.sku}.jpg`);
+          fd.append("sku", img.sku);
+
+          const uploadRes = await fetch("/api/admin/replace-image", {
+            method: "POST",
+            body: fd,
+          });
+          const uploadData = await uploadRes.json();
+
+          if (uploadData.success) {
+            success++;
+          } else {
+            failed++;
+          }
+        } catch (err) {
+          console.error(`Error procesando ${img.sku}:`, err);
+          failed++;
+        }
+
+        // Actualizar progreso cada 5 imágenes
+        if (i % 5 === 0 || i === images.length - 1) {
+          setBulkResult({ success, failed });
+        }
+      }
+
+      toast.success(`Proceso completado: ${success} procesadas, ${failed} fallidas`);
+    } catch (err: any) {
+      console.error("Error bulk:", err);
+      toast.error("Error: " + err.message);
     } finally {
       setBulkLoading(false);
     }
@@ -977,7 +1124,12 @@ function MarcosView() {
             )}
             {bulkLoading ? "Procesando..." : "Aplicar marco ahora"}
           </Button>
-          {bulkResult && (
+          {bulkLoading && (
+            <div className="text-xs text-emerald-700 font-semibold animate-pulse">
+              Procesando imágenes... (esto puede tardar varios minutos)
+            </div>
+          )}
+          {bulkResult && !bulkLoading && (
             <div className={`text-sm font-semibold ${bulkResult.failed > 0 ? "text-amber-600" : "text-emerald-700"}`}>
               ✓ {bulkResult.success} procesadas
               {bulkResult.failed > 0 && ` · ✗ ${bulkResult.failed} fallidas`}
@@ -1136,8 +1288,20 @@ function ProductsView({
   const current = filtered.slice(page * pageSize, (page + 1) * pageSize);
 
   const handleDelete = (p: Product) => {
-    setProducts(products.filter((x) => x.id !== p.id));
-    toast.success(`"${p.name}" eliminado (modo demo)`);
+    // Eliminar en D1 vía API
+    fetch(`/api/admin/products/${p.id || p.sku}`, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setProducts(products.filter((x) => x.id !== p.id));
+          toast.success(`"${p.name}" eliminado de D1`);
+        } else {
+          toast.error(data.message || "Error al eliminar");
+        }
+      })
+      .catch(() => {
+        toast.error("Error de conexión al eliminar");
+      });
     setConfirmDelete(null);
   };
 

@@ -221,3 +221,68 @@ INSERT INTO ivmn_settings (key, value, description) VALUES
 ('twitter_url', '', 'URL de Twitter'),
 ('meta_description', 'Inversiones Valencia Mundo Net: venta e instalación de cámaras de seguridad, accesorios para computadoras y celulares en Valencia, Venezuela. Cotiza por WhatsApp.', 'Meta descripción del sitio'),
 ('meta_keywords', 'cámaras de seguridad, CCTV, videovigilancia, DVR, NVR, accesorios para PC, accesorios para celular, instalación de cámaras, Valencia, Venezuela', 'Palabras clave SEO');
+
+-- --------------------------------------------------------
+-- Tabla ADICIONAL: ivmn_product_overrides
+-- Guarda los cambios que el admin hace a productos del catálogo base
+-- El catálogo base está en src/data/catalog.ts (580 productos)
+-- Esta tabla guarda solo los campos modificados por SKU
+-- Al cargar productos, se hace merge del catálogo base + overrides
+-- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ivmn_product_overrides (
+  sku TEXT PRIMARY KEY,
+  name TEXT,
+  category_id TEXT,
+  price REAL,
+  compare_at_price REAL,
+  stock INTEGER,
+  is_featured INTEGER,
+  brand TEXT,
+  short_description TEXT,
+  long_description TEXT,
+  image_emoji TEXT,
+  image_color TEXT,
+  image_r2_key TEXT,
+  tags TEXT,                  -- JSON array
+  is_deleted INTEGER DEFAULT 0,  -- 1 = producto eliminado por el admin
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_ivmn_overrides_sku ON ivmn_product_overrides(sku);
+CREATE INDEX IF NOT EXISTS idx_ivmn_overrides_category ON ivmn_product_overrides(category_id);
+
+-- --------------------------------------------------------
+-- Tabla: ivmn_custom_products
+-- Productos creados desde cero por el admin (no están en el catálogo base)
+-- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ivmn_custom_products (
+  id TEXT PRIMARY KEY,
+  sku TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  category_id TEXT NOT NULL,
+  price REAL NOT NULL,
+  compare_at_price REAL,
+  currency TEXT DEFAULT 'USD',
+  stock INTEGER DEFAULT 0,
+  is_featured INTEGER DEFAULT 0,
+  brand TEXT,
+  model TEXT,
+  short_description TEXT,
+  long_description TEXT,
+  image_emoji TEXT DEFAULT '📦',
+  image_color TEXT DEFAULT '#4CAF50',
+  image_r2_key TEXT,
+  specs TEXT,                 -- JSON array
+  tags TEXT,                  -- JSON array
+  rating REAL DEFAULT 0,
+  review_count INTEGER DEFAULT 0,
+  slug TEXT,
+  is_active INTEGER DEFAULT 1,
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_ivmn_custom_sku ON ivmn_custom_products(sku);
+CREATE INDEX IF NOT EXISTS idx_ivmn_custom_category ON ivmn_custom_products(category_id);
+CREATE INDEX IF NOT EXISTS idx_ivmn_custom_active ON ivmn_custom_products(is_active);

@@ -11,7 +11,9 @@ const PRODUCTS_PREFIX = "inversiones-valencia/products/";
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const prefix = url.searchParams.get("prefix") || "";
-  const fullPrefix = prefix ? `${PRODUCTS_PREFIX}${prefix}` : PRODUCTS_PREFIX;
+  // Las keys en R2 son: inversiones-valencia/products/IVMN-{CODE}-{NUM}.jpg
+  // Si el prefix es "MOUS", buscamos "IVMN-MOUS"
+  const fullPrefix = prefix ? `${PRODUCTS_PREFIX}IVMN-${prefix}` : PRODUCTS_PREFIX;
 
   const env = (process as any).env || (globalThis as any).env || {};
   const bucket = env.PRODUCTS_BUCKET;
