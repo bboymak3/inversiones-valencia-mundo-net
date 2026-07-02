@@ -65,3 +65,5 @@ products_*.json
 # Imágenes extraídas del PDF (se suben directo a R2)
 images/
 catalogo_drive*.pdf
+screenshot-*.png
+upload/

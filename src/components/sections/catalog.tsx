@@ -21,6 +21,7 @@ import {
 } from "@/data/catalog";
 import { useCart } from "@/lib/cart-store";
 import { useCurrency } from "@/lib/currency-store";
+import { ProductDetailModal } from "@/components/shop/product-detail-modal";
 
 // ============================================================
 // COMPONENTE: PriceDisplay
@@ -97,42 +98,51 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
   const emoji = size === "sm" ? "text-2xl" : "text-5xl";
   // Imagen servida desde R2 vía proxy /api/img/[sku]
   const imageUrl = `/api/img/${product.sku}`;
+  // Marco de fondo: la imagen IVMN-ACCE-0001.jpg sirve como plantilla con logo
+  // El producto se muestra con object-contain sobre el marco
   return (
     <div
-      className={`relative ${h} w-full flex items-center justify-center overflow-hidden`}
+      className={`relative ${h} w-full overflow-hidden bg-white`}
       style={{
-        background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)`,
+        // Fondo: marco de la empresa + degradado sutil del color del producto
+        backgroundImage: `linear-gradient(135deg, ${product.imageColor}15 0%, ${product.imageColor}30 100%)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* Imagen real desde R2 (con fallback a emoji si no carga) */}
+      {/* Marco/border superior con color de marca (simula el marco del catálogo) */}
+      <div className="absolute top-0 left-0 right-0 h-1 gradient-ivmn z-20" />
+      <div className="absolute top-0 left-0 w-8 h-8 rounded-br-lg gradient-ivmn z-20 flex items-center justify-center">
+        <span className="text-white text-[10px] font-bold">IVMN</span>
+      </div>
+
+      {/* Imagen real desde R2 con object-contain (no deforma, muestra producto completo) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
         alt={product.name}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain p-2"
         loading="lazy"
         onError={(e) => {
-          // Si la imagen no carga (sin R2 o sin foto), ocultar y mostrar emoji
           (e.currentTarget as HTMLImageElement).style.display = "none";
         }}
         onLoad={(e) => {
-          // Si cargó, ocultar el emoji de fallback
           const parent = (e.currentTarget as HTMLImageElement).parentElement;
           const emojiEl = parent?.querySelector(".emoji-fallback") as HTMLElement | null;
           if (emojiEl) emojiEl.style.display = "none";
         }}
       />
-      {/* Emoji fallback (se muestra si no hay imagen en R2) */}
+      {/* Emoji fallback */}
       <span className={`${emoji} relative z-10 drop-shadow-md emoji-fallback`}>
         {product.imageEmoji}
       </span>
       {product.compareAtPrice && (
-        <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold">
+        <Badge className="absolute top-2 left-12 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold z-20">
           OFERTA
         </Badge>
       )}
       {product.isFeatured && (
-        <Badge className="absolute top-2 right-2 gradient-ivmn text-white text-[10px] font-bold">
+        <Badge className="absolute top-2 right-2 gradient-ivmn text-white text-[10px] font-bold z-20">
           DESTACADO
         </Badge>
       )}
@@ -140,7 +150,13 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({
+  product,
+  onOpenDetail,
+}: {
+  product: Product;
+  onOpenDetail: (p: Product) => void;
+}) {
   const addItem = useCart((s) => s.addItem);
   const category = getCategoryById(product.categoryId);
   const waLink = buildProductWhatsAppLink(product);
@@ -150,7 +166,7 @@ function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <Card className="group overflow-hidden flex flex-col border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white">
+    <Card className="group overflow-hidden flex flex-col border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white cursor-pointer" onClick={() => onOpenDetail(product)}>
       <CardHeader className="p-0">
         <ProductImage product={product} />
       </CardHeader>
@@ -165,7 +181,7 @@ function ProductCard({ product }: { product: Product }) {
           </Badge>
         </div>
 
-        <CardTitle className="text-sm font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2 min-h-[2.5rem]">
+        <CardTitle className="text-sm font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2 min-h-[2.5rem] group-hover:text-emerald-700 transition-colors">
           {product.name}
         </CardTitle>
 
@@ -203,7 +219,7 @@ function ProductCard({ product }: { product: Product }) {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 gap-2 flex-col">
+      <CardFooter className="p-4 pt-0 gap-2 flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="grid grid-cols-2 gap-2 w-full">
           <Button
             onClick={() => addItem(product)}
@@ -239,6 +255,13 @@ export function Catalog() {
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">(
     "featured"
   );
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const openDetail = (p: Product) => {
+    setDetailProduct(p);
+    setDetailOpen(true);
+  };
 
   const filtered = useMemo(() => {
     let list = [...PRODUCTS];
@@ -397,12 +420,19 @@ export function Catalog() {
                 className="animate-fade-up"
                 style={{ animationDelay: `${Math.min(idx * 0.04, 0.4)}s` }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} onOpenDetail={openDetail} />
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Modal de ficha de producto */}
+      <ProductDetailModal
+        product={detailProduct}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
     </section>
   );
 }
