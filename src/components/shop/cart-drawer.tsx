@@ -125,7 +125,7 @@ export function CartDrawer() {
                 >
                   {/* Mini image */}
                   <div
-                    className="w-14 h-14 rounded-lg flex items-center justify-center shrink-0 text-2xl overflow-hidden relative"
+                    className="w-14 h-14 rounded-lg flex items-center justify-center shrink-0 overflow-hidden relative"
                     style={{
                       background: `linear-gradient(135deg, ${item.product.imageColor}22 0%, ${item.product.imageColor}55 100%)`,
                     }}
@@ -134,10 +134,9 @@ export function CartDrawer() {
                     <img
                       src={`/api/img/${item.product.sku}`}
                       alt={item.product.name}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-contain"
                       onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = "none")}
                     />
-                    <span className="relative z-0">{item.product.imageEmoji}</span>
                   </div>
 
                   {/* Info */}

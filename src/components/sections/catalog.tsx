@@ -115,16 +115,12 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).style.display = "none";
         }}
-        onLoad={(e) => {
-          const parent = (e.currentTarget as HTMLImageElement).parentElement;
-          const emojiEl = parent?.querySelector(".emoji-fallback") as HTMLElement | null;
-          if (emojiEl) emojiEl.style.display = "none";
-        }}
       />
-      {/* Emoji fallback (solo si no hay imagen en R2) */}
-      <span className={`${emoji} absolute inset-0 flex items-center justify-center emoji-fallback`} style={{ background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)` }}>
-        {product.imageEmoji}
-      </span>
+      {/* Fondo placeholder (solo color, sin emoji) */}
+      <span
+        className="absolute inset-0 -z-10"
+        style={{ background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)` }}
+      />
       {product.compareAtPrice && (
         <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold z-20">
           OFERTA

@@ -1372,12 +1372,21 @@ function ProductsView({
                   <TableRow key={p.id} className="hover:bg-emerald-50/30">
                     <TableCell>
                       <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center text-lg shrink-0"
+                        className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
                         style={{
                           background: `linear-gradient(135deg, ${p.imageColor}22 0%, ${p.imageColor}55 100%)`,
                         }}
                       >
-                        {p.imageEmoji}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={`/api/img/${p.sku}`}
+                          alt={p.name}
+                          className="w-full h-full object-contain"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = "none";
+                          }}
+                        />
                       </div>
                     </TableCell>
                     <TableCell className="min-w-0">
@@ -1604,7 +1613,6 @@ function ProductForm({
                   <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
                 ) : (
                   <div className="text-center p-2">
-                    <div className="text-3xl mb-1">{form.imageEmoji}</div>
                     <span className="text-xs text-emerald-700 font-semibold">
                       {uploading ? "Subiendo..." : "Cambiar imagen"}
                     </span>
@@ -1767,20 +1775,10 @@ function ProductForm({
             />
           </div>
 
-          {/* Emoji + Color */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Color (placeholder background) */}
+          <div className="grid grid-cols-1 gap-3">
             <div>
-              <Label htmlFor="emoji" className="text-sm font-semibold text-gray-700">Emoji (placeholder)</Label>
-              <Input
-                id="emoji"
-                value={form.imageEmoji}
-                onChange={(e) => setForm({ ...form, imageEmoji: e.target.value })}
-                className="mt-1 border-emerald-200 text-xl"
-                maxLength={4}
-              />
-            </div>
-            <div>
-              <Label htmlFor="color" className="text-sm font-semibold text-gray-700">Color (placeholder)</Label>
+              <Label htmlFor="color" className="text-sm font-semibold text-gray-700">Color de fondo (placeholder)</Label>
               <div className="flex gap-2 mt-1">
                 <Input
                   id="color"

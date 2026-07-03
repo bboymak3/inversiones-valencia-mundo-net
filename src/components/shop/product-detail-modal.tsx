@@ -128,9 +128,6 @@ export function ProductDetailModal({
                 (e.currentTarget as HTMLImageElement).style.display = "none";
               }}
             />
-            <div className="absolute inset-0 flex items-center justify-center text-9xl opacity-30">
-              {product.imageEmoji}
-            </div>
             {product.compareAtPrice && (
               <Badge className="absolute top-3 left-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold z-20">
                 OFERTA
