@@ -62,10 +62,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/favicon.png", type: "image/png" },
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/favicon.svg" }],
-    shortcut: ["/favicon.svg"],
+    apple: [{ url: "/favicon.png" }],
+    shortcut: ["/favicon.png"],
   },
   manifest: "/site.webmanifest",
   openGraph: {
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
       "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
     images: [
       {
-        url: "/og-image.svg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad a Nivel Nacional",
@@ -90,7 +91,7 @@ export const metadata: Metadata = {
     title: "Instalación de Cámaras de Seguridad a Nivel Nacional 🇻🇪",
     description:
       "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
-    images: ["/og-image.svg"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
