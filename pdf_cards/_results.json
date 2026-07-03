@@ -1,0 +1,402 @@
+[
+  {
+    "page": 2,
+    "card_index": 1,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-1.png"
+  },
+  {
+    "page": 2,
+    "card_index": 2,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-2.png"
+  },
+  {
+    "page": 2,
+    "card_index": 3,
+    "ocr_text": "",
+    "ref_price": "42",
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-3.png"
+  },
+  {
+    "page": 2,
+    "card_index": 4,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-4.png"
+  },
+  {
+    "page": 2,
+    "card_index": 5,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-5.png"
+  },
+  {
+    "page": 2,
+    "card_index": 6,
+    "ocr_text": "www.Telemaxca.c:",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-6.png"
+  },
+  {
+    "page": 2,
+    "card_index": 7,
+    "ocr_text": "om (ATelemaxca.com",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-7.png"
+  },
+  {
+    "page": 2,
+    "card_index": 8,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-02-card-8.png"
+  },
+  {
+    "page": 3,
+    "card_index": 1,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-1.png"
+  },
+  {
+    "page": 3,
+    "card_index": 2,
+    "ocr_text": "% - 1 n 1 V",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-2.png"
+  },
+  {
+    "page": 3,
+    "card_index": 3,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-3.png"
+  },
+  {
+    "page": 3,
+    "card_index": 4,
+    "ocr_text": "",
+    "ref_price": "61",
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-4.png"
+  },
+  {
+    "page": 3,
+    "card_index": 5,
+    "ocr_text": "OMADA EAP623 AX1800",
+    "ref_price": null,
+    "matched_sku": "IVMN-REDE-0011",
+    "matched_name": "OMADA EAP623",
+    "matched_price": 195.0,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-5.png"
+  },
+  {
+    "page": 3,
+    "card_index": 6,
+    "ocr_text": "I switch 16 puertos 10/100 |",
+    "ref_price": "104",
+    "matched_sku": "IVMN-REDE-0012",
+    "matched_name": "SWITCH 16 PUERTOS 10/100",
+    "matched_price": 59.0,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-6.png"
+  },
+  {
+    "page": 3,
+    "card_index": 7,
+    "ocr_text": "switch 16 puertos 10/100/ 1000",
+    "ref_price": null,
+    "matched_sku": "IVMN-REDE-0012",
+    "matched_name": "SWITCH 16 PUERTOS 10/100",
+    "matched_price": 59.0,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-7.png"
+  },
+  {
+    "page": 3,
+    "card_index": 8,
+    "ocr_text": "switch 24 puertos 10/100/1000",
+    "ref_price": null,
+    "matched_sku": "IVMN-REDE-0012",
+    "matched_name": "SWITCH 16 PUERTOS 10/100",
+    "matched_price": 59.0,
+    "card_path": "/home/z/my-project/pdf_cards/page-03-card-8.png"
+  },
+  {
+    "page": 4,
+    "card_index": 1,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-1.png"
+  },
+  {
+    "page": 4,
+    "card_index": 2,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-2.png"
+  },
+  {
+    "page": 4,
+    "card_index": 3,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-3.png"
+  },
+  {
+    "page": 4,
+    "card_index": 4,
+    "ocr_text": "",
+    "ref_price": "34",
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-4.png"
+  },
+  {
+    "page": 4,
+    "card_index": 5,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-5.png"
+  },
+  {
+    "page": 4,
+    "card_index": 6,
+    "ocr_text": "u www.Telemaxca.c:",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-6.png"
+  },
+  {
+    "page": 4,
+    "card_index": 7,
+    "ocr_text": "om (ATelemaxca.com",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-7.png"
+  },
+  {
+    "page": 4,
+    "card_index": 8,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-04-card-8.png"
+  },
+  {
+    "page": 5,
+    "card_index": 1,
+    "ocr_text": "DECO X50 AX3000 PACK1",
+    "ref_price": null,
+    "matched_sku": "IVMN-REDE-0022",
+    "matched_name": "DECO X50 AX3000",
+    "matched_price": 105.0,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-1.png"
+  },
+  {
+    "page": 5,
+    "card_index": 2,
+    "ocr_text": "PACK 2",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-2.png"
+  },
+  {
+    "page": 5,
+    "card_index": 3,
+    "ocr_text": "RCLUSY REP DOR PIX-LINF 1200 WRI1609/WR1603",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-3.png"
+  },
+  {
+    "page": 5,
+    "card_index": 4,
+    "ocr_text": "REPETIDOR PIX-LINK LV-AC24",
+    "ref_price": null,
+    "matched_sku": "IVMN-REDE-0025",
+    "matched_name": "REPETIDOR PIX-LINK",
+    "matched_price": 10.2,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-4.png"
+  },
+  {
+    "page": 5,
+    "card_index": 5,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-5.png"
+  },
+  {
+    "page": 5,
+    "card_index": 6,
+    "ocr_text": "www.Telemaxca.c:",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-6.png"
+  },
+  {
+    "page": 5,
+    "card_index": 7,
+    "ocr_text": "om (ATelemaxca.com",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-7.png"
+  },
+  {
+    "page": 5,
+    "card_index": 8,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-05-card-8.png"
+  },
+  {
+    "page": 6,
+    "card_index": 1,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-1.png"
+  },
+  {
+    "page": 6,
+    "card_index": 2,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-2.png"
+  },
+  {
+    "page": 6,
+    "card_index": 3,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-3.png"
+  },
+  {
+    "page": 6,
+    "card_index": 4,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-4.png"
+  },
+  {
+    "page": 6,
+    "card_index": 5,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-5.png"
+  },
+  {
+    "page": 6,
+    "card_index": 6,
+    "ocr_text": "www.Telemaxca.c:",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-6.png"
+  },
+  {
+    "page": 6,
+    "card_index": 7,
+    "ocr_text": "om (ATelemaxca.com",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-7.png"
+  },
+  {
+    "page": 6,
+    "card_index": 8,
+    "ocr_text": "",
+    "ref_price": null,
+    "matched_sku": null,
+    "matched_name": null,
+    "matched_price": null,
+    "card_path": "/home/z/my-project/pdf_cards/page-06-card-8.png"
+  }
+]
