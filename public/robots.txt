@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/admin
 
-Sitemap: https://inversionesvalencia.pages.dev/sitemap.xml
+# Sitemap
+Sitemap: https://inversiones-valencia-mundo-net.pages.dev/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

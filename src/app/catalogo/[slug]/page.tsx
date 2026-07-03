@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+
+export const runtime = "edge";
+
 import Link from "next/link";
-import { Search, ShoppingCart, MessageCircle, Star, Filter } from "lucide-react";
+import { Search, ShoppingCart, MessageCircle, Star, Filter, ArrowLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,44 +23,39 @@ import {
   type Product,
   buildProductWhatsAppLink,
   getCategoryById,
+  getCategoryBySlug,
+  WHATSAPP_NUMBER,
 } from "@/data/catalog";
 import { useCart } from "@/lib/cart-store";
 import { useCurrency } from "@/lib/currency-store";
-import { ProductDetailModal } from "@/components/shop/product-detail-modal";
 import { useProducts } from "@/lib/use-products";
+import { ProductDetailModal } from "@/components/shop/product-detail-modal";
 
-// ============================================================
-// COMPONENTE: PriceDisplay
-// Muestra el precio en USD o Bs según la moneda seleccionada
-// Siempre muestra la conversión secundaria en gris más pequeño
-// ============================================================
 function PriceDisplay({
   price,
   compareAtPrice,
-  size = "md",
 }: {
   price: number;
   compareAtPrice?: number;
-  size?: "sm" | "md" | "lg";
 }) {
   const currency = useCurrency((s) => s.currency);
   const rate = useCurrency((s) => s.rate);
 
   const formatVes = (v: number) => {
-    // Formato venezolano: 1.234.567,89
     const parts = v.toFixed(2).split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return parts.join(",");
   };
 
-  const mainSize = size === "lg" ? "text-3xl" : size === "sm" ? "text-base" : "text-xl";
-  const subSize = size === "lg" ? "text-sm" : "text-[10px]";
+  const discount = compareAtPrice
+    ? Math.round((1 - price / compareAtPrice) * 100)
+    : 0;
 
   if (currency === "USD") {
     return (
       <div>
         <div className="flex items-baseline gap-2 mb-1">
-          <span className={`${mainSize} font-extrabold text-emerald-700`}>
+          <span className="text-xl font-extrabold text-emerald-700">
             ${price.toFixed(2)}
           </span>
           <span className="text-xs font-medium text-gray-400">USD</span>
@@ -66,20 +65,19 @@ function PriceDisplay({
             </span>
           )}
         </div>
-        <div className={`text-gray-400 ${subSize}`}>
+        <div className="text-[10px] text-gray-400">
           ≈ Bs {formatVes(price * rate)}
         </div>
       </div>
     );
   }
 
-  // Bs como moneda principal
   const ves = price * rate;
   const vesCompare = compareAtPrice ? compareAtPrice * rate : undefined;
   return (
     <div>
       <div className="flex items-baseline gap-2 mb-1">
-        <span className={`${mainSize} font-extrabold text-emerald-700`}>
+        <span className="text-xl font-extrabold text-emerald-700">
           Bs {formatVes(ves)}
         </span>
         {vesCompare && (
@@ -88,24 +86,17 @@ function PriceDisplay({
           </span>
         )}
       </div>
-      <div className={`text-gray-400 ${subSize}`}>
+      <div className="text-[10px] text-gray-400">
         ≈ ${price.toFixed(2)} USD
       </div>
     </div>
   );
 }
 
-function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" | "md" }) {
-  const h = size === "sm" ? "h-24" : "h-44";
-  const emoji = size === "sm" ? "text-2xl" : "text-5xl";
-  // Imagen servida desde R2 vía proxy /api/img/[sku]
-  // Sin marca de agua, sin bordes verdes, sin logo - solo la imagen del producto
+function ProductImage({ product }: { product: Product }) {
   const imageUrl = `/api/img/${product.sku}`;
   return (
-    <div
-      className={`relative ${h} w-full overflow-hidden bg-white`}
-    >
-      {/* Imagen real desde R2 con object-contain (no deforma, muestra producto completo) */}
+    <div className="relative h-44 w-full overflow-hidden bg-white">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
@@ -121,17 +112,21 @@ function ProductImage({ product, size = "md" }: { product: Product; size?: "sm" 
           if (emojiEl) emojiEl.style.display = "none";
         }}
       />
-      {/* Emoji fallback (solo si no hay imagen en R2) */}
-      <span className={`${emoji} absolute inset-0 flex items-center justify-center emoji-fallback`} style={{ background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)` }}>
+      <span
+        className="absolute inset-0 flex items-center justify-center text-5xl emoji-fallback"
+        style={{
+          background: `linear-gradient(135deg, ${product.imageColor}22 0%, ${product.imageColor}55 100%)`,
+        }}
+      >
         {product.imageEmoji}
       </span>
       {product.compareAtPrice && (
-        <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold z-20">
+        <Badge className="absolute top-2 left-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold">
           OFERTA
         </Badge>
       )}
       {product.isFeatured && (
-        <Badge className="absolute top-2 right-2 gradient-ivmn text-white text-[10px] font-bold z-20">
+        <Badge className="absolute top-2 right-2 gradient-ivmn text-white text-[10px] font-bold">
           DESTACADO
         </Badge>
       )}
@@ -155,30 +150,23 @@ function ProductCard({
     : 0;
 
   return (
-    <Card className="group overflow-hidden flex flex-col border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white cursor-pointer" onClick={() => onOpenDetail(product)}>
+    <Card
+      className="group overflow-hidden flex flex-col border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white cursor-pointer"
+      onClick={() => onOpenDetail(product)}
+    >
       <CardHeader className="p-0">
         <ProductImage product={product} />
       </CardHeader>
-
       <CardContent className="p-4 flex-1 flex flex-col">
-        <div className="flex items-center gap-2 mb-1.5">
-          <Badge
-            variant="secondary"
-            className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
-          >
-            {category?.name || "Producto"}
-          </Badge>
-        </div>
-
+        <Badge variant="secondary" className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 mb-1.5 w-fit">
+          {category?.name || "Producto"}
+        </Badge>
         <CardTitle className="text-sm font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2 min-h-[2.5rem] group-hover:text-emerald-700 transition-colors">
           {product.name}
         </CardTitle>
-
         <p className="text-xs text-gray-500 line-clamp-2 mb-3 min-h-[2rem]">
           {product.shortDescription}
         </p>
-
-        {/* Rating */}
         <div className="flex items-center gap-1 mb-3">
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -196,8 +184,6 @@ function ProductCard({
             {product.rating.toFixed(1)} ({product.reviewCount})
           </span>
         </div>
-
-        {/* Price */}
         <div className="mt-auto">
           <PriceDisplay price={product.price} compareAtPrice={product.compareAtPrice} />
           {discount > 0 && (
@@ -207,7 +193,6 @@ function ProductCard({
           )}
         </div>
       </CardContent>
-
       <CardFooter className="p-4 pt-0 gap-2 flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="grid grid-cols-2 gap-2 w-full">
           <Button
@@ -238,30 +223,22 @@ function ProductCard({
   );
 }
 
-export function Catalog() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">(
-    "featured"
-  );
+export default function CategoriaPage() {
+  const params = useParams<{ slug: string }>();
+  const router = useRouter();
+  const slug = params.slug as string;
+
+  const { products: allProducts } = useProducts();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
-  // Cargar productos desde API (catálogo base + overrides de D1)
-  // Se actualiza automáticamente cuando el admin hace cambios
-  const { products: allProducts } = useProducts();
-
-  const openDetail = (p: Product) => {
-    setDetailProduct(p);
-    setDetailOpen(true);
-  };
+  const category = getCategoryBySlug(slug);
 
   const filtered = useMemo(() => {
-    let list = [...allProducts];
-
-    if (selectedCategory !== "all") {
-      list = list.filter((p) => p.categoryId === selectedCategory);
-    }
+    if (!category) return [];
+    let list = allProducts.filter((p) => p.categoryId === category.id);
 
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase().trim();
@@ -269,11 +246,7 @@ export function Catalog() {
         (p) =>
           p.name.toLowerCase().includes(term) ||
           p.sku.toLowerCase().includes(term) ||
-          p.shortDescription.toLowerCase().includes(term) ||
-          p.longDescription.toLowerCase().includes(term) ||
-          p.brand.toLowerCase().includes(term) ||
-          p.categoryId.toLowerCase().includes(term) ||
-          p.tags.some((t) => t.toLowerCase().includes(term))
+          p.brand.toLowerCase().includes(term)
       );
     }
 
@@ -289,50 +262,62 @@ export function Catalog() {
     }
 
     return list;
-  }, [selectedCategory, searchTerm, sortBy, allProducts]);
+  }, [allProducts, category, searchTerm, sortBy]);
 
-  const totalProducts = allProducts.length;
+  if (!category) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Categoría no encontrada</h1>
+          <Button asChild>
+            <Link href="/tienda">Volver a la tienda</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const openDetail = (p: Product) => {
+    setDetailProduct(p);
+    setDetailOpen(true);
+  };
 
   return (
-    <section id="catalogo" className="py-8 lg:py-12 bg-gradient-to-b from-white to-emerald-50/30">
+    <section className="py-8 lg:py-12 bg-gradient-to-b from-white to-emerald-50/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div className="text-center mb-10">
-          <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider mb-3">
-            Tienda Online
-          </div>
-          <h1 className="font-display text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
-            Catálogo de Productos
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-1 text-sm text-gray-500 mb-6">
+          <Link href="/" className="hover:text-emerald-700">Inicio</Link>
+          <ChevronRight className="h-3 w-3" />
+          <Link href="/tienda" className="hover:text-emerald-700">Tienda</Link>
+          <ChevronRight className="h-3 w-3" />
+          <span className="text-emerald-700 font-semibold">{category.name}</span>
+        </nav>
+
+        {/* Header */}
+        <div className="mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => router.push("/tienda")}
+            className="mb-3 text-gray-600"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Volver a la tienda
+          </Button>
+          <h1 className="font-display text-3xl lg:text-4xl font-extrabold text-gray-900 mb-2">
+            {category.name}
           </h1>
-          <p className="text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
-            Explora nuestro catálogo con <strong>{totalProducts} productos</strong>{" "}
-            en stock: cámaras de seguridad, kits CCTV, DVR/NVR, accesorios para
-            PC, celulares y redes. Envíos a toda Venezuela. Cotiza por WhatsApp
-            con respuesta inmediata.
-          </p>
+          <p className="text-gray-600 max-w-3xl">{category.description}</p>
         </div>
 
-        {/* Enlaces rápidos a categorías (landing pages) */}
-        <div className="mb-8 flex flex-wrap gap-2 justify-center">
-          {CATEGORIES.slice(0, 8).map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/catalogo/${cat.slug}`}
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-full text-xs font-semibold transition-colors"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Filters bar */}
-        <div className="sticky top-16 lg:top-20 z-30 bg-white/95 backdrop-blur border border-emerald-100 rounded-2xl p-3 lg:p-4 shadow-sm mb-8 space-y-3">
-          {/* Search */}
+        {/* Filters */}
+        <div className="bg-white/95 backdrop-blur border border-emerald-100 rounded-2xl p-3 lg:p-4 shadow-sm mb-8 space-y-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             <Input
               type="search"
-              placeholder="Buscar por nombre, SKU (ej: IVMN-MOUS), marca o categoría..."
+              placeholder="Buscar por nombre, SKU o marca..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 border-emerald-200 focus-visible:ring-emerald-500"
@@ -340,46 +325,9 @@ export function Catalog() {
             />
           </div>
 
-          {/* Category chips */}
-          <div className="flex items-start gap-2 overflow-x-auto no-scrollbar pb-1">
-            <Button
-              size="sm"
-              variant={selectedCategory === "all" ? "default" : "outline"}
-              onClick={() => setSelectedCategory("all")}
-              className={`shrink-0 ${
-                selectedCategory === "all"
-                  ? "gradient-ivmn text-white"
-                  : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-              }`}
-            >
-              <Filter className="h-3.5 w-3.5 mr-1" />
-              Todos ({totalProducts})
-            </Button>
-            {CATEGORIES.map((cat) => {
-              const count = allProducts.filter((p) => p.categoryId === cat.id).length;
-              return (
-                <Button
-                  key={cat.id}
-                  size="sm"
-                  variant={selectedCategory === cat.id ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`shrink-0 ${
-                    selectedCategory === cat.id
-                      ? "gradient-ivmn text-white"
-                      : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                  }`}
-                >
-                  {cat.name} ({count})
-                </Button>
-              );
-            })}
-          </div>
-
-          {/* Sort */}
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="text-gray-500 text-xs">
-              {filtered.length} producto{filtered.length !== 1 ? "s" : ""}{" "}
-              encontrado{filtered.length !== 1 ? "s" : ""}
+              {filtered.length} producto{filtered.length !== 1 ? "s" : ""} encontrado{filtered.length !== 1 ? "s" : ""}
             </span>
             <select
               value={sortBy}
@@ -398,20 +346,12 @@ export function Catalog() {
         {filtered.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              No encontramos productos
-            </h3>
-            <p className="text-gray-500 mb-4">
-              Intenta con otra búsqueda o categoría. Si no encuentras lo que
-              necesitas, escríbenos por WhatsApp.
-            </p>
-            <Button
-              asChild
-              className="gradient-ivmn text-white"
-            >
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No encontramos productos</h3>
+            <p className="text-gray-500 mb-4">Intenta con otra búsqueda o categoría.</p>
+            <Button asChild className="gradient-ivmn text-white">
               <a
-                href={`https://wa.me/584169726126?text=${encodeURIComponent(
-                  "Hola *Inversiones Valencia Mundo Net*, no encuentro un producto en su catálogo y quisiera que me ayuden a conseguirlo. ¡Gracias!"
+                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                  "Hola *Inversiones Valencia Mundo Net*, no encuentro un producto. ¡Gracias!"
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -422,7 +362,7 @@ export function Catalog() {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             {filtered.map((product, idx) => (
               <div
                 key={product.id}
@@ -436,7 +376,6 @@ export function Catalog() {
         )}
       </div>
 
-      {/* Modal de ficha de producto */}
       <ProductDetailModal
         product={detailProduct}
         open={detailOpen}

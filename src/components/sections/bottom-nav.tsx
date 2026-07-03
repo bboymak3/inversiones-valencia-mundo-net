@@ -19,13 +19,8 @@ export function BottomNav() {
   };
 
   const scrollToCatalog = () => {
-    const el = document.getElementById("catalogo");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      // Si no hay catálogo en esta página, ir al inicio
-      window.location.href = "/#catalogo";
-    }
+    // Ir a la página de tienda
+    window.location.href = "/tienda";
   };
 
   return (

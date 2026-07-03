@@ -130,10 +130,10 @@ ${form.message}`;
                   Ubicación
                 </div>
                 <div className="text-base font-bold text-gray-900">
-                  Valencia, Estado Carabobo
+                  Barinas, Estado Barinas
                 </div>
                 <div className="text-xs text-gray-500">
-                  Venezuela · Atención presencial con cita
+                  Venezuela · Instalaciones a nivel nacional · Envíos a todo el país
                 </div>
               </div>
             </div>

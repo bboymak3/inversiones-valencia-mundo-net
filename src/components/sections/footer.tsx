@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, Phone, Mail, MapPin, Clock, Camera, Monitor, Smartphone, Wifi } from "lucide-react";
+import { MessageCircle, Phone, Mail, MapPin, Clock, Camera, Monitor, Smartphone, Wifi, Headphones, MousePointer } from "lucide-react";
 import {
   WHATSAPP_DISPLAY,
   WHATSAPP_NUMBER,
@@ -9,12 +9,12 @@ import {
 } from "@/data/catalog";
 
 const FOOTER_CATEGORIES = [
-  { name: "Cámaras de Seguridad", href: "#catalogo", icon: Camera },
-  { name: "Kits CCTV", href: "#catalogo", icon: Camera },
-  { name: "DVR y NVR", href: "#catalogo", icon: Camera },
-  { name: "Accesorios para PC", href: "#catalogo", icon: Monitor },
-  { name: "Accesorios Celulares", href: "#catalogo", icon: Smartphone },
-  { name: "Redes y Conectividad", href: "#catalogo", icon: Wifi },
+  { name: "Cámaras de Seguridad", href: "/catalogo/camaras", icon: Camera },
+  { name: "Cámaras Web", href: "/catalogo/webcams", icon: Camera },
+  { name: "Audífonos", href: "/catalogo/audifonos", icon: Headphones },
+  { name: "Mouse", href: "/catalogo/mouse", icon: MousePointer },
+  { name: "Monitores", href: "/catalogo/monitores", icon: Monitor },
+  { name: "Redes y Conectividad", href: "/catalogo/redes", icon: Wifi },
 ];
 
 export function Footer() {
@@ -77,32 +77,32 @@ export function Footer() {
             </h3>
             <ul className="space-y-2.5">
               <li>
-                <Link href="#servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Instalación de cámaras
                 </Link>
               </li>
               <li>
-                <Link href="#servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Mantenimiento CCTV
                 </Link>
               </li>
               <li>
-                <Link href="#servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Redes y conectividad
                 </Link>
               </li>
               <li>
-                <Link href="#servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Soporte técnico de PC
                 </Link>
               </li>
               <li>
-                <Link href="#catalogo" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/tienda" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Ver catálogo completo
                 </Link>
               </li>
               <li>
-                <Link href="#contacto" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <Link href="/contacto" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Solicitar cotización
                 </Link>
               </li>
@@ -136,7 +136,7 @@ export function Footer() {
               <li className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
                 <span className="text-sm text-gray-400">
-                  Valencia, Estado Carabobo<br />Venezuela
+                  Barinas, Estado Barinas<br />Venezuela · Instalaciones a nivel nacional
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

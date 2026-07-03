@@ -16,36 +16,38 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const SITE_URL = "https://inversionesvalencia.pages.dev";
+// Nota: el nombre "Valencia" es el nombre comercial de la tienda
+// NO hace referencia a la ciudad de Valencia, Carabobo.
+// Estamos ubicados en Barinas, estado Barinas, Venezuela.
+// Hacemos envíos a toda Venezuela y viajamos para instalaciones a nivel nacional.
+const SITE_URL = "https://inversiones-valencia-mundo-net.pages.dev";
 const SITE_NAME = "Inversiones Valencia Mundo Net";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Inversiones Valencia Mundo Net | Cámaras de Seguridad y Tecnología en Valencia, Venezuela",
+    default: "Instalación de Cámaras de Seguridad a Nivel Nacional | Inversiones Valencia Mundo Net",
     template: "%s | Inversiones Valencia Mundo Net",
   },
   description:
-    "Especialistas en venta e instalación de cámaras de seguridad CCTV, DVR/NVR, kits de videovigilancia, accesorios para computadoras y celulares en Valencia, Venezuela. Cotiza por WhatsApp +58 416-9726126.",
+    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Especialistas en videovigilancia, DVR/NVR, accesorios para PC y celulares. Cotiza por WhatsApp +58 416-9726126.",
   keywords: [
+    "instalación de cámaras de seguridad",
     "cámaras de seguridad",
+    "instalaciones a nivel nacional",
+    "envíos a toda Venezuela",
     "CCTV",
     "videovigilancia",
     "DVR",
     "NVR",
-    "instalación de cámaras",
     "cámaras IP",
     "cámaras WiFi",
     "kits de cámaras",
     "discos duros para CCTV",
     "accesorios para PC",
     "accesorios para celular",
-    "mouse",
-    "teclados",
-    "cargadores",
     "redes y conectividad",
-    "Valencia",
-    "Carabobo",
+    "Barinas",
     "Venezuela",
     "Inversiones Valencia",
     "Mundo Net",
@@ -54,7 +56,7 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   applicationName: SITE_NAME,
-  category: "Tecnología y Seguridad",
+  category: "Seguridad y Tecnología",
   alternates: {
     canonical: SITE_URL,
   },
@@ -71,23 +73,23 @@ export const metadata: Metadata = {
     locale: "es_VE",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Inversiones Valencia Mundo Net | Cámaras de Seguridad y Tecnología",
+    title: "Instalación de Cámaras de Seguridad a Nivel Nacional | Inversiones Valencia Mundo Net",
     description:
-      "Venta e instalación de cámaras de seguridad CCTV, accesorios para PC y celulares en Valencia, Venezuela. Cotiza por WhatsApp +58 416-9726126.",
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Cotiza por WhatsApp +58 416-9726126.",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Inversiones Valencia Mundo Net - Cámaras de Seguridad",
+        alt: "Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Inversiones Valencia Mundo Net | Cámaras de Seguridad",
+    title: "Instalación de Cámaras de Seguridad a Nivel Nacional",
     description:
-      "Venta e instalación de cámaras de seguridad CCTV, accesorios para PC y celulares en Valencia, Venezuela.",
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país.",
     images: ["/og-image.svg"],
   },
   robots: {
@@ -126,7 +128,7 @@ const orgJsonLd = {
   "@type": "Store",
   name: SITE_NAME,
   description:
-    "Venta e instalación de cámaras de seguridad CCTV, accesorios para computadoras y celulares en Valencia, Venezuela.",
+    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Especialistas en videovigilancia, accesorios para PC y celulares.",
   url: SITE_URL,
   telephone: "+584169726126",
   email: "ventas@inversionesvalencia.net",
@@ -134,18 +136,21 @@ const orgJsonLd = {
   logo: `${SITE_URL}/logo.svg`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Valencia",
-    addressRegion: "Carabobo",
+    addressLocality: "Barinas",
+    addressRegion: "Barinas",
     addressCountry: "VE",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 10.162,
-    longitude: -68.0078,
+    latitude: 8.6226,
+    longitude: -70.2075,
   },
   openingHours: "Mo-Sa 08:00-18:00",
   priceRange: "$$",
-  areaServed: ["Valencia", "Carabobo", "Venezuela"],
+  areaServed: {
+    "@type": "Country",
+    name: "Venezuela",
+  },
   sameAs: [],
 };
 
