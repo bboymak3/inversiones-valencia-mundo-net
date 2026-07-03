@@ -322,7 +322,7 @@ export function Catalog() {
         </div>
 
         {/* Filters bar */}
-        <div className="sticky top-16 lg:top-20 z-30 bg-white/95 backdrop-blur border border-emerald-100 rounded-2xl p-3 lg:p-4 shadow-sm mb-8 space-y-3">
+        <div className="sticky top-16 lg:top-20 z-20 bg-white/95 backdrop-blur border border-emerald-100 rounded-2xl p-3 lg:p-4 shadow-sm mb-8 space-y-3">
           {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />

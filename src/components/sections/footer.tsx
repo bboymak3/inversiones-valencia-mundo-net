@@ -106,6 +106,11 @@ export function Footer() {
                   Solicitar cotización
                 </Link>
               </li>
+              <li>
+                <Link href="/dudas" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                  Preguntas frecuentes
+                </Link>
+              </li>
             </ul>
           </div>
 
