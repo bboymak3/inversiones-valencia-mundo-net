@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Inversiones Valencia Mundo Net",
   },
   description:
-    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Especialistas en videovigilancia, DVR/NVR, accesorios para PC y celulares. Cotiza por WhatsApp +58 416-9726126.",
+    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela 🇻🇪. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
   keywords: [
     "instalación de cámaras de seguridad",
     "cámaras de seguridad",
@@ -73,23 +73,23 @@ export const metadata: Metadata = {
     locale: "es_VE",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Instalación de Cámaras de Seguridad a Nivel Nacional | Inversiones Valencia Mundo Net",
+    title: "Instalación de Cámaras de Seguridad a Nivel Nacional 🇻🇪",
     description:
-      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Cotiza por WhatsApp +58 416-9726126.",
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad",
+        alt: "Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad a Nivel Nacional",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Instalación de Cámaras de Seguridad a Nivel Nacional",
+    title: "Instalación de Cámaras de Seguridad a Nivel Nacional 🇻🇪",
     description:
-      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país.",
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
     images: ["/og-image.svg"],
   },
   robots: {

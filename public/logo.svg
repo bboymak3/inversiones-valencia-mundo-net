@@ -1,7 +1,7 @@
-<svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inversiones Valencia Mundo Net">
+<svg width="240" height="64" viewBox="0 0 240 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad">
   <defs>
     <linearGradient id="ivmnGreenGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#5CB85C"/>
+      <stop offset="0%" stop-color="#4CAF50"/>
       <stop offset="100%" stop-color="#2E7D32"/>
     </linearGradient>
     <linearGradient id="ivmnLensGrad" x1="0" y1="0" x2="0" y2="1">
@@ -32,9 +32,8 @@
     <circle cx="32" cy="11" r="0.5" fill="#FFFFFF"/>
   </g>
 
-  <!-- Text: Valencia Mundo Net (right) -->
+  <!-- Text: Inversiones Valencia -->
   <g transform="translate(58, 0)" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
-    <!-- Top line: Inversiones Valencia -->
     <text x="0" y="22" font-size="14" font-weight="700" fill="#1B5E20" letter-spacing="0.3">
       <tspan x="0" dy="0">Inversiones</tspan>
       <tspan x="0" dy="14" font-size="15" fill="#2E7D32">Valencia</tspan>
