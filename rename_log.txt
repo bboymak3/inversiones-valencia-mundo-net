@@ -1,0 +1,6 @@
+=== Cargando productos del catálogo ===
+Total productos: 580
+
+=== Listando imágenes en R2 ===
+Total objetos en R2: 1000
+Imágenes (.jpg/.webp): 1000

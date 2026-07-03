@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/hero";
 import { Services } from "@/components/sections/services";
 import { PromoBanner } from "@/components/sections/promo-banner";
 import { CatalogHome } from "@/components/sections/catalog";
+import { SeoContent } from "@/components/sections/seo-content";
 import { WhyUs } from "@/components/sections/why-us";
 import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
@@ -23,6 +24,7 @@ export default function Home() {
         <Services />
         <PromoBanner />
         <CatalogHome />
+        <SeoContent />
         <WhyUs />
         <Contact />
       </main>
