@@ -712,3 +712,61 @@ Stage Summary:
 - Ubicación correcta: Barinas, instalaciones a nivel nacional
 - sitemap.xml + robots.txt para Google Search Console
 - Botón WhatsApp flotante con icono cámara (no tapa el menú)
+
+---
+Task ID: 15
+Agent: Main Agent (Super Z)
+Task: SEO completo - 3 fases con palabras clave del archivo de 2208 keywords.
+
+Work Log:
+- Descargado archivo de 2208 palabras clave desde Google Sheets
+- Análisis de palabras clave: cámaras de seguridad, instalación, videovigilancia, WiFi, marcas
+
+FASE 1: Renombrar fotos en R2 con SEO (en progreso)
+- Script rename_images_seo.py creado
+- Formato: SKU-categoria-palabra1-palabra2-palabra3-palabra4-palabra5.jpg
+- 6 palabras clave SEO por foto basadas en categoría
+- Mantiene SKU al inicio para identificación
+- Ejecutándose en background (1000 imágenes a procesar)
+
+FASE 2: Enriquecer nombres y descripciones (completado)
+- 580 productos enriquecidos con palabras clave SEO
+- Nombres con sufijo: 'Instalación a Nivel Nacional', 'Envíos a Toda Venezuela'
+- Descripciones cortas y largas con keywords naturales
+- Script Python con manejo correcto de escapes (comillas dobles, backslashes)
+- Build exitoso tras corrección de escaping
+
+FASE 3: Contenido SEO en página Index (completado)
+- Nuevo componente SeoContent creado:
+  - Sección informativa con H2 'Instalación de Cámaras de Seguridad a Nivel Nacional'
+  - 6 tarjetas de servicios con keywords SEO
+  - Sección de texto SEO con palabras clave naturales (4 párrafos)
+  - FAQ con 8 preguntas frecuentes (Accordion)
+  - CTA a WhatsApp en cada sección
+- Agregado a la página de inicio entre CatalogHome y WhyUs
+
+Palabras clave principales utilizadas:
+- instalación de cámaras de seguridad
+- cámaras de seguridad WiFi
+- cámaras de vigilancia exterior
+- cámaras de seguridad inalámbricas
+- cámaras de seguridad para casa
+- cámaras de videovigilancia
+- sistema de cámaras de seguridad
+- cámaras conectadas al celular
+- instalación a nivel nacional
+- envíos a toda Venezuela
+- videovigilancia
+- cámaras espía
+- mini cámaras
+
+Verificación:
+- ✓ Build exitoso
+- ✓ Deploy a Cloudflare Pages exitoso
+- ✓ Push a GitHub exitoso
+
+Stage Summary:
+- 580 productos con nombres y descripciones SEO enriquecidos
+- Página Index con contenido SEO (FAQ + texto informativo + servicios)
+- Renombrado de fotos en R2 en progreso (background)
+- Palabras clave del archivo de 2208 keywords integradas en todo el sitio
