@@ -521,3 +521,52 @@ Stage Summary:
 - La tienda carga productos desde la API que aplica overrides de D1
 - 5 overrides ya guardados y visibles en producción
 - Flujo completo: admin edita → guarda en D1 → tienda muestra el cambio
+
+---
+Task ID: 11
+Agent: Main Agent (Super Z)
+Task: Recortar tarjetas del PDF con fondo blanco, priorizar cámaras, mantener admin.
+
+Work Log:
+- Eliminados todos los marcos anteriores de R2 (carpeta marcos/)
+- Eliminado override de marco activo en D1 (ivmn_settings)
+- Renderizadas 64 páginas del PDF como PNG (150 DPI) con pdftoppm
+- Mapeo de 90 páginas a categorías basado en texto del PDF:
+  - Página 7: CÁMARAS DE SEGURIDAD (prioridad 1)
+  - Página 8: CÁMARAS WEB
+  - Páginas 2-6, 60: REDES
+  - Página 9: LAPTOPS
+  - Páginas 10-11: CPU
+  - Páginas 12-13: MONITORES
+  - Páginas 14-18: AUDIFONOS
+  - Páginas 19-20: MOUSE
+  - Páginas 50-52: TECLADOS
+  - Páginas 21-22, 32-34: PARLANTES/CORNETAS
+  - Páginas 23-24: CASES
+  - Páginas 25-26: SILLAS
+  - etc.
+- Script extract_and_upload.py:
+  - Recorta cada página en grid 2x4 (8 productos por página)
+  - Convierte fondo negro a blanco automáticamente (fix_black_background)
+  - Sube a R2 en formato JPEG (más rápido de servir)
+  - Asigna productos por orden de aparición en cada categoría
+- 581 imágenes subidas a R2 con fondo blanco:
+  - Cámaras de seguridad: 10 imágenes
+  - Cámaras web: 4 imágenes
+  - Redes: 43 imágenes
+  - Audífonos: 61 imágenes
+  - Mouse: 25 imágenes
+  - Accesorios varios: 271 imágenes
+  - Parlantes: 33, Impresoras: 19, Monitores: 16, Cases: 14
+  - Cargadores: 11, Teclados: 11, Laptops: 8, Discos: 7
+  - Sillas: 7, Tablets: 7, CPU: 5, UPS: 5, RAM: 4, Fuentes: 3
+- Verificado con VLM: imagen IVMN-CAMA-0001 muestra "Cámara Bombillo" + "Cámara 5 Antenas" con fondo blanco, productos claros
+- Panel admin conservado: edición/creación/eliminación de productos sigue funcionando
+- Push a GitHub exitoso
+
+Stage Summary:
+- 581 imágenes en R2 con fondo blanco (no negro)
+- Cámaras de seguridad priorizadas (página 7 procesada primero)
+- Panel admin funcional para editar productos
+- Marcos eliminados del sistema (lista para que usuario suba PNG propio después)
+- Verificación visual confirma que las imágenes se ven bien
