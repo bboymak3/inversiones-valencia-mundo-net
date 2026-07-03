@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, ShoppingCart, MessageCircle, Star, Filter } from "lucide-react";
+import { Search, ShoppingCart, MessageCircle, Star, Filter, ArrowRight, Camera } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -438,6 +438,133 @@ export function Catalog() {
         open={detailOpen}
         onOpenChange={setDetailOpen}
       />
+    </section>
+  );
+}
+
+// ============================================================
+// CATALOG HOME - Versión para la página de inicio
+// SOLO muestra productos de cámaras y redes (no todos)
+// Con enlaces a las categorías individuales
+// ============================================================
+const HOME_ALLOWED_CATEGORIES = ["cat-camaras", "cat-webcams", "cat-redes"];
+
+export function CatalogHome() {
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const openDetail = (p: Product) => {
+    setDetailProduct(p);
+    setDetailOpen(true);
+  };
+
+  const { products: allProducts } = useProducts();
+
+  // Filtrar SOLO productos de cámaras y redes
+  const homeProducts = useMemo(() => {
+    const filtered = allProducts.filter((p) =>
+      HOME_ALLOWED_CATEGORIES.includes(p.categoryId)
+    );
+    // Ordenar: destacados primero, luego por rating
+    return filtered.sort((a, b) => {
+      if (a.isFeatured !== b.isFeatured) return Number(b.isFeatured) - Number(a.isFeatured);
+      return b.rating - a.rating;
+    });
+  }, [allProducts]);
+
+  // Categorías para mostrar como tarjetas (solo las permitidas)
+  const homeCategories = CATEGORIES.filter((c) =>
+    HOME_ALLOWED_CATEGORIES.includes(c.id)
+  );
+
+  return (
+    <section id="catalogo" className="py-8 lg:py-12 bg-gradient-to-b from-white to-emerald-50/30">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="text-center mb-10">
+          <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider mb-3">
+            Catálogo de Productos
+          </div>
+          <h2 className="font-display text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
+            Cámaras de Seguridad y Redes
+          </h2>
+          <p className="text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
+            Explora nuestras categorías principales: cámaras de seguridad, cámaras web
+            y redes. Envíos a toda Venezuela. Cotiza por WhatsApp con respuesta inmediata.
+          </p>
+        </div>
+
+        {/* Tarjetas de categorías (enlaces a landing pages) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          {homeCategories.map((cat) => {
+            const count = allProducts.filter((p) => p.categoryId === cat.id).length;
+            return (
+              <Link
+                key={cat.id}
+                href={`/catalogo/${cat.slug}`}
+                className="group relative overflow-hidden rounded-2xl border-2 border-emerald-100 hover:border-emerald-300 hover:shadow-ivmn-lg transition-all duration-300 bg-white p-6 text-center"
+              >
+                <div className="w-14 h-14 rounded-2xl gradient-ivmn text-white flex items-center justify-center mx-auto mb-3 shadow-ivmn">
+                  <Camera className="h-7 w-7" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">
+                  {cat.name}
+                </h3>
+                <p className="text-xs text-gray-500 mb-2 line-clamp-2">{cat.description}</p>
+                <div className="text-sm font-bold text-emerald-700">
+                  {count} producto{count !== 1 ? "s" : ""}
+                </div>
+                <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 group-hover:gap-2 transition-all">
+                  Ver categoría
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Productos destacados de cámaras y redes */}
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-900">Productos destacados</h3>
+          <Link
+            href="/tienda"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:gap-2 transition-all"
+          >
+            Ver tienda completa
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+          {homeProducts.slice(0, 8).map((product, idx) => (
+            <div
+              key={product.id}
+              className="animate-fade-up"
+              style={{ animationDelay: `${Math.min(idx * 0.04, 0.4)}s` }}
+            >
+              <ProductCard product={product} onOpenDetail={openDetail} />
+            </div>
+          ))}
+        </div>
+
+        {/* CTA a tienda */}
+        <div className="mt-10 text-center">
+          <Link
+            href="/tienda"
+            className="inline-flex items-center gap-2 px-6 py-3 gradient-ivmn text-white rounded-xl font-bold shadow-ivmn-lg hover:opacity-95 transition-all"
+          >
+            Ver todos los productos (accesorios PC, celulares y más)
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Modal de ficha de producto */}
+        <ProductDetailModal
+          product={detailProduct}
+          open={detailOpen}
+          onOpenChange={setDetailOpen}
+        />
+      </div>
     </section>
   );
 }
