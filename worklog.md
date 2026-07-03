@@ -570,3 +570,41 @@ Stage Summary:
 - Panel admin funcional para editar productos
 - Marcos eliminados del sistema (lista para que usuario suba PNG propio después)
 - Verificación visual confirma que las imágenes se ven bien
+
+---
+Task ID: 12
+Agent: Main Agent (Super Z)
+Task: Extraer imágenes individuales del PDF con fondo blanco, subir a R2.
+
+Work Log:
+- Eliminado enfoque anterior de recortar páginas en grid
+- Vuelta al enfoque original: extraer imágenes individuales con pdfimages
+- Extraídas 1186 imágenes del PDF (todas las imágenes embebidas)
+- Filtradas 518 fotos de productos (>15KB, descartando logos e iconos)
+- Script process_individual_images.py:
+  - Redimensiona a máx 1500px (optimizado para web)
+  - Convierte fondo negro a blanco (fix_black_background)
+  - Píxeles negros (R<30, G<30, B<30) → blanco
+  - Guarda como JPEG quality=88
+- Subidas 518 imágenes a R2:
+  - Nombres: IVMN-IMG-0001.jpg hasta IVMN-IMG-0518.jpg
+  - URL: /api/img/IVMN-IMG-XXXX
+- Script con resume: si se cae, continúa desde donde quedó
+- Verificación VLM:
+  - IVMN-IMG-0010: fondo blanco ✓
+  - IVMN-IMG-0050: fondo blanco ✓
+  - IVMN-IMG-0150: laptop, fondo blanco ✓
+  - IVMN-IMG-0250: fondo blanco ✓
+  - IVMN-IMG-0350: fondo blanco ✓
+
+Resultado:
+- 518 imágenes individuales en R2 con fondo blanco
+- Cada una es un producto individual (no recortes múltiples)
+- Usuario asignará manualmente cada imagen a cada producto desde el admin
+- Panel admin ya tiene galería para elegir imagen (ImagePickerModal)
+
+Stage Summary:
+- 518 fotos de productos extraídas del PDF, fondo blanco, subidas a R2
+- Formato JPEG optimizado para web
+- Listas para asignación manual desde el panel admin
+- Workflow: admin → editar producto → cambiar imagen → elegir de galería IVMN-IMG-XXXX
