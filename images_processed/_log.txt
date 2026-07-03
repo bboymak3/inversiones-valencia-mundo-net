@@ -1,0 +1,8 @@
+=== Listando imágenes extraídas ===
+Total imágenes: 1186
+Imágenes >15KB (fotos de productos): 518
+
+=== Procesando y subiendo 518 imágenes ===
+Formato: JPEG con fondo blanco
+
+  [50/518] ✓ Subidas: 50

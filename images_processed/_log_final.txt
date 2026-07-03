@@ -1,0 +1,15 @@
+=== Listando imágenes extraídas ===
+Total: 1186
+Imágenes >15KB: 518
+Ya en R2: 299
+Empezando desde: IVMN-IMG-0300
+
+  [300/518] ✓ 1 subidas en esta sesión
+  [350/518] ✓ 51 subidas en esta sesión
+  [400/518] ✓ 101 subidas en esta sesión
+  [450/518] ✓ 151 subidas en esta sesión
+  [500/518] ✓ 201 subidas en esta sesión
+
+=== RESUMEN ===
+  ✓ Subidas ahora: 219
+  ✗ Fallidas: 0
