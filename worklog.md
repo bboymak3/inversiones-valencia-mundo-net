@@ -644,3 +644,71 @@ Resultado:
 - Carga mucho más rápida de la tienda
 - Toda imagen nueva subida se convierte automáticamente a WebP
 - JPG queda como respaldo para navegadores antiguos
+
+---
+Task ID: 14
+Agent: Main Agent (Super Z)
+Task: Landing pages individuales + SEO + cambio a Barinas + sitemap/robots.
+
+Work Log:
+- Página de inicio (/) rediseñada:
+  - SOLO muestra categorías de cámaras + servicios
+  - H1: "Instalación de Cámaras de Seguridad a Nivel Nacional"
+  - H2: "Cámaras de Seguridad y Sistemas CCTV", "Servicios de Instalación y Soporte Técnico"
+  - Categorías: Cámaras de Seguridad, Cámaras Web, Redes, Audífonos/Accesorios
+  - Botones CTA: Cotizar Instalación + Ver Tienda
+- Páginas individuales (landing pages):
+  - /tienda → catálogo completo con H1 + enlaces a categorías
+  - /servicios → 4 servicios con H1 + H2 por cada uno + features
+  - /contacto → formulario con info de Barinas
+  - /catalogo/[slug] → landing por categoría con productos filtrados
+- Ubicación cambiada: Valencia/Carabobo → Barinas/Barinas
+  - "Instalaciones a nivel nacional" + "Envíos a toda Venezuela" como mensajes clave
+  - Actualizado en: layout.tsx, contact.tsx, footer.tsx, JSON-LD
+- Botón WhatsApp fijo debajo del menú hamburguesa:
+  - Icono de cámara (lucide Camera)
+  - Texto: "Cotizar Cámaras"
+  - Aparece después de scroll 100px (no tapa el menú)
+  - Posición: top-20 right-4 (1cm debajo del menú)
+- sitemap.xml creado con 16 URLs:
+  - /, /tienda, /servicios, /contacto
+  - /catalogo/camaras, /catalogo/webcams, /catalogo/redes
+  - /catalogo/audifonos, /catalogo/mouse, /catalogo/monitores
+  - /catalogo/teclados, /catalogo/discos, /catalogo/laptops
+  - /catalogo/cpu, /catalogo/cases, /catalogo/parlantes
+  - /catalogo/impresoras, /catalogo/ups
+- robots.txt:
+  - Allow: / (todo indexable)
+  - Disallow: /admin, /api/admin
+  - Sitemap: https://inversiones-valencia-mundo-net.pages.dev/sitemap.xml
+- Metadata SEO actualizada:
+  - Title: "Instalación de Cámaras de Seguridad a Nivel Nacional"
+  - Description con palabras clave principales
+  - Keywords: instalación de cámaras, instalaciones a nivel nacional, envíos a toda Venezuela
+  - JSON-LD Schema.org Store con address Barinas + areaServed Venezuela
+  - OpenGraph + Twitter Card actualizados
+- Header actualizado:
+  - Nav links: Inicio, Tienda, Servicios, Contacto
+  - Active state con color emerald
+  - Botón "Tienda" destacado en verde
+  - Botón WhatsApp con icono cámara (fijo, debajo del menú)
+- Footer actualizado con enlaces a páginas individuales
+- BottomNav: "Tienda" ahora va a /tienda
+
+Verificación en producción:
+- ✓ / → H1 "Instalación de Cámaras de Seguridad a Nivel Nacional"
+- ✓ /tienda → H1 "Catálogo de Productos" (580 productos)
+- ✓ /servicios → H1 "Servicios de Instalación..." + 6 H2
+- ✓ /contacto → formulario con Barinas
+- ✓ /catalogo/camaras → H1 "Cámaras de Seguridad" + 10 productos
+- ✓ /sitemap.xml → 200 OK
+- ✓ /robots.txt → 200 OK
+- ✓ Botón WhatsApp con cámara visible después de scroll
+- ✓ Push a GitHub exitoso
+
+Stage Summary:
+- Estructura SEO completa: H1 único por página, H2 para secciones
+- Landing pages individuales para cada sección
+- Ubicación correcta: Barinas, instalaciones a nivel nacional
+- sitemap.xml + robots.txt para Google Search Console
+- Botón WhatsApp flotante con icono cámara (no tapa el menú)
