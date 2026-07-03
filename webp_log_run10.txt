@@ -1,0 +1,3 @@
+=== Listando JPGs que necesitan conversión ===
+Total a convertir: 872
+

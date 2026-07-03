@@ -1,0 +1,6 @@
+=== Listando JPGs que necesitan conversión ===
+Total a convertir: 910
+
+  [12/910] ✗ Error: IVMN-ACCE-0057: HTTP Error 429: Too Many Requests
+  [17/910] ✗ Error: IVMN-ACCE-0062: HTTP Error 429: Too Many Requests
+  [20/910] ✗ Error: IVMN-ACCE-0065: HTTP Error 429: Too Many Requests

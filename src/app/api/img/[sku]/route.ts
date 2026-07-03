@@ -4,12 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = "edge";
 
 // Headers CORS para que el browser pueda usar las imágenes en Canvas
-// (sin esto, canvas.toBlob falla con "tainted canvas")
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Max-Age": "86400",
+  "Access-Control-Allow-Headers": "Content-Type, Accept",
+  "Access-Control-Vary": "Accept",
 };
 
 export async function OPTIONS() {
@@ -21,7 +20,9 @@ export async function OPTIONS() {
 
 // Proxy de imágenes desde R2 (ivmn-products bucket)
 // URL: /api/img/[sku]
-// En desarrollo sin R2 binding, retorna el placeholder SVG
+// - Sirve WebP si existe y el navegador lo soporta (mucho más liviano)
+// - Si no existe WebP, sirve el JPG original
+// - Si no hay imagen en R2, retorna placeholder SVG
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ sku: string }> }
@@ -32,26 +33,61 @@ export async function GET(
     return new NextResponse("Missing SKU", { status: 400, headers: CORS_HEADERS });
   }
 
-  // Construir la key en R2
-  const r2Key = `inversiones-valencia/products/${sku}.jpg`;
+  // Detectar si el navegador soporta WebP
+  const acceptHeader = req.headers.get("accept") || "";
+  const supportsWebp = acceptHeader.includes("image/webp");
 
-  // En Cloudflare Pages, el binding R2 está disponible en (env as any).PRODUCTS_BUCKET
+  // Construir keys en R2
+  const jpgKey = `inversiones-valencia/products/${sku}.jpg`;
+  const webpKey = `inversiones-valencia/products/${sku}.webp`;
+
   const env = (process as any).env || (globalThis as any).env || {};
   const bucket = env.PRODUCTS_BUCKET;
 
   if (bucket) {
     try {
-      const object = await bucket.get(r2Key);
-      if (object === null) {
-        return servePlaceholder(sku);
+      // 1. Si el navegador soporta WebP, intentar servir WebP primero
+      if (supportsWebp) {
+        const webpObject = await bucket.get(webpKey);
+        if (webpObject !== null) {
+          const headers = new Headers();
+          headers.set("Content-Type", "image/webp");
+          headers.set("Cache-Control", "public, max-age=31536000, immutable");
+          headers.set("ETag", webpObject.httpEtag);
+          headers.set("Vary", "Accept");
+          Object.entries(CORS_HEADERS).forEach(([k, v]) => headers.set(k, v));
+          return new NextResponse(webpObject.body as ReadableStream, { headers });
+        }
       }
-      const headers = new Headers();
-      object.writeHttpMetadata(headers);
-      headers.set("Cache-Control", "public, max-age=31536000, immutable");
-      headers.set("ETag", object.httpEtag);
-      // CORS headers (crítico para Canvas del browser)
-      Object.entries(CORS_HEADERS).forEach(([k, v]) => headers.set(k, v));
-      return new NextResponse(object.body as ReadableStream, { headers });
+
+      // 2. Fallback a JPG
+      const jpgObject = await bucket.get(jpgKey);
+      if (jpgObject !== null) {
+        const headers = new Headers();
+        jpgObject.writeHttpMetadata(headers);
+        headers.set("Content-Type", "image/jpeg");
+        headers.set("Cache-Control", "public, max-age=31536000, immutable");
+        headers.set("ETag", jpgObject.httpEtag);
+        headers.set("Vary", "Accept");
+        Object.entries(CORS_HEADERS).forEach(([k, v]) => headers.set(k, v));
+        return new NextResponse(jpgObject.body as ReadableStream, { headers });
+      }
+
+      // 3. Si no hay JPG, intentar WebP aunque el navegador no lo soporte (raro)
+      if (!supportsWebp) {
+        const webpObject = await bucket.get(webpKey);
+        if (webpObject !== null) {
+          const headers = new Headers();
+          headers.set("Content-Type", "image/webp");
+          headers.set("Cache-Control", "public, max-age=31536000, immutable");
+          headers.set("ETag", webpObject.httpEtag);
+          Object.entries(CORS_HEADERS).forEach(([k, v]) => headers.set(k, v));
+          return new NextResponse(webpObject.body as ReadableStream, { headers });
+        }
+      }
+
+      // 4. No hay imagen → placeholder SVG
+      return servePlaceholder(sku);
     } catch (err) {
       console.error("R2 error:", err);
       return servePlaceholder(sku);
@@ -97,4 +133,3 @@ function servePlaceholder(sku: string) {
     },
   });
 }
-

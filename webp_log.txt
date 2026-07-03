@@ -1,0 +1,4 @@
+=== Listando JPGs que necesitan conversión ===
+Total a convertir: 1000
+
+  [25/1000] ✓ 25 convertidas | ahorro promedio: 84%
