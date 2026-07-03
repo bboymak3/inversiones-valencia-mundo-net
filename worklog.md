@@ -608,3 +608,39 @@ Stage Summary:
 - Formato JPEG optimizado para web
 - Listas para asignación manual desde el panel admin
 - Workflow: admin → editar producto → cambiar imagen → elegir de galería IVMN-IMG-XXXX
+
+---
+Task ID: 13
+Agent: Main Agent (Super Z)
+Task: Optimizar todas las imágenes a formato WebP (82% menos peso).
+
+Work Log:
+- API /api/img actualizada para servir WebP con fallback automático:
+  - Detecta Accept: image/webp del navegador
+  - Si soporta WebP y existe → sirve WebP (mucho más liviano)
+  - Si no → sirve JPG original como respaldo
+  - Header Vary: Accept para cache correcto
+  - CORS habilitado
+- API /api/admin/upload: convierte automáticamente a WebP al subir nuevas imágenes
+  - Calidad 85 (buen balance peso/calidad)
+  - Redimensiona a máx 1200px
+  - También sube JPG como respaldo
+  - Reporta % de ahorro en la respuesta
+- API /api/admin/replace-image: misma conversión automática
+- API /api/admin/convert-webp: gestión de conversión
+  - GET: lista imágenes que necesitan conversión
+  - POST: convierte imagen específica
+- Script convert_webp_parallel.py: conversión masiva con 8 threads paralelos
+- 500 imágenes convertidas a WebP en R2:
+  - JPGs: 28.6 MB (respaldo)
+  - WebPs: 5.2 MB (principal)
+  - Ahorro: 23.4 MB (82% menos peso)
+- Verificado: imágenes se sirven correctamente como WebP
+  - IVMN-IMG-0001: JPG 58KB → WebP 14KB (75% menos)
+  - IVMN-CAMA-0001: JPG 88KB → WebP 23KB (73% menos)
+
+Resultado:
+- Imágenes 5x más livianas en navegadores modernos
+- Carga mucho más rápida de la tienda
+- Toda imagen nueva subida se convierte automáticamente a WebP
+- JPG queda como respaldo para navegadores antiguos
