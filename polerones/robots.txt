@@ -1,14 +1,6 @@
-# Robots.txt para estampados.pages.dev
-
 User-agent: *
 Allow: /
+Disallow: /polerones-personalizados/hombre_products.txt
+Disallow: /polerones-personalizados/customize_especiales.sh
 
-# Sitemap
-Sitemap: https://estampados.pages.dev/sitemap.xml
-
-# Disallow specific directories if needed
-# Disallow: /private/
-# Disallow: /temp/
-
-# Crawl-delay (optional, uncomment if needed)
-# Crawl-delay: 1
+Sitemap: https://polerones-personalizados-santiago.pages.dev/sitemap.xml
