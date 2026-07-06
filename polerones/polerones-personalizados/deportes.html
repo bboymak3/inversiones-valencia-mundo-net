@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polerones Deportes en Santiago | Dry Fit y Térmicos</title>
+    <meta name="description" content="Polerones deportivos personalizados en Santiago. Poleras dry fit, polerones térmicos, fútbol, básquetbol, running y gym. Ropa deportiva de alta calidad.">
+    <meta name="keywords" content="polerones deportivos santiago, poleras dry fit, polerones térmicos, ropa gym, polerones fútbol, básquetbol, running chile">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #E31C23; --primary-dark: #B91C1C; --primary-light: #EF4444; --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-600: #4B5563; --gray-700: #374151; --gray-900: #111827; --white: #FFFFFF; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background-color: var(--gray-50); color: var(--gray-900); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        header { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--gray-100); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .header-content { max-width: 1280px; margin: 0 auto; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 700; }
+        .logo img { height: 40px; width: auto; }
+        .nav-desktop { display: none; }
+        .nav-desktop a { padding: 0.5rem 1rem; color: var(--gray-700); font-weight: 500; border-radius: 0.375rem; transition: all 0.3s ease; }
+        .nav-desktop a:hover { color: var(--primary); background: var(--gray-100); }
+        .mobile-menu-btn { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+        .mobile-menu-btn span { width: 25px; height: 2px; background: var(--gray-900); transition: all 0.3s ease; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--gray-100); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a { display: block; padding: 1rem; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); }
+        .mobile-menu a:hover { background: var(--gray-50); color: var(--primary); }
+        @media (min-width: 1024px) { .nav-desktop { display: flex; gap: 0.5rem; } .mobile-menu-btn { display: none; } }
+        .hero { position: relative; height: 500px; overflow: hidden; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+        .hero-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+        .hero-content { text-align: center; color: var(--white); padding: 2rem; max-width: 800px; }
+        .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        @media (min-width: 768px) { .hero h1 { font-size: 3.5rem; } }
+        .hero h1 span { color: var(--primary-light); }
+        .hero p { font-size: 1.125rem; margin-bottom: 2rem; opacity: 0.95; }
+        .hero-buttons { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+        @media (min-width: 640px) { .hero-buttons { flex-direction: row; } }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.875rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s ease; border: none; }
+        .btn-primary { background: var(--white); color: var(--primary); }
+        .btn-primary:hover { background: var(--gray-100); box-shadow: 0 4px 12px rgba(255,255,255,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: var(--white); border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 1rem; }
+        .content-section { padding: 5rem 1rem; background: var(--white); }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+        @media (min-width: 768px) { .section-title h2 { font-size: 3rem; } }
+        .section-title p { color: var(--gray-600); font-size: 1.125rem; max-width: 800px; margin: 0 auto; line-height: 1.8; }
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 3rem; }
+        @media (min-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
+        .feature-item { background: var(--gray-50); border: 2px solid var(--gray-100); border-radius: 0.75rem; padding: 2rem; transition: all 0.3s ease; }
+        .feature-item:hover { border-color: var(--primary); box-shadow: 0 10px 25px rgba(227, 28, 35, 0.1); transform: translateY(-4px); }
+        .feature-icon { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(227, 28, 35, 0.3); }
+        .feature-icon svg { width: 28px; height: 28px; color: var(--white); }
+        .feature-item h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--gray-900); }
+        .feature-item p { color: var(--gray-600); font-size: 0.9375rem; line-height: 1.7; }
+        .faq-section { padding: 5rem 1rem; background: var(--gray-50); }
+        .faq-grid { max-width: 900px; margin: 0 auto; display: grid; gap: 1.5rem; }
+        .faq-item { background: var(--white); border: 2px solid var(--gray-100); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; }
+        .faq-item:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(227, 28, 35, 0.1); }
+        .faq-question { font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
+        .faq-question span { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.875rem; flex-shrink: 0; }
+        .faq-answer { color: var(--gray-600); font-size: 1rem; line-height: 1.7; padding-left: 3.75rem; }
+        .related-section { padding: 5rem 1rem; background: var(--white); }
+        .related-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 640px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .related-grid { grid-template-columns: repeat(3, 1fr); } }
+        .related-card { background: var(--gray-50); border: 2px solid var(--gray-100); border-radius: 0.75rem; padding: 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .related-card:hover { border-color: var(--primary); box-shadow: 0 10px 25px rgba(227, 28, 35, 0.1); transform: translateY(-4px); }
+        .related-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--gray-900); }
+        .related-card p { color: var(--gray-600); font-size: 0.9375rem; margin-bottom: 1rem; }
+        .related-card a { color: var(--primary); font-weight: 600; }
+        .cta { padding: 6rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); position: relative; overflow: hidden; }
+        .cta::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v2h-4v-2h-4v-2h-4v-2h-2v-2h-4v-2h-2v-2h-2v-2h-4v-2h-2v-2h-4v-2h-4v-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .cta-content { text-align: center; color: var(--white); position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .cta h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        @media (min-width: 768px) { .cta h2 { font-size: 3rem; } }
+        .cta p { font-size: 1.125rem; margin-bottom: 2.5rem; opacity: 0.95; }
+        .cta .btn { background: var(--white); color: var(--primary); padding: 1rem 2rem; font-size: 1.125rem; }
+        .cta .btn:hover { background: var(--gray-100); box-shadow: 0 4px 12px rgba(255,255,255,0.3); }
+        footer { background: var(--gray-900); color: var(--white); padding: 4rem 1rem 2rem; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1280px; margin: 0 auto; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .footer-grid { grid-template-columns: repeat(4, 1fr); } }
+        .footer-section h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 1rem; color: var(--white); }
+        .footer-section p { color: var(--gray-600); font-size: 0.875rem; line-height: 1.6; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 0.5rem; }
+        .footer-section ul li a { color: var(--gray-600); font-size: 0.875rem; transition: color 0.3s ease; }
+        .footer-section ul li a:hover { color: var(--primary); }
+        .footer-section svg { width: 20px; height: 20px; color: var(--primary); margin-right: 0.75rem; }
+        .footer-contact { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+        .footer-contact p { color: var(--gray-600); font-size: 0.875rem; }
+        .footer-bottom { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid var(--gray-800); color: var(--gray-600); font-size: 0.875rem; }
+        .whatsapp-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #25D366; color: var(--white); padding: 1rem; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+        .whatsapp-btn svg { width: 28px; height: 28px; }
+        /* Products Section */
+        .products {
+            padding: 5rem 1rem;
+            background: linear-gradient(to bottom, var(--gray-50), var(--white));
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1280px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .product-card {
+            background: var(--white);
+            border: 2px solid var(--gray-100);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(227, 28, 35, 0.2);
+            transform: translateY(-4px);
+        }
+        
+        .product-image {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--gray-100);
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-info h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+            transition: color 0.3s ease;
+        }
+        
+        .product-card:hover .product-info h4 {
+            color: var(--primary);
+        }
+        
+        .product-info p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        
+        .view-all-btn {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .view-all-btn .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+        }
+        
+        .view-all-btn .btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #991B1B);
+            box-shadow: 0 4px 12px rgba(227, 28, 35, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo">
+                <img src="../images/logo-polerones-personalizados-estampados-santiago-san-joaquin.png" alt="Polerones en Santiago Logo">
+                <span style="display: none;">Polerones en Santiago</span>
+            </a>
+            <nav class="nav-desktop">
+                <a href="../index.html">Inicio</a>
+                <a href="hombre.html">Hombre</a>
+                <a href="deportes.html" style="color: var(--primary); background: var(--gray-100);">Deportes</a>
+                <a href="escolares.html">Escolares</a>
+                <a href="../contacto.html">Contacto</a>
+            </nav>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="../index.html" onclick="toggleMenu()">Inicio</a>
+            <a href="hombre.html" onclick="toggleMenu()">Hombre</a>
+            <a href="mujer.html" onclick="toggleMenu()">Mujer</a>
+            <a href="anime.html" onclick="toggleMenu()">Anime</a>
+            <a href="marcas.html" onclick="toggleMenu()">Marcas</a>
+            <a href="parejas.html" onclick="toggleMenu()">Parejas</a>
+            <a href="san-valentin.html" onclick="toggleMenu()">San Valentín</a>
+            <a href="familia.html" onclick="toggleMenu()">Familia</a>
+            <a href="cumpleanos.html" onclick="toggleMenu()">Cumpleaños</a>
+            <a href="deportes.html" onclick="toggleMenu()">Deportes</a>
+            <a href="escolares.html" onclick="toggleMenu()">Escolares</a>
+            <a href="corporativos.html" onclick="toggleMenu()">Corporativos</a>
+            <a href="especiales.html" onclick="toggleMenu()">Ofertas</a>
+            <a href="../contacto.html" onclick="toggleMenu()">Contacto</a>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Polerones <span>Deportes</span></h1>
+                <p>Ropa deportiva personalizada de alta calidad en Santiago. Poleras dry fit, polerones térmicos, fútbol, básquetbol, running, gym y más. El rendimiento que necesitas con tu estilo único.</p>
+                <div class="hero-buttons">
+                    <a href="../contacto.html" class="btn btn-primary">Cotizar Ahora</a>
+                    <a href="#deportes" class="btn btn-secondary">Ver Deportes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="content-section" id="deportes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Ropa Deportiva Personalizada</h2>
+                <p>En Santiago creamos polerones y poleras deportivas de alta calidad para equipos, gimnasios y atletas. Desde las poleras dry fit para running hasta polerones térmicos para entrenamientos al aire libre. Personalizamos con logos, números, nombres y más para que tu equipo luzca profesional.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <h3>Poleras Dry Fit</h3>
+                    <p>Tecnología de secado rápido para running, entrenamientos intenso y competencia. Transpirables, ligeras y cómodas para máximo rendimiento deportivo.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                    </div>
+                    <h3>Polerones Térmicos</h3>
+                    <p>Ideal para entrenamientos al aire libre en invierno. Materiales que retienen el calor corporal mientras permiten la transpiración. Perfectos para running y outdoor.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+                    </div>
+                    <h3>Fútbol</h3>
+                    <p>Uniformes completos para equipos de fútbol. Poleras con números, nombres y logos. Diferentes estilos para amateur, semiprofesional y profesional.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" /></svg>
+                    </div>
+                    <h3>Básquetbol</h3>
+                    <p>Poleras y polerones para equipos de básquetbol. Diseños con números grandes en espalda y pecho, nombres personalizados y colores de equipo.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    </div>
+                    <h3>Running y Gym</h3>
+                    <p>Prendas funcionales para corredores y entusiastas del gym. Diseños aerodinámicos, materiales técnicos y estilos modernos que motivan.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
+                    <h3>Equipos Completos</h3>
+                    <p>Personalizamos uniformes para equipos de cualquier deporte. Ofrecemos descuentos por volumen para pedidos de más de 10 unidades.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Preguntas Frecuentes</h2>
+                <p>Todo lo que necesitas saber sobre nuestros polerones deportivos</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question"><span>1</span>¿Qué diferencia hay entre poleras dry fit y normales?</div>
+                    <div class="faq-answer">Las poleras dry fit están fabricadas con materiales técnicos que absorben y evaporan el sudor rápidamente, manteniéndote seco durante el ejercicio. Son más ligeras, transpirables y no retienen olores. Ideales para running, gym y deportes de alta intensidad.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>2</span>¿Pueden hacer uniformes para un equipo de fútbol completo?</div>
+                    <div class="faq-answer">Sí, creamos uniformes completos para equipos de fútbol incluyendo poleras con números y nombres, short y medias. Ofrecemos descuentos especiales para equipos de 11 o más jugadores. También podemos incluir el logo del equipo y el nombre del patrocinador.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>3</span>¿Cuánto tiempo demoran en entregar uniformes deportivos?</div>
+                    <div class="faq-answer">Para equipos pequeños (hasta 10 unidades), entregamos en 3-5 días hábiles. Para equipos grandes (más de 10 unidades), el tiempo es de 7-10 días hábiles. Pedidos urgentes pueden tener servicio express con recargo adicional.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="related-section">
+        <div class="container">
+            <div class="section-title"><h2>Otras Categorías</h2></div>
+            <div class="related-grid">
+                <div class="related-card"><h3>Polerones Hombre</h3><p>Estilos deportivos y casuales.</p><a href="hombre.html">Ver →</a></div>
+                <div class="related-card"><h3>Polerones Escolares</h3><p>Polerones generacionales para cursos.</p><a href="escolares.html">Ver →</a></div>
+                <div class="related-card"><h3>Polerones Corporativos</h3><p>Uniformes profesionales con logo.</p><a href="corporativos.html">Ver →</a></div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <div class="cta-content">
+            <h2>¿Listo para equipar a tu equipo?</h2>
+            <p>Contáctanos hoy y crea uniformes deportivos profesionales.</p>
+            <a href="../contacto.html" class="btn">Solicitar Cotización</a>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section"><h4>Polerones en Santiago</h4><p>Expertos en polerones personalizados de alta calidad en Santiago, Chile.</p></div>
+            <div class="footer-section">
+                <h4>Categorías</h4>
+                <ul><li><a href="hombre.html">Hombre</a></li><li><a href="mujer.html">Mujer</a></li><li><a href="deportes.html" style="color: var(--primary);">Deportes</a></li><li><a href="escolares.html">Escolares</a></li><li><a href="corporativos.html">Corporativos</a></li></ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <div class="footer-contact"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg><p>El Manzanito 2551, San Joaquín, Santiago</p></div>
+                <div class="footer-contact"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 8V5z" /></svg><p><a href="tel:+56940349957">+56 9 4034 9957</a></p></div>
+            </div>
+            <div class="footer-section"><h4>Horarios</h4><p>Lunes a Viernes: 9:00 - 18:00<br>Sábados: 10:00 - 14:00</p></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 Polerones en Santiago. Todos los derechos reservados.</p></div>
+    </footer>
+    
+    <a href="https://wa.me/56940349957?text=Hola,%20me%20interesan%20los%20polerones%20deportivos." target="_blank" class="whatsapp-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197-.297-.405-.897-.602-1.35-.433-.293-.867-.657-1.31-.91-.443-.253-.896-.435-1.356-.614-.46-.18-.918-.456-1.356-.728-.438-.273-.881-.557-1.32-.843-.439-.285-.878-.573-1.312-.865-.434-.292-.866-.59-1.297-.894-.431-.304-.86-.61-1.284-.918-.424-.308-.847-.624-1.264-.946-.418-.323-.834-.655-1.244-.992-.41-.337-.818-.68-1.221-1.029-.403-.349-.8-.704-1.19-1.063-.391-.359-.775-.724-1.152-1.095-.377-.371-.748-.748-1.111-1.131-.363-.383-.718-.772-1.065-1.167-.347-.395-.683-.796-1.009-1.205-.326-.409-.643-.825-.95-1.247-.307-.422-.605-.85-.894-1.286-.289-.436-.568-.879-.836-1.329-.268-.45-.526-.908-.773-1.374-.247-.465-.483-.937-.708-1.415-.225-.478-.439-.964-.642-1.456-.203-.492-.396-.992-.578-1.498-.182-.506-.353-1.018-.514-1.538-.161-.52-.312-1.048-.452-1.589-.14-.541-.269-1.089-.387-1.644-.118-.555-.226-1.118-.323-1.698-.097-.58-.183-1.17-.256-1.766-.073-.596-.134-1.201-.185-1.813-.051-.612-.091-1.237-.12-1.87-.029-.632-.047-1.276-.055-1.929.008-.652.027-1.314.067-1.986.04-.671.085-1.343.182-2.01.097-.666.115-1.326.248-1.972.414-.646.166-1.284.362-1.903.578-.619.216-1.233.465-1.836.736-.603.271-1.203.59-1.791.938-.588.348-1.17.721-1.737 1.12-.567.399-1.132.82-1.68 1.264-.548.444-1.09.912-1.62 1.402-.53.49-1.052 1.01-1.563 1.546-.511.536-1.01 1.085-1.497 1.651-.487.566-.962 1.151-1.418 1.754-.456.603-.902 1.228-1.336 1.87-.434.642-.858 1.296-1.27 1.969-.412.673-.815 1.358-1.205 2.055-.39.697-.771 1.403-1.13 2.119-.359.716-.707 1.442-1.043 2.177-.336.735-.662 1.479-.976 2.233-.314.754-.618 1.517-.91 2.289-.292.772-.575 1.554-.846 2.345-.271.791-.532 1.595-.781 2.408-.249.813-.488 1.637-.716 2.47-.228.833-.445 1.677-.65 2.529-.205.852-.401 1.713-.586 2.585-.185.872-.36 1.754-.523 2.645-.163.891-.317 1.791-.46 2.698-.143.907-.278 1.824-.401 2.754-.123.93-.237 1.87-.34 2.822-.103.952-.197 1.915-.279 2.887-.082.972-.154 1.956-.214 2.949-.06.993-.111 1.993-.15 3.001-.039 1.008-.067 2.023-.083 3.045-.016 1.022-.024 2.05-.02 3.078.004 1.028.019 2.055.051 3.078.032 1.023.074 2.043.124 3.058.05 1.015.108 2.026.176 3.038.068 1.012.144 2.019.228 3.034.084 1.015.18 2.025.283 3.04.103 1.015.217 2.028.351 3.04.134 1.012.254 2.024.42 3.04.166 1.012.291 2.025.489 3.038.198 1.013.328 2.027.558 3.04.23.005 1.005.411 2.016.584 3.03.173.009 1.014.441 2.019.694 3.028.253.01.48 2.015.795 3.03.315.008.1.019.559 2.028.898 3.046.339.01.559.668 2.012 1.039 3.025.37.01.473.778 1.998 1.206 3.013.428.015.588.89 1.982 1.378 2.999.37.017.49 1.002 1.004 1.997 1.553 3.006.549.01.599 1.018 1.752 1.569 3.021.717.02.698 1.035 1.92 1.591 3.045.886.02.877 1.053 1.845 1.623 3.076.056.03.766 1.071 1.638 1.658 3.116.226.03.655 1.098 1.321 1.725 2.702.395.02.533 1.09 1.405 1.795 2.299.565.02.41 1.105 1.488 1.967 2.903.734.02.289 1.119 1.571 2.139 3.51.903.02.167 1.132 1.652 2.312 4.118.072.02.045 1.144 1.732 2.484 5.74.241.02-.078 1.155-.163 2.318-.255 3.492-.092 1.174-.192 2.355-.299 3.55-.107 1.194-.221 2.395-.342 3.607-.121 1.212-.249 2.431-.384 3.661-.135 1.23-.277 2.467-.426 3.721-.149 1.254-.305 2.514-.468 3.787-.163 1.273-.333 2.554-.511 3.85-.178 1.296-.363 2.6-.555 3.92-.192 1.32-.391 2.649-.597 3.99-.206 1.341-.419 2.692-.639 4.063-.22 1.371-.447 2.75-.681 4.143-.234 1.393-.476 2.798-.725 4.219-.249 1.421-.506 2.857-.771 4.31-.265 1.453-.537 2.919-.817 4.403-.28 1.484-.568 2.978-.864 4.487-.296 1.509-.6 3.028-.921 4.567-.321 1.539-.649 3.092-.985 4.666-.336 1.574-.68 3.165-1.105 4.775-.425 1.61-.857 3.237-1.298 4.886-.441 1.649-.89 3.314-1.346 5.002-.456 1.688-.918 3.392-1.388 5.128-.47 1.736-.948 3.493-1.434 5.283-.486 1.79-.979 3.61-1.481 5.462-.502 1.852-1.011 3.727-1.531 5.639-.52 1.912-1.044 3.852-1.579 5.829-.535 1.977-1.077 3.988-1.629 6.04-.552 2.052-1.111 4.134-1.681 6.253-.57 2.119-1.145 4.266-1.733 6.442-.588 2.176-1.181 4.383-1.785 6.635-.604 2.252-1.217 4.529-1.839 6.848-.622 2.319-1.253 4.673-1.894 7.069-.641 2.396-1.289 4.823-1.949 7.293-.66 2.47-1.325 4.979-2 7.525-.675 2.546-1.361 5.135-2.055 7.771-.694 2.636-1.397 5.309-2.111 8.03-.714 2.721-1.433 5.483-2.168 8.3-.735 2.817-1.47 5.674-2.226 8.6-.756 2.926-1.508 5.893-2.284 9-.777 3.107-1.546 6.262-2.343 9.536-.797 3.274-1.585 6.617-2.402 10.04-.817 3.423-1.608 6.903-2.439 10.49-.831 3.587-1.631 7.247-2.47 11.04-.839 3.793-1.655 7.66-2.504 11.65-.849 3.99-1.678 8.096-2.539 12.36z"/></svg>
+    </a>
+    
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

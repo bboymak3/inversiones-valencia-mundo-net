@@ -1,0 +1,14 @@
+# Robots.txt para estampados.pages.dev
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://estampados.pages.dev/sitemap.xml
+
+# Disallow specific directories if needed
+# Disallow: /private/
+# Disallow: /temp/
+
+# Crawl-delay (optional, uncomment if needed)
+# Crawl-delay: 1
