@@ -144,3 +144,6 @@ body { padding-bottom:70px }
 .gallery-grid img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:0.5rem; cursor:pointer; transition:transform 0.2s }
 .gallery-grid img:hover { transform:scale(1.03) }
 /* v2 */
+
+/* Menú hamburguesa */
+.mobile-menu-btn { display:block !important }
