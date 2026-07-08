@@ -147,3 +147,8 @@ body { padding-bottom:70px }
 
 /* Menú hamburguesa */
 .mobile-menu-btn { display:block !important }
+
+/* Menú hamburguesa - arreglar display */
+.mobile-nav { display:none !important }
+.mobile-nav.open { display:block !important }
+/* v9 */
