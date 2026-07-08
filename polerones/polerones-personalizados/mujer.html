@@ -772,46 +772,11 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="../index.html" class="logo">
-                <img src="../images/logo-polerones-personalizados-estampados-santiago-san-joaquin.png" alt="Polerones en Santiago Logo">
-                <span style="display: none;">Polerones en Santiago</span>
-            </a>
-            
-            <nav class="nav-desktop">
-                <a href="../index.html">Inicio</a>
-                <a href="hombre.html">Hombre</a>
-                <a href="mujer.html" style="color: var(--primary); background: var(--gray-100);">Mujer</a>
-                <a href="anime.html">Anime</a>
-                <a href="../contacto.html">Contacto</a>
-            </nav>
-            
-            <div class="mobile-menu-btn" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="../index.html" onclick="toggleMenu()">Inicio</a>
-            <a href="hombre.html" onclick="toggleMenu()">Hombre</a>
-            <a href="mujer.html" onclick="toggleMenu()">Mujer</a>
-            <a href="anime.html" onclick="toggleMenu()">Anime</a>
-            <a href="marcas.html" onclick="toggleMenu()">Marcas</a>
-            <a href="parejas.html" onclick="toggleMenu()">Parejas</a>
-            <a href="san-valentin.html" onclick="toggleMenu()">San Valentín</a>
-            <a href="familia.html" onclick="toggleMenu()">Familia</a>
-            <a href="cumpleanos.html" onclick="toggleMenu()">Cumpleaños</a>
-            <a href="deportes.html" onclick="toggleMenu()">Deportes</a>
-            <a href="escolares.html" onclick="toggleMenu()">Escolares</a>
-            <a href="corporativos.html" onclick="toggleMenu()">Corporativos</a>
-            <a href="especiales.html" onclick="toggleMenu()">Ofertas</a>
-            <a href="../contacto.html" onclick="toggleMenu()">Contacto</a>
-        </div>
-    </header>
+    <!-- Header con logo -->
+<header style="position:relative;width:100%;background:white;border-bottom:1px solid #E0E7FF;padding:0.5rem 1rem;display:flex;align-items:center;justify-content:space-between">
+  <a href="../index.html"><img src="../assets/logo-jf.jpeg" alt="JF GODS COMPANY" style="height:48px;border-radius:0.5rem"></a>
+  <a href="https://wa.me/56991502163?text=Hola%20JF%20GODS%20COMPANY" target="_blank" class="btn-wa btn-wa-anim" style="background:#25D366;color:white;padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.375rem">💬 WhatsApp</a>
+</header>
     
     <!-- Hero Section -->
     <section class="hero">
@@ -1073,5 +1038,17 @@
             menu.classList.toggle('active');
         }
     </script>
+<!-- Nav bar inferior -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="../index.html" class="">Inicio</a>
+    <a href="../servicios.html" class="">Servicios</a>
+    <a href="../comunas.html" class="">Comunas</a>
+    <a href="../dudas.html" class="">Dudas</a>
+    <a href="../contacto.html" class="">Contacto</a>
+    <a href="../galeria.html" class="btn-galeria-pink">📷 Galería</a>
+  </div>
+</nav>
 </body>
 </html>
+<!-- v2 -->
