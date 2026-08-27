@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Inversiones Valencia Mundo Net",
   },
   description:
-    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela 🇻🇪. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
+    "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela 🇻🇪. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136.",
   keywords: [
     "instalación de cámaras de seguridad",
     "cámaras de seguridad",
@@ -62,11 +62,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.png", type: "image/png" },
+      { url: "/brand/logo-mundonet.jpg", type: "image/jpeg" },
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/favicon.png" }],
-    shortcut: ["/favicon.png"],
+    apple: [{ url: "/brand/logo-mundonet.jpg" }],
+    shortcut: ["/brand/logo-mundonet.jpg"],
   },
   manifest: "/site.webmanifest",
   openGraph: {
@@ -76,10 +76,10 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "Instalación de Cámaras de Seguridad a Nivel Nacional 🇻🇪",
     description:
-      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Cámaras WiFi, videovigilancia, accesorios para PC y celulares. Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/brand/banner-mundonet.jpg",
         width: 1200,
         height: 630,
         alt: "Inversiones Valencia Mundo Net - Instalación de Cámaras de Seguridad a Nivel Nacional",
@@ -90,8 +90,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Instalación de Cámaras de Seguridad a Nivel Nacional 🇻🇪",
     description:
-      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126.",
-    images: ["/og-image.png"],
+      "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136.",
+    images: ["/brand/banner-mundonet.jpg"],
   },
   robots: {
     index: true,
@@ -131,10 +131,10 @@ const orgJsonLd = {
   description:
     "Instalación de cámaras de seguridad CCTV a nivel nacional en Venezuela. Envíos a todo el país. Especialistas en videovigilancia, accesorios para PC y celulares.",
   url: SITE_URL,
-  telephone: "+584169726126",
+  telephone: "+584220550136",
   email: "ventas@inversionesvalencia.net",
-  image: `${SITE_URL}/logo.svg`,
-  logo: `${SITE_URL}/logo.svg`,
+  image: `${SITE_URL}/brand/banner-mundonet.jpg`,
+  logo: `${SITE_URL}/brand/logo-mundonet.jpg`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Barinas",
@@ -175,3 +175,4 @@ export default function RootLayout({
     </html>
   );
 }
+

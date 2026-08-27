@@ -100,7 +100,7 @@ draw.text((103, wa_y + 14), "W", fill="white", font=font_wa_num)
 
 # Texto WhatsApp
 draw.text((140, wa_y + 10), "Cotiza por WhatsApp", fill=(107, 112, 128), font=font_small)
-draw.text((140, wa_y + 28), "+58 416-9726126", fill=(27, 94, 32), font=font_wa_num)
+draw.text((140, wa_y + 28), "+58 422-0550136", fill=(27, 94, 32), font=font_wa_num)
 
 # Ubicación
 draw.text((80, 510), "Barinas, Venezuela · Instalaciones y envíos a todo el país",
@@ -135,3 +135,4 @@ img.save(OUTPUT, "PNG", optimize=True)
 print(f"✓ OG Image guardada en: {OUTPUT}")
 print(f"  Tamaño: {img.size}")
 print(f"  Archivo: {OUTPUT.stat().st_size} bytes")
+

@@ -15,7 +15,7 @@ const FAQ_ITEMS = [
   {
     question: "¿Hacen instalación de cámaras de seguridad a nivel nacional?",
     answer:
-      "Sí, en Inversiones Valencia Mundo Net realizamos instalación de cámaras de seguridad CCTV a nivel nacional en toda Venezuela. Viajamos a tu ubicación para garantizar un servicio profesional con garantía escrita. Cotiza por WhatsApp +58 416-9726126.",
+      "Sí, en Inversiones Valencia Mundo Net realizamos instalación de cámaras de seguridad CCTV a nivel nacional en toda Venezuela. Viajamos a tu ubicación para garantizar un servicio profesional con garantía escrita. Cotiza por WhatsApp +58 422-0550136.",
   },
   {
     question: "¿Qué tipos de cámaras de seguridad instalan?",
@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
   {
     question: "¿Puedo comprar cámaras de seguridad y accesorios por WhatsApp?",
     answer:
-      "Sí, puedes cotizar todos nuestros productos por WhatsApp al +58 416-9726126. Atención inmediata en horario comercial. También vendemos accesorios para computadoras, celulares, redes y conectividad con envíos a toda Venezuela.",
+      "Sí, puedes cotizar todos nuestros productos por WhatsApp al +58 422-0550136. Atención inmediata en horario comercial. También vendemos accesorios para computadoras, celulares, redes y conectividad con envíos a toda Venezuela.",
   },
 ];
 
@@ -99,12 +99,12 @@ const KEYWORD_DEFINITIONS = [
   {
     keyword: "Instalación a Nivel Nacional",
     definition:
-      "La instalación a nivel nacional es nuestro servicio de instalación de cámaras de seguridad CCTV en toda Venezuela. Aunque estamos ubicados en Barinas, estado Barinas, viajamos a cualquier estado del país para realizar instalaciones profesionales con garantía escrita. Incluye visita técnica, cableado, configuración, acceso remoto y capacitación. Cotiza por WhatsApp +58 416-9726126.",
+      "La instalación a nivel nacional es nuestro servicio de instalación de cámaras de seguridad CCTV en toda Venezuela. Aunque estamos ubicados en Barinas, estado Barinas, viajamos a cualquier estado del país para realizar instalaciones profesionales con garantía escrita. Incluye visita técnica, cableado, configuración, acceso remoto y capacitación. Cotiza por WhatsApp +58 422-0550136.",
   },
   {
     keyword: "Envíos a Toda Venezuela",
     definition:
-      "Los envíos a toda Venezuela son nuestro servicio de despacho nacional de cámaras de seguridad, accesorios para PC, celulares y redes. Despachamos el mismo día vía Zoom, Tealca y MRW. Tiempos de entrega: 1-2 días hábiles para ciudades principales, 2-4 días para zonas remotas. Coordinación inmediata al confirmar tu compra. Cotiza por WhatsApp +58 416-9726126.",
+      "Los envíos a toda Venezuela son nuestro servicio de despacho nacional de cámaras de seguridad, accesorios para PC, celulares y redes. Despachamos el mismo día vía Zoom, Tealca y MRW. Tiempos de entrega: 1-2 días hábiles para ciudades principales, 2-4 días para zonas remotas. Coordinación inmediata al confirmar tu compra. Cotiza por WhatsApp +58 422-0550136.",
   },
 ];
 
@@ -344,3 +344,4 @@ export function SeoContent() {
     </>
   );
 }
+

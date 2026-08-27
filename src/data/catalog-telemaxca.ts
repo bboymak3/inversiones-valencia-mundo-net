@@ -15513,8 +15513,8 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
-export const WHATSAPP_NUMBER = '584169726126';
-export const WHATSAPP_DISPLAY = '+58 416-9726126';
+export const WHATSAPP_NUMBER = '584220550136';
+export const WHATSAPP_DISPLAY = '+58 422-0550136';
 
 export function getProductsByCategory(categoryId: string): Product[] {
   return PRODUCTS.filter((p) => p.categoryId === categoryId);

@@ -33,7 +33,7 @@ Verificación con Agent Browser:
 - ✓ Búsqueda funciona (probado: "dvr" → 4 productos coincidentes)
 - ✓ Botón "Agregar al carrito" abre drawer correctamente
 - ✓ Carrito muestra item con cantidad, subtotal, total
-- ✓ Botón "Enviar Cotización por WhatsApp" genera link wa.me/584169726126 con mensaje pre-llenado correcto
+- ✓ Botón "Enviar Cotización por WhatsApp" genera link wa.me/584220550136 con mensaje pre-llenado correcto
 - ✓ Layout responsive (probado en iPhone 14 y desktop 1280px)
 - ✓ Sin errores de consola (solo warning accesibilidad DialogContent)
 - ✓ Lint pasa sin errores
@@ -42,7 +42,7 @@ Stage Summary:
 - Portal e-shop 100% funcional y verificado en navegador
 - Arquitectura lista para deploy en Cloudflare Pages + D1 + R2
 - 33 productos con descripciones detalladas, especificaciones técnicas y precios en USD
-- Integración total con WhatsApp +58 416-9726126 en todos los puntos de conversión
+- Integración total con WhatsApp +58 422-0550136 en todos los puntos de conversión
 - Paleta corporativa verde claro/blanco/gris aplicada consistentemente
 - SEO técnico completo (metadata, JSON-LD, Open Graph, PWA manifest)
 - Script de deployment automatizado incluido
@@ -770,3 +770,4 @@ Stage Summary:
 - Página Index con contenido SEO (FAQ + texto informativo + servicios)
 - Renombrado de fotos en R2 en progreso (background)
 - Palabras clave del archivo de 2208 keywords integradas en todo el sitio
+

@@ -75,7 +75,7 @@ El portal está totalmente integrado con WhatsApp para que cada interacción ter
 - **Formulario de contacto** → abre WhatsApp con los datos del cliente
 - **Cada servicio** tiene su propio botón de cotización
 
-Número configurado: **+58 416-9726126**
+Número configurado: **+58 422-0550136**
 
 ## Catálogo de productos
 
@@ -115,3 +115,4 @@ Resumen:
 ---
 
 © Inversiones Valencia Mundo Net · Valencia, Carabobo, Venezuela
+

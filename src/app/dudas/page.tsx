@@ -16,7 +16,7 @@ const FAQ_ITEMS = [
   {
     question: "¿Hacen instalación de cámaras de seguridad a nivel nacional en Venezuela?",
     answer:
-      "Sí, en Inversiones Valencia Mundo Net realizamos la instalación de cámaras de seguridad CCTV a nivel nacional en toda Venezuela. Estamos ubicados en Barinas, estado Barinas, pero viajamos a cualquier estado del país para garantizar un servicio profesional con garantía escrita. Cotiza por WhatsApp +58 416-9726126 y coordina tu instalación.",
+      "Sí, en Inversiones Valencia Mundo Net realizamos la instalación de cámaras de seguridad CCTV a nivel nacional en toda Venezuela. Estamos ubicados en Barinas, estado Barinas, pero viajamos a cualquier estado del país para garantizar un servicio profesional con garantía escrita. Cotiza por WhatsApp +58 422-0550136 y coordina tu instalación.",
   },
   {
     question: "¿Qué tipos de cámaras de seguridad WiFi instalan y venden?",
@@ -158,3 +158,4 @@ export default function DudasPage() {
     </>
   );
 }
+

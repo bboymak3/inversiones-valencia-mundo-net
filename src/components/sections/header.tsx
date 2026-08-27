@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: "/", label: "Inicio" },
   { href: "/tienda", label: "Tienda" },
   { href: "/servicios", label: "Servicios" },
+  { href: "/barinas", label: "Barinas" },
   { href: "/dudas", label: "Dudas" },
   { href: "/contacto", label: "Contacto" },
 ];
@@ -63,11 +64,11 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <img
-                src="/logo.svg"
+                src="/brand/logo-mundonet.jpg"
                 alt="Inversiones Valencia Mundo Net - Instalación de cámaras de seguridad"
-                className="h-9 lg:h-12 w-auto"
-                width={180}
-                height={48}
+                className="h-12 lg:h-16 w-auto rounded-lg object-contain"
+                width={220}
+                height={64}
               />
             </Link>
 

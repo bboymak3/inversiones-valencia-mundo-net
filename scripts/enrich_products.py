@@ -20,7 +20,7 @@ CATEGORY_NAME_ENRICHMENT = {
             "{name}. Especialistas en instalación de cámaras de seguridad CCTV "
             "a nivel nacional en Venezuela. Envíos a toda Venezuela. "
             "Cámaras de vigilancia WiFi con acceso remoto desde tu celular 24/7. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-webcams": {
@@ -29,7 +29,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Cámara web HD para videollamadas, streaming y reuniones online. "
             "Compatible con PC y laptop. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-redes": {
@@ -38,7 +38,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Equipos de redes y conectividad para hogar y oficina. "
             "Routers WiFi, switches y cableado UTP. Instalación a nivel nacional. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-audifonos": {
@@ -47,7 +47,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Audífonos de alta calidad para PC, gaming y música. "
             "Con micrófono y sonido envolvente. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-mouse": {
@@ -55,7 +55,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "suffix": "Envíos a Toda Venezuela",
         "description_template": (
             "{name}. Mouse para computadora: inalámbrico, gaming, óptico y mecánico. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-teclados": {
@@ -63,7 +63,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "suffix": "Envíos a Toda Venezuela",
         "description_template": (
             "{name}. Teclado mecánico, USB e inalámbrico para computadora y gaming. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-monitores": {
@@ -72,7 +72,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Monitor LED, gaming y profesional para computadora. "
             "Conexión HDMI y alta resolución. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-cpu": {
@@ -81,7 +81,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Computadora de escritorio CPU con procesador Intel y AMD. "
             "Lista para usar. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-laptops": {
@@ -89,7 +89,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "suffix": "Envíos a Toda Venezuela",
         "description_template": (
             "{name}. Laptop portátil nueva y refurbished. Marcas: Acer, Lenovo, Dell, HP. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-discos": {
@@ -98,7 +98,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Disco duro, SSD, pendrive y micro SD para almacenamiento. "
             "Para CCTV y computadora. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-parlantes": {
@@ -106,7 +106,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "suffix": "Envíos a Toda Venezuela",
         "description_template": (
             "{name}. Parlante, bocina y altavoz Bluetooth con excelente sonido. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-cases": {
@@ -115,7 +115,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Case o gabinete gaming para computadora de escritorio. "
             "Diseño moderno con ventilación. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-cargadores": {
@@ -124,7 +124,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Cargador, cable USB, power bank y batería para celular. "
             "Carga rápida. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-ups": {
@@ -132,7 +132,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "suffix": "Envíos a Toda Venezuela",
         "description_template": (
             "{name}. UPS, estabilizador y regulador de corriente para proteger tus equipos. "
-            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+            "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
         ),
     },
     "cat-impresoras": {
@@ -141,7 +141,7 @@ CATEGORY_NAME_ENRICHMENT = {
         "description_template": (
             "{name}. Impresora, toner y tinta para oficina y hogar. "
             "Laser e inyección de tinta. Envíos a toda Venezuela. "
-            "Cotiza por WhatsApp +58 416-9726126."
+            "Cotiza por WhatsApp +58 422-0550136."
         ),
     },
 }
@@ -152,7 +152,7 @@ DEFAULT_ENRICHMENT = {
     "suffix": "Envíos a Toda Venezuela",
     "description_template": (
         "{name}. Producto disponible en Inversiones Valencia Mundo Net. "
-        "Envíos a toda Venezuela. Cotiza por WhatsApp +58 416-9726126."
+        "Envíos a toda Venezuela. Cotiza por WhatsApp +58 422-0550136."
     ),
 }
 
@@ -270,3 +270,4 @@ def process_catalog():
 
 if __name__ == "__main__":
     process_catalog()
+

@@ -36,12 +36,12 @@ bucket_name = "ivmn-products"
 # Variables de entorno públicas (también configurar en dashboard)
 # ------------------------------------------------------------
 [vars]
-WHATSAPP_NUMBER = "584169726126"
-WHATSAPP_DISPLAY = "+58 416-9726126"
+WHATSAPP_NUMBER = "584220550136"
+WHATSAPP_DISPLAY = "+58 422-0550136"
 SITE_NAME = "Inversiones Valencia Mundo Net"
 SITE_URL = "https://inversionesvalencia.pages.dev"
 NEXT_PUBLIC_SITE_URL = "https://inversionesvalencia.pages.dev"
-NEXT_PUBLIC_WHATSAPP_NUMBER = "584169726126"
+NEXT_PUBLIC_WHATSAPP_NUMBER = "584220550136"
 
 # ------------------------------------------------------------
 # Build command para Cloudflare Pages (dashboard)

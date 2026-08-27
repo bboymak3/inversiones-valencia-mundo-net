@@ -76,8 +76,8 @@ wrangler r2 object put ivmn-products/inversiones-valencia/README.txt --file=READ
    - **Build output directory**: `.next`
    - **Node version**: 18+ (variable `NODE_VERSION=20`)
 4. Variables de entorno (Settings → Environment variables):
-   - `WHATSAPP_NUMBER` = `584169726126`
-   - `WHATSAPP_DISPLAY` = `+58 416-9726126`
+   - `WHATSAPP_NUMBER` = `584220550136`
+   - `WHATSAPP_DISPLAY` = `+58 422-0550136`
    - `SITE_NAME` = `Inversiones Valencia Mundo Net`
    - `NEXT_PUBLIC_SITE_URL` = `https://inversionesvalencia.pages.dev`
 5. Bindings (Settings → Functions → Bindings):

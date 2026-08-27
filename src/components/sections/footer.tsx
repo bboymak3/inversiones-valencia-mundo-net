@@ -26,13 +26,13 @@ export function Footer() {
         <div className="grid gap-8 lg:gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl p-3 inline-block mb-4">
+            <div className="bg-white rounded-xl p-2 inline-block mb-4 shadow-sm">
               <img
-                src="/logo.svg"
+                src="/brand/logo-mundonet.jpg"
                 alt="Inversiones Valencia Mundo Net"
-                className="h-12 w-auto"
-                width={180}
-                height={48}
+                className="h-14 w-auto rounded-md object-contain"
+                width={220}
+                height={56}
               />
             </div>
             <p className="text-sm leading-relaxed text-gray-400 mb-4">
@@ -79,6 +79,11 @@ export function Footer() {
               <li>
                 <Link href="/servicios" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
                   Instalación de cámaras
+                </Link>
+              </li>
+              <li>
+                <Link href="/barinas" className="text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                  Municipios de Barinas
                 </Link>
               </li>
               <li>
@@ -156,14 +161,41 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-gray-500">
-          <p>
-            © {year} <span className="text-gray-300 font-semibold">Inversiones Valencia Mundo Net</span>. Todos los derechos reservados.
-          </p>
-          <p className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Hecho con tecnología Cloudflare Pages + D1 + R2
-          </p>
+        <div className="mt-12 border-t border-gray-800 pt-6 text-xs text-gray-500">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-2 md:items-start">
+              <p>
+                © {year} <span className="font-semibold text-gray-300">Inversiones Valencia Mundo Net</span>. Todos los derechos reservados.
+              </p>
+
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                <a
+                  href="https://maps.app.goo.gl/Jz2QTADrNNneQtGd9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-[11px] text-emerald-300 transition-colors hover:border-emerald-400 hover:bg-emerald-500/15"
+                >
+                  <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  Página web desarrollada por Grupo 360 Soluciones
+                </a>
+
+                <a
+                  href="http://coporo.pages.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1.5 text-[11px] text-sky-300 transition-colors hover:border-sky-400 hover:bg-sky-500/15"
+                >
+                  <span className="inline-flex h-2 w-2 rounded-full bg-sky-400" />
+                  Diseño de páginas webs - SEO Local -
+                </a>
+              </div>
+            </div>
+
+            <p className="flex items-center gap-1.5 self-start md:self-auto">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              Hecho con tecnología Cloudflare Pages + D1 + R2
+            </p>
+          </div>
         </div>
       </div>
     </footer>

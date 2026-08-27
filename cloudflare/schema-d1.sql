@@ -203,9 +203,9 @@ INSERT INTO ivmn_categories (id, name, slug, description, icon, sort_order) VALU
 INSERT INTO ivmn_settings (key, value, description) VALUES
 ('site_name', 'Inversiones Valencia Mundo Net', 'Nombre del negocio'),
 ('site_tagline', 'Especialistas en Cámaras de Seguridad y Tecnología', 'Eslogan'),
-('whatsapp_number', '+584169726126', 'Número de WhatsApp para contacto'),
-('whatsapp_display', '+58 416-9726126', 'Número para mostrar'),
-('phone_primary', '+58 416-9726126', 'Teléfono principal'),
+('whatsapp_number', '+584220550136', 'Número de WhatsApp para contacto'),
+('whatsapp_display', '+58 422-0550136', 'Número para mostrar'),
+('phone_primary', '+58 422-0550136', 'Teléfono principal'),
 ('email_contact', 'ventas@inversionesvalencia.net', 'Email de contacto'),
 ('city', 'Valencia', 'Ciudad'),
 ('state', 'Carabobo', 'Estado'),
@@ -286,3 +286,4 @@ CREATE TABLE IF NOT EXISTS ivmn_custom_products (
 CREATE INDEX IF NOT EXISTS idx_ivmn_custom_sku ON ivmn_custom_products(sku);
 CREATE INDEX IF NOT EXISTS idx_ivmn_custom_category ON ivmn_custom_products(category_id);
 CREATE INDEX IF NOT EXISTS idx_ivmn_custom_active ON ivmn_custom_products(is_active);
+

@@ -535,8 +535,8 @@ def generate_ts(products):
     out.append("];")
     out.append("")
     # Helpers requeridos por los componentes existentes
-    out.append("export const WHATSAPP_NUMBER = '584169726126';")
-    out.append("export const WHATSAPP_DISPLAY = '+58 416-9726126';")
+    out.append("export const WHATSAPP_NUMBER = '584220550136';")
+    out.append("export const WHATSAPP_DISPLAY = '+58 422-0550136';")
     out.append("")
     out.append("export function getProductsByCategory(categoryId: string): Product[] {")
     out.append("  return PRODUCTS.filter((p) => p.categoryId === categoryId);")

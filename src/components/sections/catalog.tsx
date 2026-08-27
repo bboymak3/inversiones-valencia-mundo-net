@@ -406,7 +406,7 @@ export function Catalog() {
               className="gradient-ivmn text-white"
             >
               <a
-                href={`https://wa.me/584169726126?text=${encodeURIComponent(
+                href={`https://wa.me/584220550136?text=${encodeURIComponent(
                   "Hola *Inversiones Valencia Mundo Net*, no encuentro un producto en su catálogo y quisiera que me ayuden a conseguirlo. ¡Gracias!"
                 )}`}
                 target="_blank"
@@ -568,3 +568,4 @@ export function CatalogHome() {
     </section>
   );
 }
+
