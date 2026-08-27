@@ -1,0 +1,20 @@
+{
+  "name": "Inversiones Valencia Mundo Net",
+  "short_name": "Valencia Mundo Net",
+  "description": "Especialistas en cámaras de seguridad CCTV, accesorios para PC y celulares en Valencia, Venezuela.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#4CAF50",
+  "orientation": "portrait-primary",
+  "lang": "es-VE",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "business", "technology"]
+}
