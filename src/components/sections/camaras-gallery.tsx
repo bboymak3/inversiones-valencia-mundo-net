@@ -3,37 +3,37 @@ import { buildWhatsAppLink } from "@/data/catalog";
 
 const gallery = [
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-calencia.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-calencia.jpeg",
     alt: "Instalación de cámaras en Calencia",
     title: "Calencia",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-crear-app.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-crear-app.jpeg",
     alt: "Instalación de cámaras en Crear App",
     title: "Crear App",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-dose%C3%B1o%20de%20aplicaciones.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-dosenodeaplicaciones.jpeg",
     alt: "Instalación de cámaras en diseño de aplicaciones",
     title: "Diseño de aplicaciones",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-la-luz-santa-lucia.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-la-luz-santa-lucia.jpeg",
     alt: "Instalación de cámaras en La Luz Santa Lucía",
     title: "La Luz Santa Lucía",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-merida-san%20cristobal.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-merida-sancristobal.jpeg",
     alt: "Instalación de cámaras en Mérida San Cristóbal",
     title: "Mérida / San Cristóbal",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet%20-valencia.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-valencia.jpeg",
     alt: "Instalación de cámaras en Valencia",
     title: "Valencia",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-%20libertad-canagua.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-libertad-canagua.jpeg",
     alt: "Instalación de cámaras en Libertad Cañagua",
     title: "Libertad / Cañagua",
   },
@@ -43,7 +43,7 @@ const gallery = [
     title: "Acarigua",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-canagua-santa-rosa%20.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-canagua-santa-rosa.jpeg",
     alt: "Instalación de cámaras en Cañagua Santa Rosa",
     title: "Cañagua / Santa Rosa",
   },
@@ -53,7 +53,7 @@ const gallery = [
     title: "Caracas",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-guanare-socopo-santabarbara%20.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-guanare-socopo-santabarbara.jpeg",
     alt: "Instalación de cámaras en Guanare, Socopo y Santabarbara",
     title: "Guanare / Socopo",
   },
@@ -63,7 +63,7 @@ const gallery = [
     title: "Mérida",
   },
   {
-    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-pedraza-socopo%20.jpeg",
+    src: "/camaras/instalacion-de-camaras-de-seguridad-en-barinas-mundonet-pedraza-socopo.jpeg",
     alt: "Instalación de cámaras en Pedraza Socopo",
     title: "Pedraza / Socopo",
   },
