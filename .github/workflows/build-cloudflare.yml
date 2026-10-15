@@ -1,0 +1,49 @@
+# Recompila el sitio y guarda la salida en .vercel/output cada vez que cambia main.
+# Cloudflare Pages publica esa carpeta, así que sin este paso el sitio queda viejo.
+name: Compilar sitio para Cloudflare
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".vercel/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-cloudflare
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependencias
+        run: npm install --no-audit --no-fund
+
+      - name: Compilar con next-on-pages
+        run: npx @cloudflare/next-on-pages
+
+      - name: Guardar salida compilada
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- package-lock.json || true
+          git add -f -A .vercel/output
+          if git diff --cached --quiet; then
+            echo "Sin cambios en la salida compilada"
+            exit 0
+          fi
+          git commit -m "build: recompilar .vercel/output (automático)"
+          git pull --rebase origin main
+          git push origin HEAD:main
