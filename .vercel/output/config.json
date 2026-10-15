@@ -222,7 +222,7 @@
       "handle": "hit"
     },
     {
-      "src": "/_next/static/(?:[^/]+/pages|pages|chunks|runtime|css|image|media|h70Ry5uSQQcbd16yH8CPM)/.+",
+      "src": "/_next/static/(?:[^/]+/pages|pages|chunks|runtime|css|image|media|WA4fOp3_puS5MWdwXSAsa)/.+",
       "headers": {
         "cache-control": "public,max-age=31536000,immutable"
       },

@@ -10,9 +10,9 @@
     "static/chunks/0cz1d0mv5g_q7.js"
   ],
   "lowPriorityFiles": [
-    "static/h70Ry5uSQQcbd16yH8CPM/_buildManifest.js",
-    "static/h70Ry5uSQQcbd16yH8CPM/_ssgManifest.js",
-    "static/h70Ry5uSQQcbd16yH8CPM/_clientMiddlewareManifest.js"
+    "static/WA4fOp3_puS5MWdwXSAsa/_buildManifest.js",
+    "static/WA4fOp3_puS5MWdwXSAsa/_ssgManifest.js",
+    "static/WA4fOp3_puS5MWdwXSAsa/_clientMiddlewareManifest.js"
   ],
   "rootMainFiles": [
     "static/chunks/310vm2bl3xxpt.js",
@@ -134,7 +134,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/home/user/inversiones-valencia-mundo-net",
+    "outputFileTracingRoot": "/home/runner/work/inversiones-valencia-mundo-net/inversiones-valencia-mundo-net",
     "enablePrerenderSourceMaps": true,
     "cacheComponents": false,
     "cacheLife": {
@@ -352,13 +352,13 @@
     "eslint": {
       "ignoreDuringBuilds": true
     },
-    "repoRoot": "/home/user/inversiones-valencia-mundo-net",
+    "repoRoot": "/home/runner/work/inversiones-valencia-mundo-net/inversiones-valencia-mundo-net",
     "turbopack": {
-      "root": "/home/user/inversiones-valencia-mundo-net"
+      "root": "/home/runner/work/inversiones-valencia-mundo-net/inversiones-valencia-mundo-net"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "/home/user/inversiones-valencia-mundo-net",
+  "appDir": "/home/runner/work/inversiones-valencia-mundo-net/inversiones-valencia-mundo-net",
   "relativeAppDir": "",
   "files": [
     ".next/package.json",
@@ -381,7 +381,7 @@
   ],
   "ignore": []
 }
-/**/;self.__RSC_SERVER_MANIFEST="{\n  \"node\": {},\n  \"edge\": {},\n  \"encryptionKey\": \"8H+PiAmHM+5o4IxoYKz0ay4Fwd3HW7uvjGT95r6RHpk=\"\n}"
+/**/;self.__RSC_SERVER_MANIFEST="{\n  \"node\": {},\n  \"edge\": {},\n  \"encryptionKey\": \"6D0Ic4D0XqU30bY2tWdJRgyIANmJPxbxmnLSMxpZgEo=\"\n}"
 /**/;globalThis.__RSC_MANIFEST = globalThis.__RSC_MANIFEST || {};
 globalThis.__RSC_MANIFEST["/api/marco/route"] = {"moduleLoading":{"prefix":"","crossOrigin":"none"},"clientModules":{},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"rscModuleMapping":{},"edgeRscModuleMapping":{},"entryCSSFiles":{},"entryJSFiles":{}};
 
