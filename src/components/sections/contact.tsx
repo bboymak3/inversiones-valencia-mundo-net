@@ -54,7 +54,7 @@ ${form.message}`;
           <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
             Escríbenos por WhatsApp para respuesta inmediata, o déjanos un
             mensaje y te contactaremos. Cotizaciones sin compromiso, asesoría
-            técnica profesional y la mejor atención en Valencia, Venezuela.
+            técnica profesional y la mejor atención desde Barinas para toda Venezuela.
           </p>
         </div>
 

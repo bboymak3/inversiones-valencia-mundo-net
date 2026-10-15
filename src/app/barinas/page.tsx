@@ -1,7 +1,20 @@
 import Link from "next/link";
 import { ArrowRight, MapPin, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
 import { BARINAS_CAPITALES } from "@/data/barinas-capitales";
+
+export const metadata: Metadata = {
+  title: "Instalación de cámaras de seguridad en Barinas y sus municipios",
+  description:
+    "Estamos en Barinas, Venezuela. Instalación de cámaras de seguridad en los 12 municipios del estado Barinas: Barinas, Alto Barinas, Santa Lucía, Santa Rosa, San Silvestre, Barinitas, Socopó, Sabaneta, Barrancas, Santa Bárbara, La Luz y más.",
+  alternates: {
+    canonical: "https://inversiones-valencia-mundo-net.pages.dev/barinas",
+  },
+};
+
+const MUNICIPIOS = BARINAS_CAPITALES.filter((c) => c.tipo !== "lugar");
+const LUGARES = BARINAS_CAPITALES.filter((c) => c.tipo === "lugar");
 
 export default function BarinasLandingPage() {
   return (
@@ -14,41 +27,47 @@ export default function BarinasLandingPage() {
               Estado Barinas
             </div>
             <h1 className="font-display text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
-              Instalación de cámaras de seguridad en cada capital del estado Barinas
+              Instalación de cámaras de seguridad en todo el estado Barinas
             </h1>
             <p className="mt-4 text-base text-gray-600 lg:text-lg">
-              Protección para hogares, negocios, fincas y comunidades en todas las capitales municipales del estado Barinas. Atención profesional y cotización rápida por WhatsApp.
+              Estamos ubicados en Barinas, Venezuela. Protegemos hogares, negocios, fincas y comunidades en los 12 municipios del estado y sus parroquias. Atención profesional y cotización rápida por WhatsApp.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {BARINAS_CAPITALES.map((capital) => (
-            <Link
-              key={capital.slug}
-              href={`/barinas/${capital.slug}`}
-              className="group rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl"
-            >
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">
-                <MapPin className="h-3.5 w-3.5" />
-                {capital.municipio}
-              </div>
-              <h2 className="font-display text-2xl font-bold text-gray-900">
-                {capital.capital}
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-gray-600">
-                {capital.description}
-              </p>
-              <div className="mt-5 flex items-center justify-between">
-                <span className="text-sm font-semibold text-emerald-700">Ver landing</span>
-                <ArrowRight className="h-4 w-4 text-emerald-700 transition-transform group-hover:translate-x-1" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {[
+        { titulo: "Capitales de los 12 municipios", items: MUNICIPIOS },
+        { titulo: "Parroquias, sectores y urbanizaciones", items: LUGARES },
+      ].map((grupo) => (
+        <section key={grupo.titulo} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <h2 className="font-display mb-5 text-2xl font-bold text-gray-900">{grupo.titulo}</h2>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {grupo.items.map((capital) => (
+              <Link
+                key={capital.slug}
+                href={`/barinas/${capital.slug}`}
+                className="group rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl"
+              >
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">
+                  <MapPin className="h-3.5 w-3.5" />
+                  Municipio {capital.municipio}
+                </div>
+                <h3 className="font-display text-2xl font-bold text-gray-900">
+                  {capital.capital}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                  {capital.description}
+                </p>
+                <div className="mt-5 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-emerald-700">Ver landing</span>
+                  <ArrowRight className="h-4 w-4 text-emerald-700 transition-transform group-hover:translate-x-1" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ))}
 
       <section className="mx-auto mt-12 max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-emerald-200 bg-white p-8 text-center shadow-lg shadow-emerald-100/50">

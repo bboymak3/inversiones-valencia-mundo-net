@@ -5,6 +5,8 @@ export type BarinasCapital = {
   title: string;
   description: string;
   whatsappMessage: string;
+  /** "municipio" = capital municipal; "lugar" = parroquia, sector o urbanización */
+  tipo?: "municipio" | "lugar";
 };
 
 export const BARINAS_CAPITALES: BarinasCapital[] = [
@@ -127,5 +129,60 @@ export const BARINAS_CAPITALES: BarinasCapital[] = [
       "Instalación de cámaras de seguridad en Ciudad de Nutrias, municipio Sosa. Tecnología de seguridad, monitoreo y soporte técnico profesional.",
     whatsappMessage:
       "Hola *Inversiones Valencia Mundo Net*, estoy interesado en cámaras de seguridad para Ciudad de Nutrias, Estado Barinas. Necesito una cotización.",
+  },
+  {
+    slug: "santa-lucia",
+    municipio: "Barinas",
+    capital: "Santa Lucía",
+    title: "Instalación de cámaras de seguridad en Santa Lucía, Barinas",
+    description:
+      "Instalación de cámaras de seguridad para casas, fincas y comercios de la parroquia Santa Lucía, municipio Barinas. Vamos hasta tu propiedad con equipos CCTV, IP y WiFi y te dejamos todo configurado en tu celular.",
+    whatsappMessage:
+      "Hola *Inversiones Valencia Mundo Net*, quiero instalar cámaras de seguridad en Santa Lucía, Estado Barinas. Necesito información y una cotización.",
+    tipo: "lugar",
+  },
+  {
+    slug: "santa-rosa",
+    municipio: "Barinas",
+    capital: "Santa Rosa",
+    title: "Instalación de cámaras de seguridad en Santa Rosa, Barinas",
+    description:
+      "Instalación de cámaras de seguridad en la parroquia Santa Rosa, municipio Barinas. Protegemos hogares, bodegas, fincas y negocios con cámaras de alta definición y monitoreo remoto.",
+    whatsappMessage:
+      "Hola *Inversiones Valencia Mundo Net*, quiero instalar cámaras de seguridad en Santa Rosa, Estado Barinas. Necesito información y una cotización.",
+    tipo: "lugar",
+  },
+  {
+    slug: "la-luz",
+    municipio: "Obispos",
+    capital: "La Luz",
+    title: "Instalación de cámaras de seguridad en La Luz, Barinas",
+    description:
+      "Instalación de cámaras de seguridad en La Luz, municipio Obispos. Soluciones de videovigilancia para viviendas, comercios y propiedades rurales, con instalación y soporte técnico.",
+    whatsappMessage:
+      "Hola *Inversiones Valencia Mundo Net*, quiero instalar cámaras de seguridad en La Luz, Estado Barinas. Necesito información y una cotización.",
+    tipo: "lugar",
+  },
+  {
+    slug: "san-silvestre",
+    municipio: "Barinas",
+    capital: "San Silvestre",
+    title: "Instalación de cámaras de seguridad en San Silvestre, Barinas",
+    description:
+      "Instalación de cámaras de seguridad en San Silvestre, municipio Barinas. Cámaras para fincas, hatos, viviendas y comercios, con acceso remoto desde tu teléfono.",
+    whatsappMessage:
+      "Hola *Inversiones Valencia Mundo Net*, quiero instalar cámaras de seguridad en San Silvestre, Estado Barinas. Necesito información y una cotización.",
+    tipo: "lugar",
+  },
+  {
+    slug: "alto-barinas",
+    municipio: "Barinas",
+    capital: "Alto Barinas",
+    title: "Instalación de cámaras de seguridad en Alto Barinas, Barinas",
+    description:
+      "Instalación de cámaras de seguridad en Alto Barinas, ciudad de Barinas. Vigilancia para casas, quintas, conjuntos residenciales, consultorios y negocios, con visita técnica el mismo día.",
+    whatsappMessage:
+      "Hola *Inversiones Valencia Mundo Net*, quiero instalar cámaras de seguridad en Alto Barinas, Estado Barinas. Necesito información y una cotización.",
+    tipo: "lugar",
   },
 ];

@@ -37,7 +37,7 @@ export function Footer() {
             </div>
             <p className="text-sm leading-relaxed text-gray-400 mb-4">
               Especialistas en venta e instalación de cámaras de seguridad,
-              accesorios para computadoras y celulares en Valencia, Venezuela.
+              accesorios para computadoras y celulares en Barinas, Venezuela. Envíos e instalaciones a todo el país.
             </p>
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}

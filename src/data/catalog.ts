@@ -15966,7 +15966,7 @@ export function buildCartWhatsAppLink(items: { product: Product; quantity: numbe
     msg += `   Subtotal: $${lineTotal.toFixed(2)} ${item.product.currency}\n\n`;
   });
   msg += `🧾 *TOTAL ESTIMADO: $${subtotal.toFixed(2)} USD*\n\n`;
-  msg += `¿Tienen disponibilidad? ¿Cuál sería el costo de envío a Valencia? ¡Gracias!`;
+  msg += `¿Tienen disponibilidad? ¿Cuál sería el costo de envío a mi ciudad? ¡Gracias!`;
   return buildWhatsAppLink(msg);
 }
 

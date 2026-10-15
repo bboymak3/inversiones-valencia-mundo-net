@@ -19,7 +19,7 @@ const VALUES = [
     icon: Clock,
     title: "Respuesta rápida",
     description:
-      "Cotizamos por WhatsApp en minutos. Visitas técnicas el mismo día en Valencia y Carabobo. Soporte post-venta cuando lo necesites.",
+      "Cotizamos por WhatsApp en minutos. Visitas técnicas el mismo día en Barinas y sus municipios. Soporte post-venta cuando lo necesites.",
   },
   {
     icon: CreditCard,

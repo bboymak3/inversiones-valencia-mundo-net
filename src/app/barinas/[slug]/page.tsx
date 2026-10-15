@@ -45,7 +45,7 @@ export default async function BarinasCapitalPage({ params }: { params: Promise<{
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-800 shadow-sm backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5" />
-            {capital.municipio}
+            Municipio {capital.municipio} · Estado Barinas
           </div>
           <h1 className="font-display text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
             Instalación de cámaras de seguridad en {capital.capital}
@@ -62,7 +62,7 @@ export default async function BarinasCapitalPage({ params }: { params: Promise<{
               </a>
             </Button>
             <Button asChild variant="outline" className="border-emerald-300 text-emerald-800 hover:bg-emerald-50">
-              <Link href="/barinas">Ver todas las capitales</Link>
+              <Link href="/barinas">Ver todas las zonas de Barinas</Link>
             </Button>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default async function BarinasCapitalPage({ params }: { params: Promise<{
             </div>
             <h2 className="font-display text-xl font-bold text-gray-900">Cobertura regional</h2>
             <p className="mt-3 text-sm leading-relaxed text-gray-600">
-              Atendemos a todo el estado Barinas y desplazamos personal técnico para instalaciones en {capital.capital} y sus alrededores.
+              Estamos en Barinas y atendemos todo el estado: desplazamos personal técnico para instalaciones en {capital.capital} y sus alrededores.
             </p>
           </div>
         </div>
@@ -134,6 +134,23 @@ export default async function BarinasCapitalPage({ params }: { params: Promise<{
               </Link>
             </Button>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-12 max-w-5xl px-4 sm:px-6 lg:px-8">
+        <h2 className="font-display text-xl font-bold text-gray-900">
+          También instalamos cámaras en otras zonas de Barinas
+        </h2>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {BARINAS_CAPITALES.filter((item) => item.slug !== capital.slug).map((item) => (
+            <Link
+              key={item.slug}
+              href={`/barinas/${item.slug}`}
+              className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-sm text-emerald-800 transition-colors hover:bg-emerald-50"
+            >
+              {item.capital}
+            </Link>
+          ))}
         </div>
       </section>
     </main>
