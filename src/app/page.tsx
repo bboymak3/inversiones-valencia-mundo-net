@@ -7,6 +7,7 @@ import { PromoBanner } from "@/components/sections/promo-banner";
 import { CatalogHome } from "@/components/sections/catalog";
 import { NexusOne } from "@/components/sections/nexus-one";
 import { CamarasGallery } from "@/components/sections/camaras-gallery";
+import { ZonasBarinas } from "@/components/sections/zonas-barinas";
 import { SeoContent } from "@/components/sections/seo-content";
 import { WhyUs } from "@/components/sections/why-us";
 import { Contact } from "@/components/sections/contact";
@@ -28,6 +29,7 @@ export default function Home() {
         <NexusOne />
         <CatalogHome />
         <CamarasGallery />
+        <ZonasBarinas />
         <SeoContent />
         <WhyUs />
         <Contact />
