@@ -56,7 +56,7 @@ export function Hero() {
 
             <div className="grid grid-cols-3 gap-4 border-t border-emerald-100 pt-6">
               <div>
-                <div className="text-2xl font-bold text-emerald-700 lg:text-3xl">+500</div>
+                <div className="text-2xl font-bold text-emerald-700 lg:text-3xl">+50</div>
                 <div className="text-xs text-gray-500 lg:text-sm">Instalaciones realizadas</div>
               </div>
               <div>
@@ -78,15 +78,15 @@ export function Hero() {
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/20 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-emerald-100 bg-white/95 p-4 shadow-xl backdrop-blur">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                    <Phone className="h-5 w-5 text-emerald-700" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-xs text-gray-500">Cotización inmediata por WhatsApp</div>
-                    <div className="truncate text-sm font-bold text-gray-900">{WHATSAPP_DISPLAY}</div>
-                  </div>
+            </div>
+            <div className="relative mx-4 -mt-6 rounded-2xl border border-emerald-100 bg-white/95 p-4 shadow-xl backdrop-blur">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100">
+                  <Phone className="h-5 w-5 text-emerald-700" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs text-gray-500">Cotización inmediata por WhatsApp</div>
+                  <div className="truncate text-sm font-bold text-gray-900">{WHATSAPP_DISPLAY}</div>
                 </div>
               </div>
             </div>

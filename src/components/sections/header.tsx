@@ -212,8 +212,7 @@ export function Header() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Cotizar instalación de cámaras de seguridad por WhatsApp"
-          className="fixed top-20 lg:top-24 right-4 z-40 flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-full shadow-ivmn-lg transition-all animate-fade-up"
-          style={{ marginTop: "0.5rem" }}
+          className="fixed bottom-24 right-5 lg:bottom-auto lg:top-[6.5rem] lg:right-4 z-40 flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-full shadow-ivmn-lg transition-all animate-fade-up"
         >
           <Camera className="h-5 w-5" />
           <span className="text-sm font-bold hidden sm:inline">Cotizar Cámaras</span>
