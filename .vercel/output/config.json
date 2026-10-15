@@ -32,6 +32,52 @@
       "continue": true
     },
     {
+      "src": "/(?<path>.+?)(?:/)?$",
+      "dest": "/$path.segments/$segmentPath.segment.rsc",
+      "has": [
+        {
+          "type": "header",
+          "key": "rsc",
+          "value": "1"
+        },
+        {
+          "type": "header",
+          "key": "next-router-prefetch",
+          "value": "1"
+        },
+        {
+          "type": "header",
+          "key": "next-router-segment-prefetch",
+          "value": "/(?<segmentPath>.+)"
+        }
+      ],
+      "continue": true,
+      "override": true
+    },
+    {
+      "src": "^/?$",
+      "dest": "/index.segments/$segmentPath.segment.rsc",
+      "has": [
+        {
+          "type": "header",
+          "key": "rsc",
+          "value": "1"
+        },
+        {
+          "type": "header",
+          "key": "next-router-prefetch",
+          "value": "1"
+        },
+        {
+          "type": "header",
+          "key": "next-router-segment-prefetch",
+          "value": "/(?<segmentPath>.+)"
+        }
+      ],
+      "continue": true,
+      "override": true
+    },
+    {
       "src": "^/?",
       "has": [
         {
@@ -70,11 +116,6 @@
       "src": "/index(\\.action|\\.rsc)",
       "dest": "/",
       "continue": true
-    },
-    {
-      "src": "/_next/data/(.*)",
-      "dest": "/_next/data/$1",
-      "check": true
     },
     {
       "src": "/\\.prefetch\\.rsc$",
@@ -116,50 +157,72 @@
       }
     },
     {
+      "src": "^/(?<path>.+)(?<rscSuffix>\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/$path.rsc",
+      "check": true
+    },
+    {
       "handle": "rewrite"
     },
     {
-      "src": "/_next/data/(.*)",
-      "dest": "/404",
-      "status": 404
+      "src": "^/(?<path>.+)(?<rscSuffix>\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/$path.rsc",
+      "check": true,
+      "override": true
     },
     {
-      "src": "^/api/admin/products/(?<nxtPid>[^/]+?)(?:\\.rsc)(?:/)?$",
-      "dest": "/api/admin/products/[id].rsc?nxtPid=$nxtPid"
+      "src": "^/api/admin/products/(?<nxtPid>[^/]+?)(?<rscSuffix>\\.rsc|\\.prefetch\\.rsc|\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/api/admin/products/[id]$rscSuffix?nxtPid=$nxtPid",
+      "check": true,
+      "override": true
     },
     {
       "src": "^/api/admin/products/(?<nxtPid>[^/]+?)(?:/)?$",
-      "dest": "/api/admin/products/[id]?nxtPid=$nxtPid"
+      "dest": "/api/admin/products/[id]?nxtPid=$nxtPid",
+      "check": true,
+      "override": true
     },
     {
-      "src": "^/api/img/(?<nxtPsku>[^/]+?)(?:\\.rsc)(?:/)?$",
-      "dest": "/api/img/[sku].rsc?nxtPsku=$nxtPsku"
+      "src": "^/api/img/(?<nxtPsku>[^/]+?)(?<rscSuffix>\\.rsc|\\.prefetch\\.rsc|\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/api/img/[sku]$rscSuffix?nxtPsku=$nxtPsku",
+      "check": true,
+      "override": true
     },
     {
       "src": "^/api/img/(?<nxtPsku>[^/]+?)(?:/)?$",
-      "dest": "/api/img/[sku]?nxtPsku=$nxtPsku"
+      "dest": "/api/img/[sku]?nxtPsku=$nxtPsku",
+      "check": true,
+      "override": true
     },
     {
-      "src": "^/barinas/(?<nxtPslug>[^/]+?)(?:\\.rsc)(?:/)?$",
-      "dest": "/barinas/[slug].rsc?nxtPslug=$nxtPslug"
+      "src": "^/barinas/(?<nxtPslug>[^/]+?)(?<rscSuffix>\\.rsc|\\.prefetch\\.rsc|\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/barinas/[slug]$rscSuffix?nxtPslug=$nxtPslug",
+      "check": true,
+      "override": true
     },
     {
       "src": "^/barinas/(?<nxtPslug>[^/]+?)(?:/)?$",
-      "dest": "/barinas/[slug]?nxtPslug=$nxtPslug"
+      "dest": "/barinas/[slug]?nxtPslug=$nxtPslug",
+      "check": true,
+      "override": true
     },
     {
-      "src": "^/catalogo/(?<nxtPslug>[^/]+?)(?:\\.rsc)(?:/)?$",
-      "dest": "/catalogo/[slug].rsc?nxtPslug=$nxtPslug"
+      "src": "^/catalogo/(?<nxtPslug>[^/]+?)(?<rscSuffix>\\.rsc|\\.prefetch\\.rsc|\\.segments/.+\\.segment\\.rsc)(?:/)?$",
+      "dest": "/catalogo/[slug]$rscSuffix?nxtPslug=$nxtPslug",
+      "check": true,
+      "override": true
     },
     {
       "src": "^/catalogo/(?<nxtPslug>[^/]+?)(?:/)?$",
-      "dest": "/catalogo/[slug]?nxtPslug=$nxtPslug"
+      "dest": "/catalogo/[slug]?nxtPslug=$nxtPslug",
+      "check": true,
+      "override": true
     },
     {
       "handle": "hit"
     },
     {
-      "src": "/_next/static/(?:[^/]+/pages|pages|chunks|runtime|css|image|media|60zLk4IqBwdO3R8I03ayV)/.+",
+      "src": "/_next/static/(?:[^/]+/pages|pages|chunks|runtime|css|image|media|h70Ry5uSQQcbd16yH8CPM)/.+",
       "headers": {
         "cache-control": "public,max-age=31536000,immutable"
       },
@@ -211,20 +274,20 @@
       "path": "500",
       "contentType": "text/html; charset=utf-8"
     },
-    "_app.rsc.json": {
-      "path": "_app.rsc",
-      "contentType": "application/json"
-    },
-    "_error.rsc.json": {
-      "path": "_error.rsc",
-      "contentType": "application/json"
-    },
-    "_document.rsc.json": {
-      "path": "_document.rsc",
-      "contentType": "application/json"
-    },
     "404.rsc.json": {
       "path": "404.rsc",
+      "contentType": "application/json"
+    },
+    "404.segments/_tree.segment.rsc.json": {
+      "path": "404.segments/_tree.segment.rsc",
+      "contentType": "application/json"
+    },
+    "500.rsc.json": {
+      "path": "500.rsc",
+      "contentType": "application/json"
+    },
+    "500.segments/_tree.segment.rsc.json": {
+      "path": "500.segments/_tree.segment.rsc",
       "contentType": "application/json"
     },
     "_next/static/not-found.txt": {
@@ -233,7 +296,7 @@
   },
   "framework": {
     "slug": "nextjs",
-    "version": "15.5.2"
+    "version": "16.3.3"
   },
   "crons": []
 }
