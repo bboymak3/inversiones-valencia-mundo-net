@@ -6,7 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* iOS: San Francisco en dispositivos Apple, Inter como respaldo */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", var(--font-geist-sans), system-ui, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -41,10 +42,12 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* iOS: curva de animación tipo UIKit */
+  --default-transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.875rem; /* iOS: esquinas más redondeadas */
   /* Light theme — Inversiones Valencia Mundo Net (verde claro / blanco / gris) */
   --background: oklch(1 0 0);                          /* #FFFFFF blanco */
   --foreground: oklch(0.21 0.02 160);                  /* gris muy oscuro tendiendo a verde */
@@ -56,16 +59,16 @@
   --primary: oklch(0.62 0.16 140);
   --primary-foreground: oklch(0.99 0 0);               /* blanco */
   /* Gris claro secundario */
-  --secondary: oklch(0.96 0.005 160);
+  --secondary: #F2F2F7;                                /* iOS systemGray6 */
   --secondary-foreground: oklch(0.25 0.02 160);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.50 0.01 160);            /* gris medio */
+  --muted: #F2F2F7;                                    /* iOS systemGray6 */
+  --muted-foreground: #6C6C70;                         /* iOS secondaryLabel */
   /* Verde claro acento */
   --accent: oklch(0.94 0.05 140);
   --accent-foreground: oklch(0.30 0.10 140);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.01 160);
-  --input: oklch(0.91 0.01 160);
+  --destructive: #FF3B30;                              /* iOS systemRed */
+  --border: rgba(60, 60, 67, 0.16);                    /* iOS separator */
+  --input: rgba(60, 60, 67, 0.18);
   --ring: oklch(0.62 0.16 140);                        /* verde primario */
   --chart-1: oklch(0.62 0.16 140);                     /* verde */
   --chart-2: oklch(0.55 0.13 180);                     /* verde azulado */
@@ -83,22 +86,22 @@
 }
 
 .dark {
-  --background: oklch(0.18 0.01 160);
+  --background: #000000;                               /* iOS systemBackground */
   --foreground: oklch(0.97 0.01 160);
-  --card: oklch(0.22 0.01 160);
+  --card: #1C1C1E;                                     /* iOS secondarySystemBackground */
   --card-foreground: oklch(0.97 0.01 160);
-  --popover: oklch(0.22 0.01 160);
+  --popover: #1C1C1E;
   --popover-foreground: oklch(0.97 0.01 160);
   --primary: oklch(0.70 0.16 140);
   --primary-foreground: oklch(0.15 0.02 160);
-  --secondary: oklch(0.27 0.01 160);
+  --secondary: #2C2C2E;
   --secondary-foreground: oklch(0.97 0.01 160);
-  --muted: oklch(0.27 0.01 160);
-  --muted-foreground: oklch(0.70 0.01 160);
+  --muted: #2C2C2E;
+  --muted-foreground: #AEAEB2;
   --accent: oklch(0.30 0.05 140);
   --accent-foreground: oklch(0.97 0.01 160);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
+  --destructive: #FF453A;
+  --border: rgba(84, 84, 88, 0.6);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.70 0.16 140);
   --chart-1: oklch(0.70 0.16 140);
@@ -106,7 +109,7 @@
   --chart-3: oklch(0.75 0.10 100);
   --chart-4: oklch(0.60 0.01 160);
   --chart-5: oklch(0.80 0.07 140);
-  --sidebar: oklch(0.22 0.01 160);
+  --sidebar: #1C1C1E;
   --sidebar-foreground: oklch(0.97 0.01 160);
   --sidebar-primary: oklch(0.70 0.16 140);
   --sidebar-primary-foreground: oklch(0.15 0.02 160);
@@ -123,9 +126,50 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "cv11", "ss01";
+    /* iOS: tipografía nítida y sin zoom automático del texto */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* iOS: títulos con tracking ajustado (las clases tracking-* siguen mandando) */
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background-color: rgba(76, 175, 80, 0.25);
+  }
+  input, textarea, select {
+    caret-color: var(--primary);
+    accent-color: var(--primary);
+  }
+  input[type="checkbox"], input[type="radio"] {
+    accent-color: var(--primary);
+  }
+  /* iOS: respuesta táctil al presionar botones */
+  [data-slot="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  [data-slot="button"]:not(:disabled):active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+  /* iOS: barras de desplazamiento finas y discretas en escritorio */
+  @media (hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(60, 60, 67, 0.28);
+      border-radius: 9999px;
+      border: 3px solid transparent;
+      background-clip: content-box;
+    }
+    ::-webkit-scrollbar-thumb:hover { background-color: rgba(60, 60, 67, 0.45); }
   }
 }
 
@@ -171,6 +215,47 @@
   .animate-fade-up {
     animation: fadeUp 0.6s ease-out both;
   }
+  /* ===== Skin iOS ===== */
+  /* Barra superior translúcida estilo iOS (vidrio esmerilado) */
+  header.sticky {
+    background-color: rgba(255, 255, 255, 0.78);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom-color: rgba(60, 60, 67, 0.12);
+  }
+  /* Barra inferior estilo tab bar de iOS */
+  nav[aria-label="Navegación inferior"] {
+    background-color: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-top-color: rgba(60, 60, 67, 0.12);
+    box-shadow: none;
+  }
+  /* Utilidades iOS reutilizables */
+  .ios-glass {
+    background-color: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+  .ios-grouped {
+    background-color: #F2F2F7;
+  }
+  .ios-card {
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+  .ios-shadow {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  .ios-press {
+    transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s;
+  }
+  .ios-press:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
   /* Hide scrollbar but keep scroll */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
