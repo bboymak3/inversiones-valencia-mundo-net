@@ -4,10 +4,10 @@
   "sourcePath": "/",
   "initialMetadata": {
     "compute": "static",
-    "htmlSize": 235455
+    "htmlSize": 250942
   },
   "group": 1,
-  "bypassToken": "b1d102e1305dc888b56218db7cabbb0f",
+  "bypassToken": "80628356dbe886ea230c795ae387611a",
   "experimentalBypassFor": [
     {
       "type": "header",

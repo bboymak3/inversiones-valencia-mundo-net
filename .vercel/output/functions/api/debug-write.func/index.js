@@ -10,9 +10,9 @@
     "static/chunks/0cz1d0mv5g_q7.js"
   ],
   "lowPriorityFiles": [
-    "static/WA4fOp3_puS5MWdwXSAsa/_buildManifest.js",
-    "static/WA4fOp3_puS5MWdwXSAsa/_ssgManifest.js",
-    "static/WA4fOp3_puS5MWdwXSAsa/_clientMiddlewareManifest.js"
+    "static/y97BLBmD5BY5_N4sz3n4q/_buildManifest.js",
+    "static/y97BLBmD5BY5_N4sz3n4q/_ssgManifest.js",
+    "static/y97BLBmD5BY5_N4sz3n4q/_clientMiddlewareManifest.js"
   ],
   "rootMainFiles": [
     "static/chunks/310vm2bl3xxpt.js",
@@ -381,7 +381,7 @@
   ],
   "ignore": []
 }
-/**/;self.__RSC_SERVER_MANIFEST="{\n  \"node\": {},\n  \"edge\": {},\n  \"encryptionKey\": \"6D0Ic4D0XqU30bY2tWdJRgyIANmJPxbxmnLSMxpZgEo=\"\n}"
+/**/;self.__RSC_SERVER_MANIFEST="{\n  \"node\": {},\n  \"edge\": {},\n  \"encryptionKey\": \"0MaAKaeajL4Ac1p9scvXbzLqq1idfZk9ygy5uMcfuXw=\"\n}"
 /**/;globalThis.__RSC_MANIFEST = globalThis.__RSC_MANIFEST || {};
 globalThis.__RSC_MANIFEST["/api/debug-write/route"] = {"moduleLoading":{"prefix":"","crossOrigin":"none"},"clientModules":{},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"rscModuleMapping":{},"edgeRscModuleMapping":{},"entryCSSFiles":{},"entryJSFiles":{}};
 
