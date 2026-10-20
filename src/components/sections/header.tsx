@@ -94,7 +94,7 @@ export function Header() {
               {/* Botón Tienda destacado */}
               <Button
                 asChild
-                className="hidden sm:inline-flex gradient-ivmn text-white hover:opacity-95 shadow-ivmn"
+                className="inline-flex gradient-ivmn text-white hover:opacity-95 shadow-ivmn"
                 size="sm"
               >
                 <Link href="/tienda">
