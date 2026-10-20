@@ -180,7 +180,7 @@ export function Footer() {
                 </a>
 
                 <a
-                  href="http://coporo.pages.dev/"
+                  href="https://makeseo.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1.5 text-[11px] text-sky-300 transition-colors hover:border-sky-400 hover:bg-sky-500/15"

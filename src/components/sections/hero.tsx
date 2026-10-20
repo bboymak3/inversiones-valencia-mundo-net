@@ -48,8 +48,8 @@ export function Hero() {
               </Button>
 
               <Button asChild size="lg" variant="outline" className="border-emerald-300 px-6 text-emerald-800 hover:bg-emerald-50">
-                <Link href="#catalogo" className="flex items-center gap-2">
-                  Ver Catálogo
+                <Link href="/tienda" className="flex items-center gap-2">
+                  Ver Tienda
                 </Link>
               </Button>
             </div>
