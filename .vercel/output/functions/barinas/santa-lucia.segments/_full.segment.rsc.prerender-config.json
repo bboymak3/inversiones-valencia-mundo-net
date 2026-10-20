@@ -2,7 +2,7 @@
   "type": "Prerender",
   "expiration": false,
   "group": 20,
-  "bypassToken": "80628356dbe886ea230c795ae387611a",
+  "bypassToken": "be5ec4e6f71f52400b315726d3c566c9",
   "fallback": {
     "type": "FileFsRef",
     "mode": 33188,
